@@ -27,6 +27,31 @@
     </entry>
     
     
+    
+    <entry>
+      <title>virtualenv and virtualenvwrapper</title>
+      <link href="/2019/03/17/python/virtualenv/"/>
+      <url>/2019/03/17/python/virtualenv/</url>
+      
+        <content type="html"><![CDATA[<p>本文主要描述了 Python 中如何搭建虚拟的隔离环境，以确保各应用之间的依赖环境不互相影响。</p><h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1 简介"></a>1 简介</h2><p>virtualenv <font color=FF0099><strong>用来为一个应用创建一套”隔离”的 python 运行环境。</strong></font></p><p>virtualenvwrapper 基于 virtualenv 之上的工具，<font color=FF0099><strong>用来对虚拟环境进行统一管理。</strong></font></p><a id="more"></a><h2 id="2-安装"><a href="#2-安装" class="headerlink" title="2 安装"></a>2 安装</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> pip install virtualenv virtualenvwrapper</span></span><br></pre></td></tr></table></figure><h2 id="3-virtualenv-用法"><a href="#3-virtualenv-用法" class="headerlink" title="3 virtualenv 用法"></a>3 virtualenv 用法</h2><p>创建环境(<font color=FF0099><strong>默认创建的环境会使用系统已经安装的包</strong></font>)</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> virtualenv venv</span></span><br></pre></td></tr></table></figure><p>创建环境(<font color=FF0099><strong>不使用系统的包</strong></font>)</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> virtualenv --no-site-packages venv</span></span><br></pre></td></tr></table></figure><p>激活环境</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">source</span> venv/bin/activate</span></span><br></pre></td></tr></table></figure><p>退出环境</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> deactive</span></span><br></pre></td></tr></table></figure><h2 id="4-virtualenvwrapper-用法"><a href="#4-virtualenvwrapper-用法" class="headerlink" title="4 virtualenvwrapper 用法"></a>4 virtualenvwrapper 用法</h2><ul><li>创建目录用来存放虚拟环境</li></ul><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir ~/.virtualenvs</span></span><br></pre></td></tr></table></figure><p>在 .bashrc 中添加</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> WORKON_HOME=~/.virtualenvs</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">source</span> /usr/<span class="built_in">local</span>/bin/virtualenvwrapper.sh</span></span><br></pre></td></tr></table></figure><p>激活 .bashrc</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">source</span> ~/.bashrc</span></span><br></pre></td></tr></table></figure><p>新建虚拟环境</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkvirtualenv <span class="built_in">test</span></span></span><br></pre></td></tr></table></figure><p>列出虚拟环境列表</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> workon</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> lsvirtualenv</span></span><br></pre></td></tr></table></figure><p>切换虚拟环境</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> workon <span class="built_in">test</span></span></span><br></pre></td></tr></table></figure><p>删除虚拟环境</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> rmvirtualenv <span class="built_in">test</span></span></span><br></pre></td></tr></table></figure><p>离开虚拟环境</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> deactivate</span></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Python </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> python </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
   
   
 </search>
