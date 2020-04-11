@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html>
+<head hexo-theme='https://volantis.js.org/#2.4.1'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- 页面元数据 -->
+  
+    <title>Docker 多阶段构建（multi-stage build） - leslie</title>
+  
+    <meta name="keywords" content="docker">
+  
+  
+    <meta name="description" content="本文主要介绍了 Docker 的多阶段构建，以及多阶段构建的一些优势。
+Docker 17.05 之前的版本是不支持 multi-stage 镜像构建，通常会采用两种方式构建。一种是全部放入一个 Dockerfile 文件中构建，一种是分散到多个 Dockerfile 文件中构建。">
+  
+
+  <!-- feed -->
+  
+
+  <!-- import meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css">
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+  
+
+  <!-- import link -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  <div id="loading-bar-wrapper">
+  <div id="loading-bar"></div>
+</div>
+<header class="l_header shadow blur">
+  <div class='container'>
+  <div class='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h'>
+        <li><a class="s-comment fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+          
+            VOLANTIS <b><sup style='color:#3AA757'>2.4.1</sup></b>
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-rss fa-fw'></i>
+                  
+                  博文
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/repository/
+                  
+                  
+                  
+                    id="repository"
+                  >
+                  
+                    <i class='fas fa-project-diagram fa-fw'></i>
+                  
+                  项目
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="搜索" />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  
+                    <i class='fas fa-rss fa-fw'></i>
+                  
+                  博文
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  
+                    <i class='fas fa-archive fa-fw'></i>
+                  
+                  归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  
+                    <i class='fas fa-folder-open fa-fw'></i>
+                  
+                  分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  
+                    <i class='fas fa-tags fa-fw'></i>
+                  
+                  标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/repository/
+                  
+                  
+                  
+                    id="repository"
+                  >
+                  
+                    <i class='fas fa-project-diagram fa-fw'></i>
+                  
+                  项目
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="flat-box" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  
+                    <i class='fas fa-info-circle fa-fw'></i>
+                  
+                  关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      
+
+<div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box shadow article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2019/03/28/docker/multi-stage-build/">
+        Docker 多阶段构建（multi-stage build）
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+<div class='new-meta-item author'>
+  <a href="http://lesliexlxiao.com" target="_blank" rel="nofollow noopener">
+    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/avatar/avatar.png">
+    <p>Mr. X</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Docker/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Docker</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Mar 28, 2019</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.3k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>5 min</p>
+    </a>
+  </div>
+
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          
+          <p>本文主要介绍了 Docker 的多阶段构建，以及多阶段构建的一些优势。</p>
+<p><font color=FF0099><strong>Docker 17.05 之前的版本是不支持 multi-stage 镜像构建</strong></font>，通常会采用两种方式构建。一种是全部放入一个 Dockerfile 文件中构建，一种是分散到多个 Dockerfile 文件中构建。</p>
+<a id="more"></a>
+
+<h2 id="1-单-Dockerfile-构建"><a href="#1-单-Dockerfile-构建" class="headerlink" title="1. 单 Dockerfile 构建"></a>1. 单 Dockerfile 构建</h2><p>这种方式会将项目及其依赖库的编译、测试、打包的所有构建过程放到一个 Dockerfile 中。示例如下：</p>
+<p>app.go 文件
+  <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Printf(<span class="string">"Hello World!\n"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Dockerfile.one 文件</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FROM golang:1.9-alpine</span><br><span class="line"></span><br><span class="line">WORKDIR &#x2F;var&#x2F;www&#x2F;code&#x2F;go&#x2F;</span><br><span class="line"></span><br><span class="line">COPY app.go .</span><br><span class="line"></span><br><span class="line">RUN go build app.go</span><br><span class="line"></span><br><span class="line">CMD [&quot;.&#x2F;app&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>构建镜像</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker build -t go/helloworld:v1 -f Dockerfile.one .</span></span><br><span class="line"></span><br><span class="line">----------output----------</span><br><span class="line">Sending build context to Docker daemon  3.072kB</span><br><span class="line">Step 1/5 : FROM golang:1.9-alpine</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> b0260be938c6</span></span><br><span class="line">Step 2/5 : WORKDIR /var/www/code/go/</span><br><span class="line">Removing intermediate container e5fdc95ae667</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> bf72ca2f4c1e</span></span><br><span class="line">Step 3/5 : COPY app.go .</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> 4303ab391236</span></span><br><span class="line">Step 4/5 : RUN go build app.go</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> Running <span class="keyword">in</span> 61ff23d31be3</span></span><br><span class="line">Removing intermediate container 61ff23d31be3</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> 00924c2d8fea</span></span><br><span class="line">Step 5/5 : CMD ["./app"]</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> Running <span class="keyword">in</span> bc84752fea13</span></span><br><span class="line">Removing intermediate container bc84752fea13</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> 3360ad3ce4f1</span></span><br><span class="line">Successfully built 3360ad3ce4f1</span><br><span class="line">Successfully tagged go/helloworld:v1</span><br></pre></td></tr></table></figure>
+
+<p>这种构建方式存在的问题：</p>
+<ul>
+<li><p>Dockerfile 过长（<font color=FF0099><strong>包括一系列编译、测试、打包过程</strong></font>），可维护性降低。</p>
+</li>
+<li><p>镜像层次多，增加构建时长。因为打镜像时<font color=FF0099><strong>每一层都会起容器</strong></font>执行一些命令，如果<font color=FF0099><strong>层级过多镜像会非常臃肿且构建时间变长</strong></font><sup><a href="#2">[2]</a></sup>。</p>
+<ul>
+<li>如上例中的 <font color=FF0099><strong>COPY 源码，构建源码</strong></font>都会增加镜像的层级。</li>
+</ul>
+</li>
+<li><p>镜像体积较大，部署时间变长。</p>
+<ul>
+<li>镜像体积大，可以看到该 Dockerfile 构建出的镜像有 242M。</li>
+</ul>
+</li>
+</ul>
+<img src="/images/docker/multi-stage-build/170579990EC2C8E369A2A3F15B00F7C0.jpg" style="border:1px dashed gray; padding: 5px;" />
+
+<ul>
+<li><p><font color=FF0099><strong>源代码存在泄漏风险</strong></font>。</p>
+<ul>
+<li><p>这是由于构建出的镜像里面包含了源代码，可以通过如下命令查看：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run --rm go/helloworld:v1 ls</span></span><br><span class="line"></span><br><span class="line">----------output----------</span><br><span class="line">app.go</span><br><span class="line">app</span><br></pre></td></tr></table></figure>
+<ul>
+<li><font color=FF0099><strong>可以看到包含了源代码 app.go 文件</strong></font>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-多-Dockerfile-构建"><a href="#2-多-Dockerfile-构建" class="headerlink" title="2. 多 Dockerfile 构建"></a>2. 多 Dockerfile 构建</h2><p>这种方式主要是把镜像过程分散到多个 Dockerfile 中。主要实现方法是<font color=FF0099><strong>事先在一个 Dockerfile 将项目及其依赖库编译测试打包好，再将包拷贝到运行环境中。</strong></font>这种方式需要两个 Dockerfile 和一段编译脚本才可实现。示例如下：</p>
+<p>Dockerfile.build 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FROM golang:1.9-alpine</span><br><span class="line"></span><br><span class="line">WORKDIR &#x2F;var&#x2F;www&#x2F;code&#x2F;go&#x2F;</span><br><span class="line"></span><br><span class="line">COPY app.go .</span><br><span class="line"></span><br><span class="line">RUN go build app.go</span><br></pre></td></tr></table></figure>
+
+<p>Dockerfile.run 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FROM alpine:latest</span><br><span class="line"></span><br><span class="line">WORKDIR &#x2F;var&#x2F;www&#x2F;code&#x2F;go&#x2F;</span><br><span class="line"></span><br><span class="line">COPY app .</span><br><span class="line"></span><br><span class="line">CMD [&quot;.&#x2F;app&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>build.sh 文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line"></span><br><span class="line">echo Building go/helloworld:build</span><br><span class="line"></span><br><span class="line">docker build -t go/helloworld:build -f Dockerfile.build .</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> create temporary container</span></span><br><span class="line">docker create --name extract go/helloworld:build</span><br><span class="line"><span class="meta">#</span><span class="bash"> extract app</span></span><br><span class="line">docker cp extract:/var/www/code/go/app ./app</span><br><span class="line"><span class="meta">#</span><span class="bash"> remove temporary container</span></span><br><span class="line">docker rm -f extract</span><br><span class="line"></span><br><span class="line">echo Building go/helloworld:v2</span><br><span class="line"></span><br><span class="line">docker build --no-cache -t go/helloworld:v2 . -f Dockerfile.run</span><br><span class="line"></span><br><span class="line">rm ./app</span><br></pre></td></tr></table></figure>
+
+<p>运行脚本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> chmod +x build.sh</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./build.sh</span></span><br></pre></td></tr></table></figure>
+
+<p>如果分散多个 Dockerfile 会存在如下问题：</p>
+<ul>
+<li>部署过程复杂，一旦涉及到的 Dockerfile 过多，整合比较容易出错。</li>
+</ul>
+<p>当然这种方式也有自己的优势：</p>
+<ul>
+<li>将这种方式和第一种方式生成的镜像做下比较，如下图所示镜像 v2 的要比镜像 v1 小很多。</li>
+</ul>
+<img src="/images/docker/multi-stage-build/BAD1118A77AAA7CA0AA3176956D8E5E4.jpg" style="border:1px dashed gray; padding: 5px;" />
+
+<ul>
+<li>这是因为镜像 v1 需要的基础镜像 golang:1.9-alpine 比镜像 v2 需要的基础镜像 alpine:latest 要大的多。</li>
+</ul>
+<img src="/images/docker/multi-stage-build/FD8A75D33AE5CEE0F9EBDE5DFC64DD09.jpg" style="border:1px dashed gray; padding: 5px;" />
+
+
+<h2 id="3-multi-stage-镜像构建"><a href="#3-multi-stage-镜像构建" class="headerlink" title="3. multi-stage 镜像构建"></a>3. multi-stage 镜像构建</h2><p><font color=FF0099><strong>Dockerfile v17.05 开始支持多阶段构建( multi-stage builds )</strong></font>，只需要一个 Dockerfile。示例如下：</p>
+<p>Dockerfile.three</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">FROM golang:1.9-alpine as builder</span><br><span class="line"></span><br><span class="line">WORKDIR &#x2F;var&#x2F;www&#x2F;code&#x2F;go&#x2F;</span><br><span class="line"></span><br><span class="line">COPY app.go .</span><br><span class="line"></span><br><span class="line">RUN go build app.go</span><br><span class="line"></span><br><span class="line">FROM alpine:latest as prod</span><br><span class="line"></span><br><span class="line">WORKDIR &#x2F;var&#x2F;www&#x2F;code&#x2F;go&#x2F;</span><br><span class="line"></span><br><span class="line">COPY --from&#x3D;0 &#x2F;var&#x2F;www&#x2F;code&#x2F;go&#x2F; .</span><br><span class="line"></span><br><span class="line">CMD [&quot;.&#x2F;app&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>构建镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker build -t go/helloworld:v3 .</span></span><br><span class="line"></span><br><span class="line">----------output----------</span><br><span class="line">Sending build context to Docker daemon  7.168kB</span><br><span class="line">Step 1/8 : FROM golang:1.9-alpine as builder</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> b0260be938c6</span></span><br><span class="line">Step 2/8 : WORKDIR /var/www/code/go/</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> Using cache</span></span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> bf72ca2f4c1e</span></span><br><span class="line">Step 3/8 : COPY app.go .</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> Using cache</span></span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> 4303ab391236</span></span><br><span class="line">Step 4/8 : RUN go build app.go</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> Using cache</span></span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> 00924c2d8fea</span></span><br><span class="line">Step 5/8 : FROM alpine:latest as prod</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> 5cb3aa00f899</span></span><br><span class="line">Step 6/8 : WORKDIR /var/www/code/go/</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> Using cache</span></span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> 328cf5fcaaf2</span></span><br><span class="line">Step 7/8 : COPY --from=0 /var/www/code/go/ .</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> eab42f02e484</span></span><br><span class="line">Step 8/8 : CMD ["./app"]</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> Running <span class="keyword">in</span> f8a42b2f9a14</span></span><br><span class="line">Removing intermediate container f8a42b2f9a14</span><br><span class="line"><span class="meta"> ---&gt;</span><span class="bash"> 81ec45b799db</span></span><br><span class="line">Successfully built 81ec45b799db</span><br><span class="line">Successfully tagged go/helloworld:v3</span><br></pre></td></tr></table></figure>
+
+<p>这种构建方式的优势：</p>
+<ul>
+<li><p>解决了上述第一种方式和第二种方式存在的弊端。</p>
+</li>
+<li><p>镜像体积大小对比如下:</p>
+</li>
+</ul>
+<img src="/images/docker/multi-stage-build/E7AB195570EE9917E44BF6A8C1AC4671.jpg" style="border:1px dashed gray; padding: 5px;" />
+
+
+<h2 id="4-只构建某一阶段的镜像"><a href="#4-只构建某一阶段的镜像" class="headerlink" title="4. 只构建某一阶段的镜像"></a>4. 只构建某一阶段的镜像</h2><p>使用 as 来为某一阶段命名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FROM golang:1.9-alpine as builder</span><br></pre></td></tr></table></figure>
+
+<p>以上述例子为例，只想构建 builder 阶段的镜像时，可以在 docker build 命令时加上 –target 参数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker build --target builder -t username/imagename:tag .</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="5-构建时从其他镜像复制文件"><a href="#5-构建时从其他镜像复制文件" class="headerlink" title="5. 构建时从其他镜像复制文件"></a>5. 构建时从其他镜像复制文件</h2><p>从上一阶段镜像中复制文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">COPY --from&#x3D;0 &#x2F;go&#x2F;src&#x2F;github.com&#x2F;go&#x2F;helloworld&#x2F;app .</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>指定 –from=0 参数，把前一阶段构建的产物拷贝到了当前的镜像中。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">COPY --from&#x3D;builder &#x2F;go&#x2F;src&#x2F;github.com&#x2F;go&#x2F;helloworld&#x2F;app .</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>指定 –from=builder 参数，把命名阶段的构建产物拷贝到当前的镜像中。</li>
+</ul>
+<p>复制任意镜像中的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">COPY --from&#x3D;nginx:latest &#x2F;etc&#x2F;nginx&#x2F;nginx.conf &#x2F;nginx.conf</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-参考文献"><a href="#6-参考文献" class="headerlink" title="6. 参考文献"></a>6. 参考文献</h2><p>[1] yeasy.Docker 从入门到实践[M]:98-104.</p>
+<p><span id="2">[2] 使用 Dockerfile 定制镜像[N].<a href="https://www.dazhuanlan.com/2020/02/22/5e51368ed08e7/" target="_blank" rel="noopener">https://www.dazhuanlan.com/2020/02/22/5e51368ed08e7/</a>.</span></p>
+<p>[3] 孙宏亮.深刻理解 Docker 镜像大小[N].<a href="https://blog.csdn.net/shlazww/article/details/47375009" target="_blank" rel="noopener">https://blog.csdn.net/shlazww/article/details/47375009</a>.</p>
+
+          
+            <br>
+            
+  
+    
+    
+
+<section class="widget copyright  desktop mobile">
+  <div class='content'>
+    
+      <blockquote>
+        
+          
+            <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+          
+        
+          
+            <p>本文永久链接是：<a href=http://www.lesliexlxiao.com/2019/03/28/docker/multi-stage-build/>http://www.lesliexlxiao.com/2019/03/28/docker/multi-stage-build/</a></p>
+          
+        
+      </blockquote>
+    
+  </div>
+</section>
+
+  
+
+  
+    
+    
+
+<section class="widget qrcode  desktop mobile">
+  
+
+  <div class='content article-entry'>
+    
+      
+        <div class='fancybox'><img src='/images/donate/my-alipayimg.png'
+        
+          height='200px'
+        ></div>
+      
+    
+      
+        <div class='fancybox'><img src='/images/donate/my-wechatpayimg.png'
+        
+          height='200px'
+        ></div>
+      
+    
+  </div>
+</section>
+
+  
+
+
+          
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-11T13:51:59+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>本页文档最后更新于：Apr 11, 2020</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/docker/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>docker</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.lesliexlxiao.com/2019/03/28/docker/multi-stage-build/&title=Docker 多阶段构建（multi-stage build） - leslie&summary=本文主要介绍了 Docker 的多阶段构建，以及多阶段构建的一些优势。
+Docker 17.05 之前的版本是不支持 multi-stage 镜像构建，通常会采用两种方式构建。一种是全部放入一个 Dockerfile 文件中构建，一种是分散到多个 Dockerfile 文件中构建。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.lesliexlxiao.com/2019/03/28/docker/multi-stage-build/&title=Docker 多阶段构建（multi-stage build） - leslie&summary=本文主要介绍了 Docker 的多阶段构建，以及多阶段构建的一些优势。
+Docker 17.05 之前的版本是不支持 multi-stage 镜像构建，通常会采用两种方式构建。一种是全部放入一个 Dockerfile 文件中构建，一种是分散到多个 Dockerfile 文件中构建。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://www.lesliexlxiao.com/2019/03/28/docker/multi-stage-build/&title=Docker 多阶段构建（multi-stage build） - leslie&summary=本文主要介绍了 Docker 的多阶段构建，以及多阶段构建的一些优势。
+Docker 17.05 之前的版本是不支持 multi-stage 镜像构建，通常会采用两种方式构建。一种是全部放入一个 Dockerfile 文件中构建，一种是分散到多个 Dockerfile 文件中构建。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+        
+          
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/Docker/' rel="nofollow">
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <p>Docker</p>
+    </a>
+  </div>
+
+
+        
+      
+        
+          <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：Mar 28, 2019</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  <div class="new-meta-item wordcount">
+    <a class='notlink'>
+      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
+      <p>1.3k words</p>
+    </a>
+  </div>
+  <div class="new-meta-item readtime">
+    <a class='notlink'>
+      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
+      <p>5 min</p>
+    </a>
+  </div>
+
+
+        
+      
+        
+          
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+          <div class="prev-next">
+            
+              <a class='prev' href='/2019/05/30/jenkins/install-windows-slave/'>
+                <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Windows 环境下如何添加 jenkins-slave 节点</p>
+                <p class='content'>本文主要介绍了 Windows 环境下如何添加 jenkins-slave 节点，以及安装过程中一些常见问题如何解决。
+1 实验环境本次实验采用服务器为 Windows Server 2012。...</p>
+              </a>
+            
+            
+              <a class='next' href='/2019/03/27/docker/dockerfile-best-practice-2/'>
+                <p class='title'>Dockerfile 最佳实践（指令相关）<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+                <p class='content'>FROM
+尽可能使用当前官方仓库作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私有 registry。
+推荐使用 Alpine 镜像（Alpine Linux 是一个完整的...</p>
+              </a>
+            
+          </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  <article class="post white-box comments shadow">
+    <section class="article typo">
+      <p ct><i class='fas fa-comments'></i> 评论</p>
+      
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
+          </div>
+        </section>
+      
+    </section>
+  </article>
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Docker 多阶段构建（multi-stage build）',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+  
+
+  
+    
+    
+
+
+  <section class="widget toc-wrapper shadow desktop mobile">
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-单-Dockerfile-构建"><span class="toc-text">1. 单 Dockerfile 构建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-多-Dockerfile-构建"><span class="toc-text">2. 多 Dockerfile 构建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-multi-stage-镜像构建"><span class="toc-text">3. multi-stage 镜像构建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-只构建某一阶段的镜像"><span class="toc-text">4. 只构建某一阶段的镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-构建时从其他镜像复制文件"><span class="toc-text">5. 构建时从其他镜像复制文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-参考文献"><span class="toc-text">6. 参考文献</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+  
+  <footer class="clearfix">
+    <br><br>
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="/atom.xml"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="mailto:lesliexlxiao@163.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="https://github.com/lesliexlxiao"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+            
+              <a href="https://music.163.com/#/user/home?id=63035382"
+                class="social fas fa-headphones-alt flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>Blog content follows the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener">Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License</a></p>
+</div>
+      
+    
+      
+        Use
+        <a href="https://volantis.js.org/" target="_blank" class="codename">Volantis</a>
+        as theme
+        
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="http://lesliexlxiao.com" target="_blank" rel="noopener">Copyright © 2017-2020 Mr. X</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.4/dist/jquery.min.js"></script>
+
+
+  <script>
+    
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/" || "/";
+    if (!ROOT.endsWith('/')) ROOT += '/';
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/instant_page.js" type="module" defer integrity="sha384-OeDn4XE77tdHo8pGtE1apMPmAipjoxUQ++eeJa6EtJCfHlvijigWiJpD7VDPWXV1"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+
+
+  
+  
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/jquery-backstretch@2.1.18/jquery.backstretch.min.js"></script>
+
+    <script type="text/javascript">
+      $(function(){
+        var imgs=["https://cdn.jsdelivr.net/gh/xaoxuu/cdn-wallpaper/abstract/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg", "images/home/41F215B9-261F-48B4-80B5-4E86E165259E.jpeg"];
+        if ('true' == 'true') {
+          function shuffle(arr){
+            /*From countercurrent-time*/
+            var n = arr.length;
+            while(n--) {
+              var index = Math.floor(Math.random() * n);
+              var temp = arr[index];
+              arr[index] = arr[n];
+              arr[n] = temp;
+            }
+          }
+          shuffle(imgs);
+        }
+        if ('.cover') {
+          $('.cover').backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        } else {
+          $.backstretch(
+            imgs,
+          {
+            duration: "20000",
+            fade: "1500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+
+  
+    
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0/dist/Meting.min.js"></script>
+
+  
+
+
+
+
+
+
+
+
+  
+    
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.4.1.5/js/valine.js"></script>
+
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'true' == 'true';
+  var verify = 'true' == 'true';
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "7lduJLJl2e8RQmGcG8zxF0BF-gzGzoHsz",
+    appKey: "k4q42AKLM8rQxtVsraXjWhcL",
+    placeholder: "这里仅供用户之间进行交流，有任何疑问请前往GitHub提交Issue，在评论区进行反馈将不会收到开发者回复。",
+    pageSize:'10',
+    avatar:'mp',
+    lang:'zh-cn',
+    visitor: 'false',
+    highlight:'true'
+  })
+  </script>
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2.0.2/js/search.js"></script>
+
+
+
+  
+<script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-volantis@2/js/comment_typing.js"></script>
+
+
+
+<!-- 复制 -->
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-clipboard-check');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('fa-copy');
+        $icon.addClass('fa-exclamation-triangle');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+
+
+<!-- fancybox -->
+
+  <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("div.fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
