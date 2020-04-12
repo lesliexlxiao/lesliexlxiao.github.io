@@ -21,9 +21,9 @@
     <meta name="keywords" content="docker">
   
   
-    <meta name="description" content="FROM
-尽可能使用当前官方仓库作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私有 registry。
-推荐使用 Alpine 镜像（Alpine Linux 是一个完整的操作系统），因为其被严格控制并保持在最小尺寸（目前大小 5.52M）。基于此基础镜像，再去构建自己的基础镜像，可以有效控...">
+    <meta name="description" content="本文主要介绍了编写 Dockerfile 指令相关的一些最佳实践。
+1. FROM尽可能使用当前官方仓库作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私有 registry。
+推荐使用 Alpine 镜像（Alpine Linux 是一个完整的操作系统），因为其被严格控制并保持在最小尺寸（目...">
   
 
   <!-- feed -->
@@ -439,13 +439,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.5k words</p>
+      <p>1.7k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>6 min</p>
+      <p>7 min</p>
     </a>
   </div>
 
@@ -463,97 +463,89 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           
-          <h4 id="FROM"><a href="#FROM" class="headerlink" title="FROM"></a>FROM</h4><ul>
-<li>尽可能使用<font color=FF0099><strong>当前官方仓库</strong></font>作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私有 registry。</li>
-<li>推荐使用 <font color=FF0099><strong>Alpine 镜像（Alpine Linux 是一个完整的操作系统）</strong></font>，因为其被严格控制并保持在最小尺寸（目前大小 5.52M）。基于此基础镜像，再去构建自己的基础镜像，可以有效控制镜像的大小。</li>
-</ul>
+          <p>本文主要介绍了编写 Dockerfile 指令相关的一些最佳实践。</p>
+<h2 id="1-FROM"><a href="#1-FROM" class="headerlink" title="1. FROM"></a>1. FROM</h2><p>尽可能使用<font color=FF0099><strong>当前官方仓库</strong></font>作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私有 registry。</p>
+<p>推荐使用 <font color=FF0099><strong>Alpine 镜像（Alpine Linux 是一个完整的操作系统）</strong></font>，因为其被严格控制并保持在最小尺寸（目前大小 5.52M）。基于此基础镜像，再去构建自己的基础镜像，可以有效控制镜像的大小。</p>
 <a id="more"></a>
 
-<h4 id="LABEL"><a href="#LABEL" class="headerlink" title="LABEL"></a>LABEL</h4><ul>
-<li>通过给镜像添加标签可以帮助<font color=FF0099><strong>组织镜像、记录许可信息、辅助自动化构建</strong></font>等。示例如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LABEL vendor&#x3D;ACME\ Incorporated \</span><br><span class="line">  com.example.is-beta&#x3D; \</span><br><span class="line">  com.example.is-production&#x3D;&quot;&quot; \</span><br><span class="line">  com.example.version&#x3D;&quot;0.0.1-beta&quot; \</span><br><span class="line">  com.example.release-date&#x3D;&quot;2015-02-12&quot;</span><br></pre></td></tr></table></figure></li>
-<li>标签可接受的键值参考：<a href="https://docs.docker.com/config/labels-custom-metadata/"  target="_blank">Understanding object labels</a></li>
-<li>查询标签信息参考：<a href="https://docs.docker.com/config/labels-custom-metadata/"  target="_blank">Managing labels on objects</a></li>
-<li>在实际运维过程中，容器的数量级一旦上升，就会给运维上带来很大的挑战。通过 label 可以很好的将容器分类，从而便于运维。<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建容器的时候定义一个 label，表示该容器在 <span class="built_in">test</span> 这个区域</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker run -itd --name nginx-test --label zone=<span class="built_in">test</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> 使用自定义的 label 快速检索容器，并进行下一步操作</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker ps -f label=zone=<span class="built_in">test</span> --format=<span class="string">'&#123;&#123;.NAMES&#125;&#125;'</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="2-LABEL"><a href="#2-LABEL" class="headerlink" title="2. LABEL"></a>2. LABEL</h2><p>通过给镜像添加标签可以帮助<font color=FF0099><strong>组织镜像、记录许可信息、辅助自动化构建</strong></font>等。示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">LABEL com.example.version&#x3D;&quot;0.0.1-beta&quot;</span><br><span class="line"></span><br><span class="line">LABEL vendor&#x3D;&quot;ACME Incorporated&quot;</span><br><span class="line"></span><br><span class="line">LABEL com.example.release-date&#x3D;&quot;2015-02-12&quot;</span><br><span class="line"></span><br><span class="line">LABEL com.example.version.is-production&#x3D;&quot;&quot;</span><br></pre></td></tr></table></figure>
 
+<p>注意：如果你的字符串中包含空格，<font color=FF0099><strong>必须将字符串放入引号中或者对空格使用转义</strong></font>。如果字符串内容本身就包含引号，<font color=FF0099><strong>必须对引号使用转义。</strong></font></p>
+<p>一个镜像可以包含多个标签，但建议将多个标签放入到一个 LABEL 指令中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LABEL vendor&#x3D;ACME\ Incorporated \</span><br><span class="line">  com.example.is-beta&#x3D; \</span><br><span class="line">  com.example.is-production&#x3D;&quot;&quot; \</span><br><span class="line">  com.example.version&#x3D;&quot;0.0.1-beta&quot; \</span><br><span class="line">  com.example.release-date&#x3D;&quot;2015-02-12&quot;</span><br></pre></td></tr></table></figure>
+
+<p>标签可接受的键值参考：<a href="https://docs.docker.com/config/labels-custom-metadata/"  target="_blank">Understanding object labels</a></p>
+<p>查询标签信息参考：<a href="https://docs.docker.com/config/labels-custom-metadata/"  target="_blank">Managing labels on objects</a></p>
+<p>在实际运维过程中，容器的数量级一旦上升，就会给运维上带来很大的挑战。<font color=FF0099><strong>通过 label 可以很好的将容器分类，从而便于运维</strong></font>。
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建容器的时候定义一个 label，表示该容器在 <span class="built_in">test</span> 这个区域</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker run -itd --name nginx-test --label zone=<span class="built_in">test</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用自定义的 label 快速检索容器，并进行下一步操作</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker ps -f label=zone=<span class="built_in">test</span> --format=<span class="string">'&#123;&#123;.NAMES&#125;&#125;'</span></span></span><br></pre></td></tr></table></figure></p>
+<h2 id="3-RUN"><a href="#3-RUN" class="headerlink" title="3. RUN"></a>3. RUN</h2><p>为了保持 Dockerfile 文件的<font color=FF0099><strong>可读性，可理解性，以及可维护性</strong></font>，过长的或复杂的 RUN 指令使用反斜杠 \ 分行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RUN yum install -y pip \</span><br><span class="line">  git-1.9.3.1 \</span><br><span class="line">  wget-1.14 &amp;&amp; \</span><br><span class="line">  yum clean all</span><br></pre></td></tr></table></figure>
+
+<p>Ubuntu，通常会使用 apt-get 去安装包。</p>
+<p>不要使用 RUN apt-get upgrade 或 dist-upgrade，<font color=FF0099><strong>因为 upgrade 命令会导致升级所有包</strong></font>，其实常常用户并不想升级基础镜像里面的包。如果要单独升级某一个包，使用 apt-get install -y foo。</p>
+<p>将 RUN apt-get update 和 apt-get install 组合成一条 RUN 声明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RUN apt-get update &amp;&amp; apt-get install -y \</span><br><span class="line">  package-bar \</span><br><span class="line">  package-baz</span><br></pre></td></tr></table></figure>
+
+<p><font color=FF0099><strong>如果将 RUN apt-get update 和 apt-get install 拆解为两条命令，会导致缓存问题记忆后续的 install 失败</strong></font>，示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:14.04</span><br><span class="line"></span><br><span class="line">RUN apt-get update</span><br><span class="line"></span><br><span class="line">RUN apt-get install -y curl</span><br></pre></td></tr></table></figure>
+
+<p>构建镜像后，所有的镜像层都在 Docker 缓存中。这时修改 Dockerfile 如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:14.04</span><br><span class="line"></span><br><span class="line">RUN apt-get update</span><br><span class="line"></span><br><span class="line">RUN apt-get install -y curl nginx</span><br></pre></td></tr></table></figure>
+
+<p>再次构建镜像，Docker 发现  RUN apt-get update 指令一样。这样会导致 apt-get update 不再执行，使用缓存镜像。<font color=FF0099><strong>后面使用 apt-get install 安装的是过时的 curl 和 nginx 版本。</strong></font></p>
+<h2 id="4-CMD"><a href="#4-CMD" class="headerlink" title="4. CMD"></a>4. CMD</h2><p>多数情况下都应该以 CMD [“executable”, “param1”, “param2”…] 的形式使用。</p>
+<p>极少情况下才能以 CMD [“param”, “param”] 的形式与 ENTRYPOINT 协同使用。</p>
+<h2 id="5-EXPOSE"><a href="#5-EXPOSE" class="headerlink" title="5. EXPOSE"></a>5. EXPOSE</h2><p>为应用程序 EXPOSE 常用端口，如 Apache web 服务的镜像使用 EXPOSE 80，MongoDB 服务的镜像使用 EXPOSE 27017。</p>
+<h2 id="6-ENV"><a href="#6-ENV" class="headerlink" title="6. ENV"></a>6. ENV</h2><p>主要有以下作用：</p>
+<ul>
+<li><p>为容器中安装的程序更新 PATH 环境变量，确保如 CMD [“nginx”] 正确运行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ENV PATH &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;bin:$PATH</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>为容器化服务提供必要的环境变量。</p>
 </li>
 </ul>
-<hr>
-<h4 id="RUN"><a href="#RUN" class="headerlink" title="RUN"></a>RUN</h4><ul>
-<li>过长的或复杂的 RUN 指令使用反斜杠 \ 分行<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RUN yum install -y pip \</span><br><span class="line">  git-1.9.3.1 \</span><br><span class="line">  wget-1.14 &amp;&amp; \</span><br><span class="line">  yum clean all</span><br></pre></td></tr></table></figure></li>
-<li><font color=FF0099><strong>apt-get</strong></font>，通常会使用 apt-get 去安装包。<ul>
-<li>不要使用 RUN apt-get upgrade 或 dist-upgrade，因为 upgrade 命令会导致升级所有包，其实常常用户并不想升级基础镜像里面的包。如果要单独升级某一个包，使用 apt-get install -y foo。</li>
-<li>将 RUN apt-get update 和 apt-get install 组合成一条 RUN 声明：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RUN apt-get update &amp;&amp; apt-get install -y \</span><br><span class="line">  package-bar \</span><br><span class="line">  package-baz</span><br></pre></td></tr></table></figure></li>
-<li>如果将 RUN apt-get update 和 apt-get install 拆解为两条命令，会导致缓存问题记忆后续的 install 失败，例如如下示例：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:14.04</span><br><span class="line"></span><br><span class="line">RUN apt-get update</span><br><span class="line"></span><br><span class="line">RUN apt-get install -y curl</span><br></pre></td></tr></table></figure></li>
-<li>构建镜像后，所有的镜像层都在 Docker 缓存中。这时修改 Dockerfile 如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:14.04</span><br><span class="line"></span><br><span class="line">RUN apt-get update</span><br><span class="line"></span><br><span class="line">RUN apt-get install -y curl nginx</span><br></pre></td></tr></table></figure></li>
-<li>再次构建镜像，Docker 发现  RUN apt-get update 指令一样。这样会导致 apt-get update 不再执行，使用缓存镜像。后面使用 apt-get install 安装的是过时的 curl 和 nginx 版本。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h4 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h4><ul>
-<li>多数情况下都应该以 CMD [“executable”, “param1”, “param2”…] 的形式使用。</li>
-<li>极少情况下才能以 CMD [“param”, “param”] 的形式与 ENTRYPOINT 协同使用。</li>
-</ul>
-<hr>
-<h4 id="EXPOSE"><a href="#EXPOSE" class="headerlink" title="EXPOSE"></a>EXPOSE</h4><ul>
-<li>为应用程序 EXPOSE 常用端口，如 Apache web 服务的镜像使用 EXPOSE 80，MongoDB 服务的镜像使用 EXPOSE 27017。</li>
-</ul>
-<hr>
-<h4 id="ENV"><a href="#ENV" class="headerlink" title="ENV"></a>ENV</h4><ul>
-<li>主要有以下作用：<ul>
-<li>为容器中安装的程序更新 PATH 环境变量，确保如 CMD [“nginx”] 正确运行<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ENV PATH &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;bin:$PATH</span><br></pre></td></tr></table></figure></li>
-<li>为容器化服务提供必要的环境变量</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h4 id="ADD-和-COPY"><a href="#ADD-和-COPY" class="headerlink" title="ADD 和 COPY"></a>ADD 和 COPY</h4><ul>
-<li>优先使用 COPY，COPY 语义更明确</li>
-<li>ADD 能够将本地 tar 文件自动提取到镜像中，这种场景用 ADD 更合适</li>
-<li>如果 Dockerfile 中需要 COPY 多个上下文中的文件，不要一次性 COPY 所有文件，这将保证每个步骤的构建缓存只在特定的文件变化时失效。最好的做法是按文件组织结构以及功能去 COPY 文件。</li>
-<li>为了让镜像尽量小，最好不要使用 ADD 指令从远程 URL 获取包，而是使用 curl 和 wget 。这样可以避免使用 ADD 而会多出的额外镜像层，示例如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># invalid method</span><br><span class="line">ADD http:&#x2F;&#x2F;example.com&#x2F;big.tar.xz &#x2F;usr&#x2F;src&#x2F;things&#x2F;</span><br><span class="line"></span><br><span class="line">RUN tar -xJf &#x2F;usr&#x2F;src&#x2F;things&#x2F;big.tar.xz -C &#x2F;usr&#x2F;src&#x2F;things &amp;&amp; \</span><br><span class="line">  make -C &#x2F;usr&#x2F;src&#x2F;things all</span><br></pre></td></tr></table></figure>
+<h2 id="7-ADD-和-COPY"><a href="#7-ADD-和-COPY" class="headerlink" title="7. ADD 和 COPY"></a>7. ADD 和 COPY</h2><p><font color=FF0099><strong>优先使用 COPY，COPY 语义更明确。</strong></font></p>
+<p>ADD 能够将本地 tar 文件自动提取到镜像中，这种场景用 ADD 更合适。</p>
+<p>如果 Dockerfile 中需要 COPY 多个上下文中的文件，不要一次性 COPY 所有文件，这将保证每个步骤的构建缓存只在特定的文件变化时失效。最好的做法是按文件组织结构以及功能去 COPY 文件。</p>
+<p>为了让镜像尽量小，最好不要使用 ADD 指令从远程 URL 获取包，而是使用 curl 和 wget 。这样可以避免使用 ADD 而会多出的额外镜像层，示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># invalid method</span><br><span class="line">ADD http:&#x2F;&#x2F;example.com&#x2F;big.tar.xz &#x2F;usr&#x2F;src&#x2F;things&#x2F;</span><br><span class="line"></span><br><span class="line">RUN tar -xJf &#x2F;usr&#x2F;src&#x2F;things&#x2F;big.tar.xz -C &#x2F;usr&#x2F;src&#x2F;things &amp;&amp; \</span><br><span class="line">  make -C &#x2F;usr&#x2F;src&#x2F;things all</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># valid method</span><br><span class="line">RUN mkdir -p &#x2F;usr&#x2F;src&#x2F;things \</span><br><span class="line">&amp;&amp; curl -SL http:&#x2F;&#x2F;example.com&#x2F;big.tar.xz \</span><br><span class="line">| tar -xJC &#x2F;usr&#x2F;src&#x2F;things \</span><br><span class="line">&amp;&amp; make -C &#x2F;usr&#x2F;src&#x2F;things all</span><br></pre></td></tr></table></figure>
+
+<p>可以看出第一种方法会比第二种方法多出额外的镜像层。</p>
+<h2 id="8-ENTRYPOINT"><a href="#8-ENTRYPOINT" class="headerlink" title="8. ENTRYPOINT"></a>8. ENTRYPOINT</h2><p>最佳用处是设置镜像的主命令，<font color=FF0099><strong>允许将镜像当成命令本身来运行。</strong></font>示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ENTRYPOINT [&quot;s3cmd&quot;]</span><br><span class="line"></span><br><span class="line">CMD [&quot;--help&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>运行容器：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run s3cmd</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker run s3cmd ls s3://mybucket</span></span><br></pre></td></tr></table></figure>
+
+<p>将 ENTRYPOINT 指令结合一个辅助脚本使用，去解决容器启动中多步骤问题。</p>
 <ul>
-<li>可以看出第一种方法会比第二种方法多出额外的镜像层。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h4 id="ENTRYPOINT"><a href="#ENTRYPOINT" class="headerlink" title="ENTRYPOINT"></a>ENTRYPOINT</h4><ul>
-<li>最佳用处是设置镜像的主命令，<font color=FF0099><strong>允许将镜像当成命令本身来运行。</strong></font>示例如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ENTRYPOINT [&quot;s3cmd&quot;]</span><br><span class="line"></span><br><span class="line">CMD [&quot;--help&quot;]</span><br></pre></td></tr></table></figure>
-<ul>
-<li>运行容器<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> docker run s3cmd</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker run s3cmd ls s3://mybucket</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li>将 ENTRYPOINT 指令结合一个辅助脚本使用，去解决容器启动中多步骤问题。<ul>
-<li>例如，Postgres 官方镜像使用下面的脚本作为 ENTRYPOINT:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">set -e</span><br><span class="line"></span><br><span class="line">if [ &quot;$1&quot; &#x3D; &#39;postgres&#39; ]; then</span><br><span class="line">    chown -R postgres &quot;$PGDATA&quot;</span><br><span class="line"></span><br><span class="line">    if [ -z &quot;$(ls -A &quot;$PGDATA&quot;)&quot; ]; then</span><br><span class="line">        gosu postgres initdb</span><br><span class="line">    fi</span><br><span class="line"></span><br><span class="line">    exec gosu postgres &quot;$@&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">exec &quot;$@&quot;</span><br></pre></td></tr></table></figure>
+<li><p>例如，Postgres 官方镜像使用下面的脚本作为 ENTRYPOINT:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">set -e</span><br><span class="line"></span><br><span class="line">if [ &quot;$1&quot; &#x3D; &#39;postgres&#39; ]; then</span><br><span class="line">    chown -R postgres &quot;$PGDATA&quot;</span><br><span class="line"></span><br><span class="line">    if [ -z &quot;$(ls -A &quot;$PGDATA&quot;)&quot; ]; then</span><br><span class="line">        gosu postgres initdb</span><br><span class="line">    fi</span><br><span class="line"></span><br><span class="line">    exec gosu postgres &quot;$@&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">exec &quot;$@&quot;</span><br></pre></td></tr></table></figure>
 <ul>
 <li><font color=FF0099><strong>注意：</strong></font> 该脚本使用了 Bash 的内置命令 exec，所以最后运行的进程就是容器的 PID 为 1 的进程。这样，进程就可以接收到任何发送给容器的 Unix 信号了。</li>
 </ul>
 </li>
-<li>该辅助脚本被拷贝到容器，并在容器启动时通过 ENTRYPOINT 执行:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">COPY .&#x2F;docker-entrypoint.sh &#x2F;</span><br><span class="line"></span><br><span class="line">ENTRYPOINT [&quot;&#x2F;docker-entrypoint.sh&quot;]</span><br></pre></td></tr></table></figure></li>
-<li>这样可以使用多种方式和 postgres 交互<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 简单启动 Postgres</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker run postgres</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 执行 Postgres 并传递参数</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker run postgres postgres --<span class="built_in">help</span></span></span><br></pre></td></tr></table></figure>
+<li><p>该辅助脚本被拷贝到容器，并在容器启动时通过 ENTRYPOINT 执行:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">COPY .&#x2F;docker-entrypoint.sh &#x2F;</span><br><span class="line"></span><br><span class="line">ENTRYPOINT [&quot;&#x2F;docker-entrypoint.sh&quot;]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这样可以使用多种方式和 postgres 交互：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 简单启动 Postgres</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker run postgres</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 执行 Postgres 并传递参数</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> docker run postgres postgres --<span class="built_in">help</span></span></span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
-</li>
-</ul>
-<hr>
-<h4 id="VOLUME"><a href="#VOLUME" class="headerlink" title="VOLUME"></a>VOLUME</h4><ul>
-<li>建议使用 VOLUME 来管理镜像中的可变部分和用户可以改变的部分，如数据库存储文件、配置文件、容器创建的文件和目录等。</li>
-</ul>
-<hr>
-<h4 id="USER"><a href="#USER" class="headerlink" title="USER"></a>USER</h4><ul>
-<li>不需要使用特权执行的服务，建议使用 USER 指令切换到非 root 用户。使用下面的方法创建用户和用户组：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RUN groupadd -r postgres &amp;&amp; \</span><br><span class="line">  useradd -r -g postgres postgres</span><br></pre></td></tr></table></figure></li>
-<li>避免使用 sudo，因为它可预期的 TTY 和信号转发行为可能造成很多问题。可以使用 <a href="url">gosu</a> 来替代 sudo。</li>
-<li>为了减少层数和复杂度，避免频繁地使用 USER 来回切换用户。</li>
-</ul>
-<hr>
-<h4 id="WORKDIR"><a href="#WORKDIR" class="headerlink" title="WORKDIR"></a>WORKDIR</h4><ul>
-<li>为了清晰性和可靠性，应该总是在 WORKDIR 中使用绝对路径</li>
-<li>使用 WORKDIR 来替代类似于 RUN cd … &amp;&amp; do-something 的指令，后者难以阅读、排错和维护。</li>
-</ul>
-<h2 id="8-参考文献"><a href="#8-参考文献" class="headerlink" title="8. 参考文献"></a>8. 参考文献</h2><p>[1] 廖煜,晏东.Docker 容器实战[M].北京:电子工业出版社,2016:183-199.</p>
+<h2 id="9-VOLUME"><a href="#9-VOLUME" class="headerlink" title="9. VOLUME"></a>9. VOLUME</h2><p>建议使用 VOLUME 来管理镜像中的可变部分和用户可以改变的部分，如数据库存储文件、配置文件、容器创建的文件和目录等。</p>
+<h2 id="10-USER"><a href="#10-USER" class="headerlink" title="10. USER"></a>10. USER</h2><p>不需要使用特权执行的服务，建议使用 USER 指令切换到非 root 用户。使用下面的方法创建用户和用户组：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RUN groupadd -r postgres &amp;&amp; \</span><br><span class="line">  useradd -r -g postgres postgres</span><br></pre></td></tr></table></figure>
+
+<p>避免使用 sudo，因为它可预期的 TTY 和信号转发行为可能造成很多问题。可以使用 <a href="url">gosu</a> 来替代 sudo。</p>
+<p>为了减少层数和复杂度，避免频繁地使用 USER 来回切换用户。</p>
+<h2 id="11-WORKDIR"><a href="#11-WORKDIR" class="headerlink" title="11. WORKDIR"></a>11. WORKDIR</h2><p>为了清晰性和可靠性，应该总是在 WORKDIR 中使用绝对路径</p>
+<p>使用 WORKDIR 来替代类似于 RUN cd … &amp;&amp; do-something 的指令，后者难以阅读、排错和维护。</p>
+<h2 id="12-参考文献"><a href="#12-参考文献" class="headerlink" title="12. 参考文献"></a>12. 参考文献</h2><p>[1] yeasy.Docker 从入门到实践[M]:369-375.</p>
+<p>[2] 廖煜,晏东.Docker 容器实战[M].北京:电子工业出版社,2016:183-199.</p>
 
           
             <br>
@@ -622,10 +614,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-11T19:05:28+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-12T18:26:57+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>本页文档最后更新于：Apr 11, 2020</p>
+    <p>本页文档最后更新于：Apr 12, 2020</p>
   </a>
 </div>
 
@@ -652,10 +644,9 @@
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.lesliexlxiao.com/2019/03/27/docker/dockerfile-best-practice-2/&title=Dockerfile 最佳实践（指令相关） - leslie&summary=FROM
-尽可能使用当前官方仓库作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私有 registry。
-推荐使用 Alpine 镜像（Alpine Linux 是一个完整的操作系统），因为其被严格控制并保持在最小尺寸（目前大小 5.52M）。基于此基础镜像，再去构建自己的基础镜像，可以有效控制镜像的大小。
-"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.lesliexlxiao.com/2019/03/27/docker/dockerfile-best-practice-2/&title=Dockerfile 最佳实践（指令相关） - leslie&summary=本文主要介绍了编写 Dockerfile 指令相关的一些最佳实践。
+1. FROM尽可能使用当前官方仓库作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私有 registry。
+推荐使用 Alpine 镜像（Alpine Linux 是一个完整的操作系统），因为其被严格控制并保持在最小尺寸（目前大小 5.52M）。基于此基础镜像，再去构建自己的基础镜像，可以有效控制镜像的大小。"
           
           >
           
@@ -667,10 +658,9 @@
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.lesliexlxiao.com/2019/03/27/docker/dockerfile-best-practice-2/&title=Dockerfile 最佳实践（指令相关） - leslie&summary=FROM
-尽可能使用当前官方仓库作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私有 registry。
-推荐使用 Alpine 镜像（Alpine Linux 是一个完整的操作系统），因为其被严格控制并保持在最小尺寸（目前大小 5.52M）。基于此基础镜像，再去构建自己的基础镜像，可以有效控制镜像的大小。
-"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://www.lesliexlxiao.com/2019/03/27/docker/dockerfile-best-practice-2/&title=Dockerfile 最佳实践（指令相关） - leslie&summary=本文主要介绍了编写 Dockerfile 指令相关的一些最佳实践。
+1. FROM尽可能使用当前官方仓库作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私有 registry。
+推荐使用 Alpine 镜像（Alpine Linux 是一个完整的操作系统），因为其被严格控制并保持在最小尺寸（目前大小 5.52M）。基于此基础镜像，再去构建自己的基础镜像，可以有效控制镜像的大小。"
           
           >
           
@@ -682,10 +672,9 @@
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://www.lesliexlxiao.com/2019/03/27/docker/dockerfile-best-practice-2/&title=Dockerfile 最佳实践（指令相关） - leslie&summary=FROM
-尽可能使用当前官方仓库作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私有 registry。
-推荐使用 Alpine 镜像（Alpine Linux 是一个完整的操作系统），因为其被严格控制并保持在最小尺寸（目前大小 5.52M）。基于此基础镜像，再去构建自己的基础镜像，可以有效控制镜像的大小。
-"
+          href="http://service.weibo.com/share/share.php?url=http://www.lesliexlxiao.com/2019/03/27/docker/dockerfile-best-practice-2/&title=Dockerfile 最佳实践（指令相关） - leslie&summary=本文主要介绍了编写 Dockerfile 指令相关的一些最佳实践。
+1. FROM尽可能使用当前官方仓库作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私有 registry。
+推荐使用 Alpine 镜像（Alpine Linux 是一个完整的操作系统），因为其被严格控制并保持在最小尺寸（目前大小 5.52M）。基于此基础镜像，再去构建自己的基础镜像，可以有效控制镜像的大小。"
           
           >
           
@@ -729,13 +718,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.5k words</p>
+      <p>1.7k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>6 min</p>
+      <p>7 min</p>
     </a>
   </div>
 
@@ -834,7 +823,7 @@ Docker 17.05 之前的版本是不支持 multi-stage 镜像构建，通常会采
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#FROM"><span class="toc-text">FROM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LABEL"><span class="toc-text">LABEL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RUN"><span class="toc-text">RUN</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CMD"><span class="toc-text">CMD</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#EXPOSE"><span class="toc-text">EXPOSE</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ENV"><span class="toc-text">ENV</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ADD-和-COPY"><span class="toc-text">ADD 和 COPY</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ENTRYPOINT"><span class="toc-text">ENTRYPOINT</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VOLUME"><span class="toc-text">VOLUME</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#USER"><span class="toc-text">USER</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#WORKDIR"><span class="toc-text">WORKDIR</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-参考文献"><span class="toc-text">8. 参考文献</span></a>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-FROM"><span class="toc-text">1. FROM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-LABEL"><span class="toc-text">2. LABEL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-RUN"><span class="toc-text">3. RUN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-CMD"><span class="toc-text">4. CMD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-EXPOSE"><span class="toc-text">5. EXPOSE</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-ENV"><span class="toc-text">6. ENV</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-ADD-和-COPY"><span class="toc-text">7. ADD 和 COPY</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-ENTRYPOINT"><span class="toc-text">8. ENTRYPOINT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-VOLUME"><span class="toc-text">9. VOLUME</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-USER"><span class="toc-text">10. USER</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-WORKDIR"><span class="toc-text">11. WORKDIR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-参考文献"><span class="toc-text">12. 参考文献</span></a></li></ol>
     </div>
   </section>
 

@@ -655,13 +655,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.5k words</p>
+      <p>1.7k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>6 min</p>
+      <p>7 min</p>
     </a>
   </div>
 
@@ -684,10 +684,9 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="FROM"><a href="#FROM" class="headerlink" title="FROM"></a>FROM</h4><ul>
-<li>尽可能使用<font color=FF0099><strong>当前官方仓库</strong></font>作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私有 registry。</li>
-<li>推荐使用 <font color=FF0099><strong>Alpine 镜像（Alpine Linux 是一个完整的操作系统）</strong></font>，因为其被严格控制并保持在最小尺寸（目前大小 5.52M）。基于此基础镜像，再去构建自己的基础镜像，可以有效控制镜像的大小。</li>
-</ul>
+        <p>本文主要介绍了编写 Dockerfile 指令相关的一些最佳实践。</p>
+<h2 id="1-FROM"><a href="#1-FROM" class="headerlink" title="1. FROM"></a>1. FROM</h2><p>尽可能使用<font color=FF0099><strong>当前官方仓库</strong></font>作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私有 registry。</p>
+<p>推荐使用 <font color=FF0099><strong>Alpine 镜像（Alpine Linux 是一个完整的操作系统）</strong></font>，因为其被严格控制并保持在最小尺寸（目前大小 5.52M）。基于此基础镜像，再去构建自己的基础镜像，可以有效控制镜像的大小。</p>
       
       
         
