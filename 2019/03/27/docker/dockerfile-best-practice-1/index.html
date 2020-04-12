@@ -438,7 +438,7 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.8k words</p>
+      <p>1.9k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -493,8 +493,19 @@ Docker 多阶段构建</a>。</p>
 <h2 id="6-将多行参数排序"><a href="#6-将多行参数排序" class="headerlink" title="6. 将多行参数排序"></a>6. 将多行参数排序</h2><p><font color=FF0099><strong>多行参数按字母顺序排序，</strong></font>可以避免重复包含同一个包，更新包列表时也更容易。<font color=FF0099><strong>反斜杠符号 \ 之前添加一个空格，</strong></font>以增加可读性。示例如下：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">RUN apt-get update &amp;&amp; apt-get install -y \</span><br><span class="line">  curl=7.47.0-1ubuntu2.11 \</span><br><span class="line">  openssh-client=1:7.2p2-4ubuntu2.6 \</span><br><span class="line">  openssh-server=1:7.2p2-4ubuntu2.6 \</span><br><span class="line">  sudo=1.8.16-0ubuntu1.5 \</span><br><span class="line">  telnet=0.17-40</span><br></pre></td></tr></table></figure>
 
+<h2 id="7-清除缓存的包"><a href="#7-清除缓存的包" class="headerlink" title="7. 清除缓存的包"></a>7. 清除缓存的包</h2><p>缓存的包往往会增加镜像的体积，这样就会<font color=FF0099><strong>导致镜像下载速度变慢</strong></font>。对于无用的缓存，应当及时清理。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">RUN apt-get update &amp;&amp; apt-get install -y \</span><br><span class="line">  curl=7.47.0-1ubuntu2.11 \</span><br><span class="line">  openssh-client=1:7.2p2-4ubuntu2.6 \</span><br><span class="line">  openssh-server=1:7.2p2-4ubuntu2.6 \</span><br><span class="line">  sudo=1.8.16-0ubuntu1.5 \</span><br><span class="line">  telnet=0.17-40 &amp;&amp; \</span><br><span class="line">  apt-get clean</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如上，apt-get clean 用于清除已缓存的包文件。</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RUN yum install -y net-tools-2.0 \</span><br><span class="line">  vim-enhanced-7.4.160 &amp;&amp; \</span><br><span class="line">  yum clean all</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如上，yum clean all 用于清除 yum 缓存。</li>
+</ul>
 <p><font color=FF0099><strong>安装包时，带上版本号，确保重新构建镜像时，构建出的镜像是一致的。</strong></font></p>
-<h2 id="7-构建缓存"><a href="#7-构建缓存" class="headerlink" title="7. 构建缓存"></a>7. 构建缓存</h2><p>Docker 在执行每条 Dockerfile 指令之前，都会在缓存中查找是否已经存在可重复的镜像，如果有，将不再重复创建。</p>
+<h2 id="8-充分利用构建缓存"><a href="#8-充分利用构建缓存" class="headerlink" title="8. 充分利用构建缓存"></a>8. 充分利用构建缓存</h2><p>Docker 在执行每条 Dockerfile 指令之前，都会在缓存中查找是否已经存在可重复的镜像，如果有，将不再重复创建。</p>
 <p>缓存的匹配规则如下：</p>
 <ul>
 <li><p>从基础镜像开始，下一条指令将和该基础镜像的所有子镜像进行匹配，检查这些子镜像被创建时使用的指令是否和被检查的指令完全一样。如果不是，则缓存失效。示例如下：</p>
@@ -554,7 +565,7 @@ Docker 多阶段构建</a>。</p>
 <p>除了 ADD 和 COPY 指令，缓存匹配过程不会查看临时容器中的文件来决定缓存是否匹配。例如，当执行完 RUN apt-get -y update 指令后，容器中一些文件被更新，但 Docker 不会检查这些文件。<font color=FF0099><strong>这种情况下，只有指令字符串本身被用来匹配缓存。</strong></font></p>
 <p>一旦缓存失效，所有后续的 Dockerfile 指令都将产生新的镜像，缓存不会被使用。</p>
 <p><font color=FF0099><strong>综上，我们应该将经常变动的镜像层级放到 Dockerfile 文件的后面，这样才不会导致构建镜像时缓存经常失效，从而提高镜像构建速度。</strong></font></p>
-<h2 id="8-参考文献"><a href="#8-参考文献" class="headerlink" title="8. 参考文献"></a>8. 参考文献</h2><p>[1] 廖煜,晏东.Docker 容器实战[M].北京:电子工业出版社,2016:181-183.</p>
+<h2 id="9-参考文献"><a href="#9-参考文献" class="headerlink" title="9. 参考文献"></a>9. 参考文献</h2><p>[1] 廖煜,晏东.Docker 容器实战[M].北京:电子工业出版社,2016:181-183.</p>
 
           
             <br>
@@ -623,10 +634,10 @@ Docker 多阶段构建</a>。</p>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-11T19:07:32+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-12T12:07:35+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>本页文档最后更新于：Apr 11, 2020</p>
+    <p>本页文档最后更新于：Apr 12, 2020</p>
   </a>
 </div>
 
@@ -727,7 +738,7 @@ Docker 多阶段构建</a>。</p>
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.8k words</p>
+      <p>1.9k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
@@ -834,7 +845,7 @@ virt...</p>
 
 
     <div class='content'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-忽略-docker-build-构建文件"><span class="toc-text">1. 忽略 docker build 构建文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-使用多阶段构建"><span class="toc-text">2. 使用多阶段构建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-避免安装不必要的包"><span class="toc-text">3. 避免安装不必要的包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-一个容器只运行一个进程"><span class="toc-text">4. 一个容器只运行一个进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-镜像层数尽可能少"><span class="toc-text">5. 镜像层数尽可能少</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-将多行参数排序"><span class="toc-text">6. 将多行参数排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-构建缓存"><span class="toc-text">7. 构建缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-参考文献"><span class="toc-text">8. 参考文献</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-忽略-docker-build-构建文件"><span class="toc-text">1. 忽略 docker build 构建文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-使用多阶段构建"><span class="toc-text">2. 使用多阶段构建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-避免安装不必要的包"><span class="toc-text">3. 避免安装不必要的包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-一个容器只运行一个进程"><span class="toc-text">4. 一个容器只运行一个进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-镜像层数尽可能少"><span class="toc-text">5. 镜像层数尽可能少</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-将多行参数排序"><span class="toc-text">6. 将多行参数排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-清除缓存的包"><span class="toc-text">7. 清除缓存的包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-充分利用构建缓存"><span class="toc-text">8. 充分利用构建缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-参考文献"><span class="toc-text">9. 参考文献</span></a></li></ol>
     </div>
   </section>
 
