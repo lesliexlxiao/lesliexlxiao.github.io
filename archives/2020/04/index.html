@@ -18,7 +18,7 @@
 
   <!-- 页面元数据 -->
   
-    <title>Archive: 2019/3 - leslie</title>
+    <title>Archive: 2020/4 - leslie</title>
   
   
 
@@ -471,12 +471,6 @@
         
           
         
-          
-        
-          
-        
-          
-        
       
     
     
@@ -494,8 +488,8 @@
       
         
   <h2 class="title">
-    <a href="/2019/03/28/docker/multi-stage-build/">
-      Docker 多阶段构建（multi-stage build）
+    <a href="/2020/04/13/maven/pom-detail/">
+      Maven pom.xml 文件详解
     </a>
   </h2>
 
@@ -520,9 +514,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/Docker/' rel="nofollow">
+    <a href='/categories/Maven/' rel="nofollow">
       <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Docker</p>
+      <p>Maven</p>
     </a>
   </div>
 
@@ -533,7 +527,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Mar 28, 2019</p>
+    <p>发布于：Apr 13, 2020</p>
   </a>
 </div>
 
@@ -544,13 +538,13 @@
   <div class="new-meta-item wordcount">
     <a class='notlink'>
       <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.3k words</p>
+      <p>2.3k words</p>
     </a>
   </div>
   <div class="new-meta-item readtime">
     <a class='notlink'>
       <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>5 min</p>
+      <p>10 min</p>
     </a>
   </div>
 
@@ -573,349 +567,13 @@
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本文主要介绍了 Docker 的多阶段构建，以及多阶段构建的一些优势。</p>
-<p><font color=FF0099><strong>Docker 17.05 之前的版本是不支持 multi-stage 镜像构建</strong></font>，通常会采用两种方式构建。一种是全部放入一个 Dockerfile 文件中构建，一种是分散到多个 Dockerfile 文件中构建。</p>
+        <p>本文主要描述了 maven pom.xml 中各元素的详细意义。</p>
+<h2 id="1-pom-xml-文件详解"><a href="#1-pom-xml-文件详解" class="headerlink" title="1. pom.xml 文件详解"></a>1. pom.xml 文件详解</h2>
       
       
         
           <div class="button readmore">
-            <a href="/2019/03/28/docker/multi-stage-build/">
-              阅读全文 <i class="fas fa-chevron-right"></i>
-            </a>
-          </div>
-        
-      
-    </div>
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/03/27/docker/dockerfile-best-practice-2/">
-      Dockerfile 最佳实践（指令相关）
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-<div class='new-meta-item author'>
-  <a href="http://lesliexlxiao.com" target="_blank" rel="nofollow noopener">
-    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/avatar/avatar.png">
-    <p>Mr. X</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Docker/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Docker</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Mar 27, 2019</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.7k words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>7 min</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文主要介绍了编写 Dockerfile 指令相关的一些最佳实践。</p>
-<h2 id="1-FROM"><a href="#1-FROM" class="headerlink" title="1. FROM"></a>1. FROM</h2><p>尽可能使用<font color=FF0099><strong>当前官方仓库</strong></font>作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私有 registry。</p>
-<p>推荐使用 <font color=FF0099><strong>Alpine 镜像（Alpine Linux 是一个完整的操作系统）</strong></font>，因为其被严格控制并保持在最小尺寸（目前大小 5.52M）。基于此基础镜像，再去构建自己的基础镜像，可以有效控制镜像的大小。</p>
-      
-      
-        
-          <div class="button readmore">
-            <a href="/2019/03/27/docker/dockerfile-best-practice-2/">
-              阅读全文 <i class="fas fa-chevron-right"></i>
-            </a>
-          </div>
-        
-      
-    </div>
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/03/27/docker/dockerfile-best-practice-1/">
-      Dockerfile 最佳实践（常规指南和建议）
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-<div class='new-meta-item author'>
-  <a href="http://lesliexlxiao.com" target="_blank" rel="nofollow noopener">
-    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/avatar/avatar.png">
-    <p>Mr. X</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Docker/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Docker</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Mar 27, 2019</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>1.9k words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>7 min</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文主要介绍了编写 Dockerfile 时的一些最佳实践，主要包括一些常规指南和建议。</p>
-<h2 id="1-忽略-docker-build-构建文件"><a href="#1-忽略-docker-build-构建文件" class="headerlink" title="1. 忽略 docker build 构建文件"></a>1. 忽略 docker build 构建文件</h2><p>在 docker build 的过程中，首先会将指定的上下文目录打包传递给 <font color=FF0099><strong>docker 引擎</strong></font>，而这个上下文目录中可能并<font color=FF0099><strong>不是所有的文件</strong></font>我们都会在 Dockerfile 中使用到，那么这个时候就可以在 <font color=FF0099><strong>.dockerignore</strong></font> 文件中指定在传递给 <font color=FF0099><strong>docker 引擎</strong></font>时需要忽略掉的文件或文件夹。</p>
-<p>.dockerignore 使用方法和 Git 的 .gitignore 使用方法相似。</p>
-      
-      
-        
-          <div class="button readmore">
-            <a href="/2019/03/27/docker/dockerfile-best-practice-1/">
-              阅读全文 <i class="fas fa-chevron-right"></i>
-            </a>
-          </div>
-        
-      
-    </div>
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post white-box shadow reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2019/03/17/python/virtualenv/">
-      virtualenv and virtualenvwrapper
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-<div class='new-meta-item author'>
-  <a href="http://lesliexlxiao.com" target="_blank" rel="nofollow noopener">
-    <img src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-assets/avatar/avatar.png">
-    <p>Mr. X</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/Python/' rel="nofollow">
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <p>Python</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：Mar 17, 2019</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  <div class="new-meta-item wordcount">
-    <a class='notlink'>
-      <i class="fas fa-keyboard fa-fw" aria-hidden="true"></i>
-      <p>238 words</p>
-    </a>
-  </div>
-  <div class="new-meta-item readtime">
-    <a class='notlink'>
-      <i class="fas fa-hourglass-half fa-fw" aria-hidden="true"></i>
-      <p>1 min</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文主要介绍了 Python 中如何搭建虚拟的隔离环境，以确保各应用之间的依赖环境不互相影响。</p>
-<h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1 简介"></a>1 简介</h2><p>virtualenv <font color=FF0099><strong>用来为一个应用创建一套”隔离”的 python 运行环境。</strong></font></p>
-<p>virtualenvwrapper 基于 virtualenv 之上的工具，<font color=FF0099><strong>用来对虚拟环境进行统一管理。</strong></font></p>
-      
-      
-        
-          <div class="button readmore">
-            <a href="/2019/03/17/python/virtualenv/">
+            <a href="/2020/04/13/maven/pom-detail/">
               阅读全文 <i class="fas fa-chevron-right"></i>
             </a>
           </div>
