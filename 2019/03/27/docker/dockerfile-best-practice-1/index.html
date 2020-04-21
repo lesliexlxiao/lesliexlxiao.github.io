@@ -565,8 +565,8 @@ Docker 多阶段构建</a>。</p>
 <p>除了 ADD 和 COPY 指令，缓存匹配过程不会查看临时容器中的文件来决定缓存是否匹配。例如，当执行完 RUN apt-get -y update 指令后，容器中一些文件被更新，但 Docker 不会检查这些文件。<font color=FF0099><strong>这种情况下，只有指令字符串本身被用来匹配缓存。</strong></font></p>
 <p>一旦缓存失效，所有后续的 Dockerfile 指令都将产生新的镜像，缓存不会被使用。</p>
 <p><font color=FF0099><strong>综上，我们应该将经常变动的镜像层级放到 Dockerfile 文件的后面，这样才不会导致构建镜像时缓存经常失效，从而提高镜像构建速度。</strong></font></p>
-<h2 id="9-参考文献"><a href="#9-参考文献" class="headerlink" title="9. 参考文献"></a>9. 参考文献</h2><p>[1] yeasy.Docker 从入门到实践[M]:367-368.
-[2] 廖煜,晏东.Docker 容器实战[M].北京:电子工业出版社,2016:181-183.</p>
+<h2 id="9-参考文献"><a href="#9-参考文献" class="headerlink" title="9. 参考文献"></a>9. 参考文献</h2><p>[1] yeasy.Docker 从入门到实践[M]:367-368.</p>
+<p>[2] 廖煜,晏东.Docker 容器实战[M].北京:电子工业出版社,2016:181-183.</p>
 
           
             <br>
@@ -635,10 +635,10 @@ Docker 多阶段构建</a>。</p>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-12T15:55:46+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-04-16T23:48:38+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>本页文档最后更新于：Apr 12, 2020</p>
+    <p>本页文档最后更新于：Apr 16, 2020</p>
   </a>
 </div>
 
@@ -775,8 +775,8 @@ Docker 多阶段构建</a>。</p>
               <a class='next' href='/2019/03/17/python/virtualenv/'>
                 <p class='title'>virtualenv and virtualenvwrapper<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
                 <p class='content'>本文主要介绍了 Python 中如何搭建虚拟的隔离环境，以确保各应用之间的依赖环境不互相影响。
-1 简介virtualenv 用来为一个应用创建一套”隔离”的 python 运行环境。
-virt...</p>
+1. 简介virtualenv 用来为一个应用创建一套”隔离”的 python 运行环境。
+vir...</p>
               </a>
             
           </div>
