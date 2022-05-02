@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <title>如何解决 linux too many open files 问题 - LESLIEXLXIAO&#39;S BLOG</title><meta name="author" content="Leslie: https://www.lesliexlxiao.com">
+<meta name="description" content="本文主要分析了当 linux 系统中出现 too many open files 问题时，我们应该如何去解决这类问题。" />
+<meta name="keywords" content="Linux" /><meta itemprop="name" content="如何解决 linux too many open files 问题">
+<meta itemprop="description" content="本文主要分析了当 linux 系统中出现 too many open files 问题时，我们应该如何去解决这类问题。">
+<meta itemprop="datePublished" content="2022-04-23T10:51:01+08:00" />
+<meta itemprop="dateModified" content="2022-04-23T10:51:01+08:00" />
+<meta itemprop="wordCount" content="1144">
+<meta itemprop="image" content="https://fixit.lruihao.cn/logo.png"/>
+
+
+
+<meta itemprop="keywords" content="Linux," />
+<meta property="og:title" content="如何解决 linux too many open files 问题" />
+<meta property="og:description" content="本文主要分析了当 linux 系统中出现 too many open files 问题时，我们应该如何去解决这类问题。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fixit.lruihao.cn/linux-too-many-open-files/" />
+<meta property="og:image" content="https://fixit.lruihao.cn/logo.png"/>
+<meta property="article:published_time" content="2022-04-23T10:51:01+08:00" />
+<meta property="article:modified_time" content="2022-04-23T10:51:01+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://fixit.lruihao.cn/logo.png"/>
+
+<meta name="twitter:title" content="如何解决 linux too many open files 问题"/>
+<meta name="twitter:description" content="本文主要分析了当 linux 系统中出现 too many open files 问题时，我们应该如何去解决这类问题。"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#252627"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://fixit.lruihao.cn/linux-too-many-open-files/" /><link rel="prev" href="https://fixit.lruihao.cn/network-tcpdump-try/" /><link rel="next" href="https://fixit.lruihao.cn/gk-tmp-task-execution/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "如何解决 linux too many open files 问题",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/fixit.lruihao.cn\/linux-too-many-open-files\/"
+    },"image": ["https:\/\/fixit.lruihao.cn\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Linux","wordcount":  1144 ,
+    "url": "https:\/\/fixit.lruihao.cn\/linux-too-many-open-files\/","datePublished": "2022-04-23T10:51:01+08:00","dateModified": "2022-04-23T10:51:01+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+      "@type": "Organization",
+      "name": "Lruihao","logo": "https:\/\/fixit.lruihao.cn\/images\/avatar.png"},"author": {
+        "@type": "Person",
+        "name": "Leslie"
+      },"description": ""
+  }
+  </script></head>
+  <body header-desktop="sticky" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+    <div class="menu">
+      <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/friends/" title="友情链接"> 友链 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+            <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/linux-too-many-open-files/" selected>简体中文</option></select>
+          </a><span class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+          <i class="fas fa-adjust fa-fw"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</header><header class="mobile" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="menu" id="menu-mobile"><div class="search-wrapper">
+          <div class="search mobile" id="search-mobile">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-mobile">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </div>
+          <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+            取消
+          </a>
+        </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/friends/" title="友情链接">友链</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+        <i class="fas fa-adjust fa-fw"></i>
+      </a><a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+          <select class="language-select" onchange="location = this.value;"><option value="/linux-too-many-open-files/" selected>简体中文</option></select>
+        </a></div>
+  </div>
+</header>
+<div class="search-dropdown desktop">
+  <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+  <div id="search-dropdown-mobile"></div>
+</div>
+<main class="container" page-style="normal"><aside class="toc" id="toc-auto"><h2 class="toc-title">目录</h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    
+  </aside>
+
+  <article class="page single"><h1 class="single-title animate__animated animate__flipInX">如何解决 linux too many open files 问题</h1><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a
+  href="https://www.lesliexlxiao.com"
+  
+    title="Author"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer author"
+  
+  
+  
+    class="author"
+  
+  
+><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/linux/"><i class="far fa-folder fa-fw"></i>Linux</a></span></div>
+      <div class="post-meta-line"><span title=2022-04-23&#32;10:51:01>
+            <i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-04-23" >2022-04-23</time>
+          </span>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1144 字&nbsp;
+        <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+    </div><div class="details toc" id="toc-static" kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fas fa-angle-right"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-带来的问题">1. 带来的问题</a></li>
+    <li><a href="#2-产生原因">2. 产生原因</a></li>
+    <li><a href="#3-通过命令进行问题分析">3. 通过命令进行问题分析</a>
+      <ul>
+        <li><a href="#31-查看系统目前允许单个进程打开的最大句柄数">3.1 查看系统目前允许单个进程打开的最大句柄数</a></li>
+        <li><a href="#32-查看当前进程打开了多少个文件句柄">3.2 查看当前进程打开了多少个文件句柄</a></li>
+        <li><a href="#33-查看单个进程打开了多少个文件句柄">3.3 查看单个进程打开了多少个文件句柄</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-解决办法">4. 解决办法</a>
+      <ul>
+        <li><a href="#41-命令式增大允许打开的文件数sup1suprefer-anchor-1">4.1 命令式：增大允许打开的文件数<a href="#refer-anchor-1"><sup>1</sup></a></a></li>
+        <li><a href="#42-修改系统配置文件增大允许打开的文件数sup1suprefer-anchor-1">4.2 修改系统配置文件：增大允许打开的文件数<a href="#refer-anchor-1"><sup>1</sup></a></a></li>
+        <li><a href="#43-检查程序问题">4.3 检查程序问题</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-参考文献">5. 参考文献</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p>本文主要分析了当 linux 系统中出现 too many open files 问题时，我们应该如何去解决这类问题。</p>
+<h2 id="1-带来的问题">1. 带来的问题</h2>
+<p>如果出现 too many open files 会带来什么呢？</p>
+<ul>
+<li>应用程序进程启动不了。</li>
+<li>应用程序进程崩溃。如下图所示，docker 进程崩溃。
+<figure><a class="lightgallery" href="/linux-too-many-open-files/1.png" title="dockerd 进程崩溃" data-thumbnail="/linux-too-many-open-files/1.png" data-sub-html="<h2>dockerd 进程崩溃</h2><p>dockerd 进程崩溃</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="1.png"
+      data-srcset="/linux-too-many-open-files/1.png, 1.png 1.5x, /linux-too-many-open-files/1.png 2x"
+      data-sizes="auto"
+      alt="/linux-too-many-open-files/1.png" />
+  </a><figcaption class="image-caption">dockerd 进程崩溃</figcaption>
+  </figure></li>
+</ul>
+<h2 id="2-产生原因">2. 产生原因</h2>
+<p>too many open files（打开的文件过多）是 Linux 系统中常见的错误，从字面意思上看就是说程序打开的文件数过多，不过这里的 files 不单是文件的意思，也包括打开的通讯链接（比如 socket），正在监听的端口等等，所以有时候也可以叫做句柄（handle），这个错误通常也可以叫做句柄数超出系统限制。
+引起的原因就是进程在某个时刻打开了超过系统限制的文件数量以及通讯链接数，通过命令 ulimit -a 可以查看当前系统设置的最大句柄数是多少。<a
+  href="#refer-anchor-1"
+  
+  
+  
+  
+  
+  
+><sup>1</sup></a></p>
+<h2 id="3-通过命令进行问题分析">3. 通过命令进行问题分析</h2>
+<h3 id="31-查看系统目前允许单个进程打开的最大句柄数">3.1 查看系统目前允许单个进程打开的最大句柄数</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nb">ulimit</span> -a
+</code></pre></td></tr></table>
+</div>
+</div><p><figure><a class="lightgallery" href="/linux-too-many-open-files/2.png" title="ulimit -a 示意图" data-thumbnail="/linux-too-many-open-files/2.png" data-sub-html="<h2>ulimit -a 示意图</h2><p>ulimit -a 示意图</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="2.png"
+      data-srcset="/linux-too-many-open-files/2.png, 2.png 1.5x, /linux-too-many-open-files/2.png 2x"
+      data-sizes="auto"
+      alt="/linux-too-many-open-files/2.png" />
+  </a><figcaption class="image-caption">ulimit -a 示意图</figcaption>
+  </figure></p>
+<p>其中 open files (-n) 65536 表示单个进程最大允许打开的句柄数是 65536。</p>
+<h3 id="32-查看当前进程打开了多少个文件句柄">3.2 查看当前进程打开了多少个文件句柄</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ lsof -n <span class="p">|</span> awk <span class="s1">&#39;{print $2}&#39;</span> <span class="p">|</span> sort <span class="p">|</span> uniq -c <span class="p">|</span> sort -nr <span class="p">|</span> more  
+</code></pre></td></tr></table>
+</div>
+</div><p><figure><a class="lightgallery" href="/linux-too-many-open-files/3.png" title="当前进程打开了多少个文件句柄" data-thumbnail="/linux-too-many-open-files/3.png" data-sub-html="<h2>当前进程打开了多少个文件句柄</h2><p>当前进程打开了多少个文件句柄</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="3.png"
+      data-srcset="/linux-too-many-open-files/3.png, 3.png 1.5x, /linux-too-many-open-files/3.png 2x"
+      data-sizes="auto"
+      alt="/linux-too-many-open-files/3.png" />
+  </a><figcaption class="image-caption">当前进程打开了多少个文件句柄</figcaption>
+  </figure></p>
+<p>图中 3530 表示进程 ID，1804 表示打开文件句柄数。</p>
+<h3 id="33-查看单个进程打开了多少个文件句柄">3.3 查看单个进程打开了多少个文件句柄</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ lsof -n <span class="m">3530</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><figure><a class="lightgallery" href="/linux-too-many-open-files/4.png" title="单个进程打开了哪些文件句柄" data-thumbnail="/linux-too-many-open-files/4.png" data-sub-html="<h2>单个进程打开了哪些文件句柄</h2><p>单个进程打开了哪些文件句柄</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="4.png"
+      data-srcset="/linux-too-many-open-files/4.png, 4.png 1.5x, /linux-too-many-open-files/4.png 2x"
+      data-sizes="auto"
+      alt="/linux-too-many-open-files/4.png" />
+  </a><figcaption class="image-caption">单个进程打开了哪些文件句柄</figcaption>
+  </figure></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ lsof -n <span class="m">3530</span> <span class="p">|</span> wc -l
+</code></pre></td></tr></table>
+</div>
+</div><p><figure><a class="lightgallery" href="/linux-too-many-open-files/5.png" title="单个进程打开了多少个文件句柄" data-thumbnail="/linux-too-many-open-files/5.png" data-sub-html="<h2>单个进程打开了多少个文件句柄</h2><p>单个进程打开了多少个文件句柄</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="5.png"
+      data-srcset="/linux-too-many-open-files/5.png, 5.png 1.5x, /linux-too-many-open-files/5.png 2x"
+      data-sizes="auto"
+      alt="/linux-too-many-open-files/5.png" />
+  </a><figcaption class="image-caption">单个进程打开了多少个文件句柄</figcaption>
+  </figure></p>
+<h2 id="4-解决办法">4. 解决办法</h2>
+<h3 id="41-命令式增大允许打开的文件数sup1suprefer-anchor-1">4.1 命令式：增大允许打开的文件数<a
+  href="#refer-anchor-1"
+  
+  
+  
+  
+  
+  
+><sup>1</sup></a></h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ <span class="nb">ulimit</span> -n <span class="m">2048</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这样就可以把当前用户的最大允许打开文件数量设置为 2048 了，但这种设置方法在<font color=#FF0099><strong>重启后会还原为默认值</strong></font>。</p>
+<p>ulimit -n 命令非 root 用户只能设置到 4096。</p>
+<p>想要设置到 8192 需要 sudo 权限或者 root 用户。</p>
+<h3 id="42-修改系统配置文件增大允许打开的文件数sup1suprefer-anchor-1">4.2 修改系统配置文件：增大允许打开的文件数<a
+  href="#refer-anchor-1"
+  
+  
+  
+  
+  
+  
+><sup>1</sup></a></h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ vim /etc/security/limits.conf
+
+<span class="c1"># 在最后加入</span>
+* soft nofile <span class="m">4096</span>
+* hard nofile <span class="m">4096</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>或者只加入</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">* - nofile <span class="m">8192</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>最前的 * 表示所有用户，可根据需要设置某一用户，例如</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">leslie soft nofile <span class="m">8192</span>
+leslie hard nofile <span class="m">8192</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>注意：nofile 项有两个可能的限制措施。就是项下的 hard和 soft。要使修改过得最大打开文件数生效，必须对这两种限制进行设定。如果使用 - 字符设定, 则 hard 和 soft 设定会同时被设定。</p>
+<h3 id="43-检查程序问题">4.3 检查程序问题</h3>
+<p>如果你对你的程序有一定的解的话，应该对程序打开文件数（链接数）上限有一定的估算，如果感觉数字异常，请使用第一步的 lsof -p 进程id &gt; openfiles.log 命令，获得当前占用句柄的全部详情进行分析。</p>
+<div class="details admonition note open">
+    <div class="details-summary admonition-title">
+      <i class="icon fas fa-pencil-alt fa-fw"></i>分析步骤<i class="details-icon fas fa-angle-right fa-fw"></i>
+    </div>
+    <div class="details-content">
+      <div class="admonition-content"><p>1）打开的这些文件是不是都是必要的？</p>
+<p>2）定位到打开这些文件的代码</p>
+<p>3）是否程序操作了文件写入，但是没有进行正常关闭</p>
+<p>4）是否程序进行了通讯，但是没有正常关闭(也就是没有超时结束的机制)</p>
+</div>
+    </div>
+  </div>
+<p>如果程序中存在这些问题的话，无论系统句柄数设置的多么大，随着时间的推移，也一定会占用完。</p>
+<h2 id="5-参考文献">5. 参考文献</h2>
+<p><a id="chapter-1"></a>
+[1] <a href="https://blog.csdn.net/Roy_70/article/details/78423880">https://blog.csdn.net/Roy_70/article/details/78423880</a>.</p>
+<p>[2] <a href="https://matianxin.github.io/2020/06/01/Linux/TooManyOpenFiles">https://matianxin.github.io/2020/06/01/Linux/TooManyOpenFiles</a>.</p></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title=2022-04-23&#32;10:51:01>更新于 2022-04-23</span>
+      </div>
+      <div class="post-info-license"><span><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+    <div class="post-info-line">
+      <div class="post-info-md"><span>
+              <a class="link-to-markdown" href="/linux-too-many-open-files/index.md" target="_blank">阅读原始文档</a>
+            </span></div>
+      <div class="post-info-share">
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://fixit.lruihao.cn/linux-too-many-open-files/" data-title="如何解决 linux too many open files 问题" data-hashtags="Linux"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://fixit.lruihao.cn/linux-too-many-open-files/" data-hashtag="Linux"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://fixit.lruihao.cn/linux-too-many-open-files/" data-title="如何解决 linux too many open files 问题"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://fixit.lruihao.cn/linux-too-many-open-files/" data-title="如何解决 linux too many open files 问题"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://fixit.lruihao.cn/linux-too-many-open-files/" data-title="如何解决 linux too many open files 问题"><i class="fab fa-weibo fa-fw"></i></a></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/linux/">Linux</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/network-tcpdump-try/" class="prev" rel="prev" title="tcpdump 小试"><i class="fas fa-angle-left fa-fw"></i>tcpdump 小试</a>
+      <a href="/gk-tmp-task-execution/" class="next" rel="next" title="[笔记]技术管理实战 36 讲：任务执行篇">[笔记]技术管理实战 36 讲：任务执行篇<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/Lruihao/FixIt" target="_blank" rel="external nofollow noopener noreffer" title="FixIt 0.2.13"><img class="fixit-icon" src="/images/fixit.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">
+              <a
+  href="https://www.lesliexlxiao.com"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>Leslie</a></span><span class="footer-divider"></span><span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line ibruce">
+          <span id="busuanzi_container_site_uv" title=总访客数
+            ><i class="far fa-user"></i>
+            <span id="busuanzi_value_site_uv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span><span class="site-time footer-divider" title=网站运行中&#32;...
+              ><i class="fas fa-heartbeat animate-icon"></i>
+              <span class="run-times">Loading...</span
+            ></span><span id="busuanzi_container_site_pv" class="footer-divider" title=总访问量
+            ><i class="far fa-eye"></i>
+            <span id="busuanzi_value_site_pv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span>
+        </div></div>
+  </footer></div>
+
+    <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+        <i class="fas fa-arrow-up fa-fw"></i>
+      </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+        <i class="fas fa-comment fa-fw"></i>
+      </a>
+    </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js" defer></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js" defer></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js" async defer></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js" defer></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js" defer></script><script type="text/javascript" src="/lib/sharer/sharer.min.js" async defer></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script type="text/javascript" src="/lib/pangu/pangu.min.js" defer></script><script type="text/javascript" src="/lib/cell-watermark/watermark.min.js" defer></script><script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":100},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePWA":true,"enablePangu":true,"ibruce":{"enable":true,"siteTime":"2021-12-18T16:15:22+08:00"},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"search":{"algoliaAppID":"F9NU6Y7N3C","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b0c935a6f30b83a884c63cb57ec5f455","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"watermark":{"content":"\u003cimg class=\"fixit-icon\" src=\"/images/fixit.svg\" alt=\"FixIt logo\" /\u003e FixIt 主题","enable":true,"height":21,"opacity":0.0125}};</script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript" src="/js/_custom.min.js" defer></script></body>
+</html>

@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <title>Dockerfile 最佳实践（常规指南和建议） - LESLIEXLXIAO&#39;S BLOG</title><meta name="author" content="Leslie: https://www.lesliexlxiao.com">
+<meta name="description" content="本文主要介绍了编写 Dockerfile 时的一些最佳实践，主要包括一些常规指南和建议。 1. 忽略 docker build 构建文件 在 docker build 的过程中，首先会将指定的上下文目录打包传递给 docker 引擎" />
+<meta name="keywords" content="Docker" /><meta itemprop="name" content="Dockerfile 最佳实践（常规指南和建议）">
+<meta itemprop="description" content="本文主要介绍了编写 Dockerfile 时的一些最佳实践，主要包括一些常规指南和建议。 1. 忽略 docker build 构建文件 在 docker build 的过程中，首先会将指定的上下文目录打包传递给 docker 引擎">
+<meta itemprop="datePublished" content="2022-03-24T20:51:01+08:00" />
+<meta itemprop="dateModified" content="2022-03-24T20:51:01+08:00" />
+<meta itemprop="wordCount" content="2261">
+<meta itemprop="image" content="https://fixit.lruihao.cn/logo.png"/>
+
+
+
+<meta itemprop="keywords" content="Docker," />
+<meta property="og:title" content="Dockerfile 最佳实践（常规指南和建议）" />
+<meta property="og:description" content="本文主要介绍了编写 Dockerfile 时的一些最佳实践，主要包括一些常规指南和建议。 1. 忽略 docker build 构建文件 在 docker build 的过程中，首先会将指定的上下文目录打包传递给 docker 引擎" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fixit.lruihao.cn/docker-dockerfile-bp1/" />
+<meta property="og:image" content="https://fixit.lruihao.cn/logo.png"/>
+<meta property="article:published_time" content="2022-03-24T20:51:01+08:00" />
+<meta property="article:modified_time" content="2022-03-24T20:51:01+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://fixit.lruihao.cn/logo.png"/>
+
+<meta name="twitter:title" content="Dockerfile 最佳实践（常规指南和建议）"/>
+<meta name="twitter:description" content="本文主要介绍了编写 Dockerfile 时的一些最佳实践，主要包括一些常规指南和建议。 1. 忽略 docker build 构建文件 在 docker build 的过程中，首先会将指定的上下文目录打包传递给 docker 引擎"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#252627"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://fixit.lruihao.cn/docker-dockerfile-bp1/" /><link rel="prev" href="https://fixit.lruihao.cn/design-pattern-singleton/" /><link rel="next" href="https://fixit.lruihao.cn/docker-dockerfile-bp2/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Dockerfile 最佳实践（常规指南和建议）",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/fixit.lruihao.cn\/docker-dockerfile-bp1\/"
+    },"image": ["https:\/\/fixit.lruihao.cn\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Docker","wordcount":  2261 ,
+    "url": "https:\/\/fixit.lruihao.cn\/docker-dockerfile-bp1\/","datePublished": "2022-03-24T20:51:01+08:00","dateModified": "2022-03-24T20:51:01+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+      "@type": "Organization",
+      "name": "Lruihao","logo": "https:\/\/fixit.lruihao.cn\/images\/avatar.png"},"author": {
+        "@type": "Person",
+        "name": "Leslie"
+      },"description": ""
+  }
+  </script></head>
+  <body header-desktop="sticky" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+    <div class="menu">
+      <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/friends/" title="友情链接"> 友链 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+            <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/docker-dockerfile-bp1/" selected>简体中文</option></select>
+          </a><span class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+          <i class="fas fa-adjust fa-fw"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</header><header class="mobile" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="menu" id="menu-mobile"><div class="search-wrapper">
+          <div class="search mobile" id="search-mobile">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-mobile">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </div>
+          <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+            取消
+          </a>
+        </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/friends/" title="友情链接">友链</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+        <i class="fas fa-adjust fa-fw"></i>
+      </a><a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+          <select class="language-select" onchange="location = this.value;"><option value="/docker-dockerfile-bp1/" selected>简体中文</option></select>
+        </a></div>
+  </div>
+</header>
+<div class="search-dropdown desktop">
+  <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+  <div id="search-dropdown-mobile"></div>
+</div>
+<main class="container" page-style="normal"><aside class="toc" id="toc-auto"><h2 class="toc-title">目录</h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    
+  </aside>
+
+  <article class="page single"><h1 class="single-title animate__animated animate__flipInX">Dockerfile 最佳实践（常规指南和建议）</h1><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a
+  href="https://www.lesliexlxiao.com"
+  
+    title="Author"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer author"
+  
+  
+  
+    class="author"
+  
+  
+><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/docker/"><i class="far fa-folder fa-fw"></i>Docker</a></span></div>
+      <div class="post-meta-line"><span title=2022-03-24&#32;20:51:01>
+            <i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-03-24" >2022-03-24</time>
+          </span>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2261 字&nbsp;
+        <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+    </div><div class="details toc" id="toc-static" kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fas fa-angle-right"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-忽略-docker-build-构建文件">1. 忽略 docker build 构建文件</a></li>
+    <li><a href="#2-使用多阶段构建">2. 使用多阶段构建</a></li>
+    <li><a href="#3-避免安装不必要的包">3. 避免安装不必要的包</a></li>
+    <li><a href="#4-一个容器只运行一个进程">4. 一个容器只运行一个进程</a></li>
+    <li><a href="#5-镜像层数尽可能少">5. 镜像层数尽可能少</a></li>
+    <li><a href="#6-将多行参数排序">6. 将多行参数排序</a></li>
+    <li><a href="#7-清除缓存的包">7. 清除缓存的包</a></li>
+    <li><a href="#8-充分利用构建缓存">8. 充分利用构建缓存</a></li>
+    <li><a href="#9-参考文献">9. 参考文献</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p>本文主要介绍了编写 Dockerfile 时的一些最佳实践，主要包括一些常规指南和建议。</p>
+<h2 id="1-忽略-docker-build-构建文件">1. 忽略 docker build 构建文件</h2>
+<p>在 docker build 的过程中，首先会将指定的上下文目录打包传递给 <font color=FF0099><strong>docker 引擎</strong></font>，而这个上下文目录中可能并<font color=FF0099><strong>不是所有的文件</strong></font>我们都会在 Dockerfile 中使用到，那么这个时候就可以在 <font color=FF0099><strong>.dockerignore</strong></font> 文件中指定在传递给 <font color=FF0099><strong>docker 引擎</strong></font>时需要忽略掉的文件或文件夹。</p>
+<p>.dockerignore 使用方法和 Git 的 .gitignore 使用方法相似。</p>
+<h2 id="2-使用多阶段构建">2. 使用多阶段构建</h2>
+<p><font color=FF0099><strong>Docker 17.05 以上的版本</strong></font>支持多阶段构建。</p>
+<p>多阶段构建能够有效减少构建镜像的大小。</p>
+<p>关于多阶段构建的优势可以参考：
+<a href="https://www.lesliexlxiao.com/2019/03/28/docker/multi-stage-build/" target="_blank">
+Docker 多阶段构建</a>。</p>
+<h2 id="3-避免安装不必要的包">3. 避免安装不必要的包</h2>
+<p>安装不必要的包会带来以下问题：</p>
+<ul>
+<li>
+<p>增加了构建镜像的时间。</p>
+</li>
+<li>
+<p>构建出的镜像会变得比较臃肿。</p>
+</li>
+</ul>
+<h2 id="4-一个容器只运行一个进程">4. 一个容器只运行一个进程</h2>
+<p>确保一个容器只运行一个进程。<font color=FF0099><strong>将多个应用解耦到不同的容器中，</strong></font>这样能够确保容器的横向扩展和复用。例如可以将一个 WEB 应用拆分为三个容器：WEB 应用
+、数据库、缓存。</p>
+<p>如果不拆分为三个容器，会带来什么问题。请看下图，横向扩展之后，数据库和缓存均被扩展为了多份，这是不合理的。</p>
+<p><figure><a class="lightgallery" href="/docker-dockerfile-bp1/1.png" title="容器不拆分" data-thumbnail="/docker-dockerfile-bp1/1.png" data-sub-html="<h2>容器不拆分</h2><p>容器不拆分</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="1.png"
+      data-srcset="/docker-dockerfile-bp1/1.png, 1.png 1.5x, /docker-dockerfile-bp1/1.png 2x"
+      data-sizes="auto"
+      alt="/docker-dockerfile-bp1/1.png" />
+  </a><figcaption class="image-caption">容器不拆分</figcaption>
+  </figure></p>
+<p>如果拆分为三个容器，那么扩展 WEB 应用，就会变得方便许多。如下图所示：</p>
+<p><figure><a class="lightgallery" href="/docker-dockerfile-bp1/2.png" title="容器拆分" data-thumbnail="/docker-dockerfile-bp1/2.png" data-sub-html="<h2>容器拆分</h2><p>容器拆分</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="2.png"
+      data-srcset="/docker-dockerfile-bp1/2.png, 2.png 1.5x, /docker-dockerfile-bp1/2.png 2x"
+      data-sizes="auto"
+      alt="/docker-dockerfile-bp1/2.png" />
+  </a><figcaption class="image-caption">容器拆分</figcaption>
+  </figure></p>
+<h2 id="5-镜像层数尽可能少">5. 镜像层数尽可能少</h2>
+<p>需要在 Dockerfile 可读性、长期可维护性和减少层数之间<font color=FF0099><strong>做一个平衡。</strong></font></p>
+<p>如果一味的为了可读性而不加控制的增加镜像层数，最后会导致镜像层级增多，<font color=FF0099><strong>镜像的构建速度会变得很慢。</strong></font></p>
+<p>如果一味的为了减少镜像层数，而将多个操作放置到镜像某一层去做，这样 <font color=FF0099><strong>Dockerfile 的可读性会变得很差</strong></font>，导致后期无法维护。</p>
+<h2 id="6-将多行参数排序">6. 将多行参数排序</h2>
+<p><font color=FF0099><strong>多行参数按字母顺序排序，</strong></font>可以避免重复包含同一个包，更新包列表时也更容易。<font color=FF0099><strong>反斜杠符号 \ 之前添加一个空格，</strong></font>以增加可读性。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="k">RUN</span> apt-get update <span class="o">&amp;&amp;</span> apt-get install -y <span class="se">\
+</span><span class="se"></span>  <span class="nv">curl</span><span class="o">=</span>7.47.0-1ubuntu2.11 <span class="se">\
+</span><span class="se"></span>  openssh-client<span class="o">=</span>1:7.2p2-4ubuntu2.6 <span class="se">\
+</span><span class="se"></span>  openssh-server<span class="o">=</span>1:7.2p2-4ubuntu2.6 <span class="se">\
+</span><span class="se"></span>  <span class="nv">sudo</span><span class="o">=</span>1.8.16-0ubuntu1.5 <span class="se">\
+</span><span class="se"></span>  <span class="nv">telnet</span><span class="o">=</span>0.17-40<span class="err">
+</span></code></pre></td></tr></table>
+</div>
+</div><h2 id="7-清除缓存的包">7. 清除缓存的包</h2>
+<p>缓存的包往往会增加镜像的体积，这样就会<font color=FF0099><strong>导致镜像下载速度变慢</strong></font>。对于无用的缓存，应当及时清理。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="k">RUN</span> apt-get update <span class="o">&amp;&amp;</span> apt-get install -y <span class="se">\
+</span><span class="se"></span>  <span class="nv">curl</span><span class="o">=</span>7.47.0-1ubuntu2.11 <span class="se">\
+</span><span class="se"></span>  openssh-client<span class="o">=</span>1:7.2p2-4ubuntu2.6 <span class="se">\
+</span><span class="se"></span>  openssh-server<span class="o">=</span>1:7.2p2-4ubuntu2.6 <span class="se">\
+</span><span class="se"></span>  <span class="nv">sudo</span><span class="o">=</span>1.8.16-0ubuntu1.5 <span class="se">\
+</span><span class="se"></span>  <span class="nv">telnet</span><span class="o">=</span>0.17-40 <span class="o">&amp;&amp;</span> <span class="se">\
+</span><span class="se"></span>  apt-get clean<span class="err">
+</span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>如上，apt-get clean 用于清除已缓存的包文件。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="k">RUN</span> yum install -y net-tools-2.0 <span class="se">\
+</span><span class="se"></span>  vim-enhanced-7.4.160 <span class="o">&amp;&amp;</span> <span class="se">\
+</span><span class="se"></span>  yum clean all<span class="err">
+</span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>如上，yum clean all 用于清除 yum 缓存。</li>
+</ul>
+<p><font color=FF0099><strong>安装包时，带上版本号，确保重新构建镜像时，构建出的镜像是一致的。</strong></font></p>
+<h2 id="8-充分利用构建缓存">8. 充分利用构建缓存</h2>
+<p>Docker 在执行每条 Dockerfile 指令之前，都会在缓存中查找是否已经存在可重复的镜像，如果有，将不再重复创建。</p>
+<p>缓存的匹配规则：从基础镜像开始，下一条指令将和该基础镜像的所有子镜像进行匹配，检查这些子镜像被创建时使用的指令是否和被检查的指令完全一样。如果不是，则缓存失效。</p>
+<p>示例如下：</p>
+<p>第一步，初始 Dockerfile 文件如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="k">FROM</span><span class="s"> centos</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> <span class="nb">echo</span> hello1<span class="err">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>第二步，构建镜像：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ docker build . -t centos-hello1
+
+----------output----------
+Step 1/2 : FROM centos
+---&gt; 9f38484d220f
+Step 2/2 : RUN <span class="nb">echo</span> hello1
+---&gt; Running in 7285c267446d
+hello1
+Removing intermediate container 7285c267446d
+---&gt; d5e9279556bb
+Successfully built d5e9279556bb
+Successfully tagged centos-hello1:latest
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>这一步构建出了镜像 d5e9279556bb。</li>
+</ul>
+<p>第三步，修改 Dockerfile 文件如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="k">FROM</span><span class="s"> centos</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> <span class="nb">echo</span> hello1<span class="err">
+</span><span class="err"></span><span class="k">RUN</span> <span class="nb">echo</span> hello2<span class="err">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>第四步，构建镜像：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ docker build . -t centos-hello2
+
+----------output----------
+Step 1/3 : FROM centos
+---&gt; 9f38484d220f
+Step 2/3 : RUN <span class="nb">echo</span> hello1
+---&gt; Using cache
+---&gt; d5e9279556bb
+Step 3/3 : RUN <span class="nb">echo</span> hello2
+---&gt; Running in 10952b8314a7
+hello2
+Removing intermediate container 10952b8314a7
+---&gt; <span class="m">129609739368</span>
+Successfully built <span class="m">129609739368</span>
+Successfully tagged centos-hello2:latest
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>这一步构建镜像的时候<font color=FF0099><strong>使用了第二步构建的缓存镜像 d5e9279556bb（Using cache）</strong></font>，构建镜像速度较快。</li>
+</ul>
+<p>第五步，不使用缓存构建：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ docker build . -t cenots-hello2-noused-cache --no-cache<span class="o">=</span><span class="nb">true</span>
+
+----------output----------
+Sending build context to Docker daemon  3.072kB
+Step 1/3 : FROM centos
+---&gt; 9f38484d220f
+Step 2/3 : RUN <span class="nb">echo</span> hello1
+---&gt; Running in c6c5e8d663d4
+hello1
+Removing intermediate container c6c5e8d663d4
+---&gt; 45f6aa55ff9f
+Step 3/3 : RUN <span class="nb">echo</span> hello2
+---&gt; Running in 83e31be999b8
+hello2
+Removing intermediate container 83e31be999b8
+---&gt; 86dd37807f27
+Successfully built 86dd37807f27
+Successfully tagged cenots-hello2-noused-cache:latest
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>这一步使用<font color=FF0099><strong>参数 &ndash;no-cache=true，构建镜像时不使用缓存，从而导致构建镜像的速度变慢。</strong></font></li>
+</ul>
+<p>第六步，修改 Dockerfile 文件如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="k">FROM</span><span class="s"> centos</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> <span class="nb">echo</span> hello0<span class="err">
+</span><span class="err"></span><span class="k">RUN</span> <span class="nb">echo</span> hello1<span class="err">
+</span><span class="err"></span><span class="k">RUN</span> <span class="nb">echo</span> hello2<span class="err">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>第七步，构建镜像：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ docker build . -t centos-hello0-before-hello1
+
+----------output----------
+Sending build context to Docker daemon  3.072kB
+Step 1/4 : FROM centos
+---&gt; 9f38484d220f
+Step 2/4 : RUN <span class="nb">echo</span> hello0
+---&gt; Running in 584ea98c1a66
+hello0
+Removing intermediate container 584ea98c1a66
+---&gt; be2bf7b8e6c6
+Step 3/4 : RUN <span class="nb">echo</span> hello1
+---&gt; Running in 26583e38906e
+hello1
+Removing intermediate container 26583e38906e
+---&gt; 57f389ce65dd
+Step 4/4 : RUN <span class="nb">echo</span> hello2
+---&gt; Running in 7a76cd08163b
+hello2
+Removing intermediate container 7a76cd08163b
+---&gt; e9d340a31150
+Successfully built e9d340a31150
+Successfully tagged centos-hello0-before-hello1:latest
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>由于 Dockerfile 在 echo hello1 之前插入了 echo hello0，故在构建镜像时，<font color=FF0099><strong>发现 centos 的所有子镜像被创建时使用的指令没有和当前指令一样的，从而导致缓存失效。</strong></font></li>
+</ul>
+<p>第八步，修改 Dockerfile 文件如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Dockerfile" data-lang="Dockerfile"><span class="k">FROM</span><span class="s"> centos</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> <span class="nb">echo</span> hello0<span class="err">
+</span><span class="err"></span><span class="k">RUN</span> <span class="nb">echo</span> hello11<span class="err">
+</span><span class="err"></span><span class="k">RUN</span> <span class="nb">echo</span> hello2<span class="err">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>第九步，构建镜像：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ docker build . -t centos-hello11
+
+----------output----------
+Step 1/4 : FROM centos
+---&gt; 9f38484d220f
+Step 2/4 : RUN <span class="nb">echo</span> hello0
+---&gt; Using cache
+---&gt; be2bf7b8e6c6
+Step 3/4 : RUN <span class="nb">echo</span> hello11
+---&gt; Running in b401f45f6b69
+hello11
+Removing intermediate container b401f45f6b69
+---&gt; 60c181ac30e1
+Step 4/4 : RUN <span class="nb">echo</span> hello2
+---&gt; Running in 79539b71f803
+hello2
+Removing intermediate container 79539b71f803
+---&gt; eb22881533b5
+Successfully built eb22881533b5
+Successfully tagged centos-hello-test:latest
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>
+<p>可以看到 Step 2/4：RUN echo hello0 仍然使用了镜像 be2bf7b8e6c6，这时因为在第七步中，生成了子镜像 be2bf7b8e6c6。<font color=FF0099><strong>其实每执行完一条 Dockerfile 指令，都会生成一个中间层镜像。</strong></font></p>
+</li>
+<li>
+<p>具体查看这种中间层镜像的方式如下：</p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ docker images -a <span class="p">|</span> grep be2bf7b8e6c6
+
+----------output----------
+&lt;none&gt;         &lt;none&gt;              be2bf7b8e6c6        <span class="m">14</span> minutes ago       202MB
+</code></pre></td></tr></table>
+</div>
+</div><p>在大多数情况下，只需要简单地对比 Dockerfile 中的指令和子镜像。然而，有些指令需要更多的检查和解释。</p>
+<p><font color=FF0099><strong>对于 ADD 和 COPY 指令，镜像中对应文件的内容也会被检查，每个文件都会计算出一个校验和</strong></font>。文件的最后修改时间和最后访问时间不会纳入校验。在缓存的查找过程中， 会将这些校验和和已存在镜像中的文件校验和进行对比。如果文件有任何改变，比如内容和元数据，则缓存失效。</p>
+<p>除了 ADD 和 COPY 指令，缓存匹配过程不会查看临时容器中的文件来决定缓存是否匹配。例如，当执行完 RUN apt-get -y update 指令后，容器中一些文件被更新，但 Docker 不会检查这些文件。<font color=FF0099><strong>这种情况下，只有指令字符串本身被用来匹配缓存。</strong></font></p>
+<p>一旦缓存失效，所有后续的 Dockerfile 指令都将产生新的镜像，缓存不会被使用。</p>
+<p><font color=FF0099><strong>综上，我们应该将经常变动的镜像层级放到 Dockerfile 文件的后面，这样才不会导致构建镜像时缓存经常失效，从而提高镜像构建速度。</strong></font></p>
+<h2 id="9-参考文献">9. 参考文献</h2>
+<p>[1] yeasy.Docker 从入门到实践[M]:367-368.</p>
+<p>[2] 廖煜,晏东.Docker 容器实战[M].北京:电子工业出版社,2016:181-183.</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title=2022-03-24&#32;20:51:01>更新于 2022-03-24</span>
+      </div>
+      <div class="post-info-license"><span><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+    <div class="post-info-line">
+      <div class="post-info-md"><span>
+              <a class="link-to-markdown" href="/docker-dockerfile-bp1/index.md" target="_blank">阅读原始文档</a>
+            </span></div>
+      <div class="post-info-share">
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://fixit.lruihao.cn/docker-dockerfile-bp1/" data-title="Dockerfile 最佳实践（常规指南和建议）" data-hashtags="Docker"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://fixit.lruihao.cn/docker-dockerfile-bp1/" data-hashtag="Docker"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://fixit.lruihao.cn/docker-dockerfile-bp1/" data-title="Dockerfile 最佳实践（常规指南和建议）"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://fixit.lruihao.cn/docker-dockerfile-bp1/" data-title="Dockerfile 最佳实践（常规指南和建议）"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://fixit.lruihao.cn/docker-dockerfile-bp1/" data-title="Dockerfile 最佳实践（常规指南和建议）"><i class="fab fa-weibo fa-fw"></i></a></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/docker/">Docker</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/design-pattern-singleton/" class="prev" rel="prev" title="设计模式系列（一）：单例模式"><i class="fas fa-angle-left fa-fw"></i>设计模式系列（一）：单例模式</a>
+      <a href="/docker-dockerfile-bp2/" class="next" rel="next" title="Dockerfile 最佳实践（指令相关）">Dockerfile 最佳实践（指令相关）<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/Lruihao/FixIt" target="_blank" rel="external nofollow noopener noreffer" title="FixIt 0.2.13"><img class="fixit-icon" src="/images/fixit.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">
+              <a
+  href="https://www.lesliexlxiao.com"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>Leslie</a></span><span class="footer-divider"></span><span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line ibruce">
+          <span id="busuanzi_container_site_uv" title=总访客数
+            ><i class="far fa-user"></i>
+            <span id="busuanzi_value_site_uv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span><span class="site-time footer-divider" title=网站运行中&#32;...
+              ><i class="fas fa-heartbeat animate-icon"></i>
+              <span class="run-times">Loading...</span
+            ></span><span id="busuanzi_container_site_pv" class="footer-divider" title=总访问量
+            ><i class="far fa-eye"></i>
+            <span id="busuanzi_value_site_pv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span>
+        </div></div>
+  </footer></div>
+
+    <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+        <i class="fas fa-arrow-up fa-fw"></i>
+      </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+        <i class="fas fa-comment fa-fw"></i>
+      </a>
+    </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js" defer></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js" defer></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js" async defer></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js" defer></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js" defer></script><script type="text/javascript" src="/lib/sharer/sharer.min.js" async defer></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script type="text/javascript" src="/lib/pangu/pangu.min.js" defer></script><script type="text/javascript" src="/lib/cell-watermark/watermark.min.js" defer></script><script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":100},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePWA":true,"enablePangu":true,"ibruce":{"enable":true,"siteTime":"2021-12-18T16:15:22+08:00"},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"search":{"algoliaAppID":"F9NU6Y7N3C","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b0c935a6f30b83a884c63cb57ec5f455","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"watermark":{"content":"\u003cimg class=\"fixit-icon\" src=\"/images/fixit.svg\" alt=\"FixIt logo\" /\u003e FixIt 主题","enable":true,"height":21,"opacity":0.0125}};</script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript" src="/js/_custom.min.js" defer></script></body>
+</html>

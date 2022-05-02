@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <title>Windows 环境下如何添加 jenkins-slave 节点 - LESLIEXLXIAO&#39;S BLOG</title><meta name="author" content="Leslie: https://www.lesliexlxiao.com">
+<meta name="description" content="本文主要介绍了 Windows 环境下如何添加 jenkins-slave 节点，以及安装过程中一些常见问题如何解决。" />
+<meta name="keywords" content="Jenkins" /><meta itemprop="name" content="Windows 环境下如何添加 jenkins-slave 节点">
+<meta itemprop="description" content="本文主要介绍了 Windows 环境下如何添加 jenkins-slave 节点，以及安装过程中一些常见问题如何解决。">
+<meta itemprop="datePublished" content="2019-05-30T18:51:01+08:00" />
+<meta itemprop="dateModified" content="2022-04-27T18:51:01+08:00" />
+<meta itemprop="wordCount" content="2032">
+<meta itemprop="image" content="https://fixit.lruihao.cn/logo.png"/>
+
+
+
+<meta itemprop="keywords" content="Jenkins," />
+<meta property="og:title" content="Windows 环境下如何添加 jenkins-slave 节点" />
+<meta property="og:description" content="本文主要介绍了 Windows 环境下如何添加 jenkins-slave 节点，以及安装过程中一些常见问题如何解决。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fixit.lruihao.cn/jenkins-install-windows-slave/" />
+<meta property="og:image" content="https://fixit.lruihao.cn/logo.png"/>
+<meta property="article:published_time" content="2019-05-30T18:51:01+08:00" />
+<meta property="article:modified_time" content="2022-04-27T18:51:01+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://fixit.lruihao.cn/logo.png"/>
+
+<meta name="twitter:title" content="Windows 环境下如何添加 jenkins-slave 节点"/>
+<meta name="twitter:description" content="本文主要介绍了 Windows 环境下如何添加 jenkins-slave 节点，以及安装过程中一些常见问题如何解决。"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#252627"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://fixit.lruihao.cn/jenkins-install-windows-slave/" /><link rel="prev" href="https://fixit.lruihao.cn/gk-tmp-technical-decision/" /><link rel="next" href="https://fixit.lruihao.cn/jenkins-enlightenment/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Windows 环境下如何添加 jenkins-slave 节点",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/fixit.lruihao.cn\/jenkins-install-windows-slave\/"
+    },"image": ["https:\/\/fixit.lruihao.cn\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Jenkins","wordcount":  2032 ,
+    "url": "https:\/\/fixit.lruihao.cn\/jenkins-install-windows-slave\/","datePublished": "2019-05-30T18:51:01+08:00","dateModified": "2022-04-27T18:51:01+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+      "@type": "Organization",
+      "name": "Lruihao","logo": "https:\/\/fixit.lruihao.cn\/images\/avatar.png"},"author": {
+        "@type": "Person",
+        "name": "Leslie"
+      },"description": ""
+  }
+  </script></head>
+  <body header-desktop="sticky" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+    <div class="menu">
+      <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/friends/" title="友情链接"> 友链 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+            <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/jenkins-install-windows-slave/" selected>简体中文</option></select>
+          </a><span class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+          <i class="fas fa-adjust fa-fw"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</header><header class="mobile" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="menu" id="menu-mobile"><div class="search-wrapper">
+          <div class="search mobile" id="search-mobile">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-mobile">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </div>
+          <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+            取消
+          </a>
+        </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/friends/" title="友情链接">友链</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+        <i class="fas fa-adjust fa-fw"></i>
+      </a><a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+          <select class="language-select" onchange="location = this.value;"><option value="/jenkins-install-windows-slave/" selected>简体中文</option></select>
+        </a></div>
+  </div>
+</header>
+<div class="search-dropdown desktop">
+  <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+  <div id="search-dropdown-mobile"></div>
+</div>
+<main class="container" page-style="normal"><aside class="toc" id="toc-auto"><h2 class="toc-title">目录</h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    
+  </aside>
+
+  <article class="page single"><h1 class="single-title animate__animated animate__flipInX">Windows 环境下如何添加 jenkins-slave 节点</h1><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a
+  href="https://www.lesliexlxiao.com"
+  
+    title="Author"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer author"
+  
+  
+  
+    class="author"
+  
+  
+><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/jenkins/"><i class="far fa-folder fa-fw"></i>Jenkins</a></span></div>
+      <div class="post-meta-line"><span title=2019-05-30&#32;18:51:01>
+            <i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-05-30" >2019-05-30</time>
+          </span>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2032 字&nbsp;
+        <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+    </div><div class="details toc" id="toc-static" kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fas fa-angle-right"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-实验环境">1. 实验环境</a></li>
+    <li><a href="#2-预装软件">2. 预装软件</a>
+      <ul>
+        <li><a href="#21-jdk-安装">2.1 JDK 安装</a></li>
+        <li><a href="#22-ruby-安装">2.2 Ruby 安装</a></li>
+        <li><a href="#23-git-安装">2.3 Git 安装</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-添加-slave-节点">3. 添加 slave 节点</a>
+      <ul>
+        <li><a href="#31-主节点添加-slave-节点">3.1 主节点添加 slave 节点</a></li>
+        <li><a href="#32-安装-jenkins-slave-服务">3.2 安装 jenkins-slave 服务</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-常见问题">4. 常见问题</a>
+      <ul>
+        <li><a href="#41-cannot-run-program-nohup">4.1 Cannot run program &ldquo;nohup&rdquo;</a></li>
+        <li><a href="#42-could-not-read-from-remote-repository">4.2 Could not read from remote repository</a></li>
+        <li><a href="#43-bundlersetup-loaderror">4.3 bundler/setup LoadError</a></li>
+        <li><a href="#44-构建日志乱码">4.4 构建日志乱码</a></li>
+        <li><a href="#45-将-jenkins-slave-服务安装成-windows-service-报错">4.5 将 jenkins-slave 服务安装成 Windows Service 报错</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p>本文主要介绍了 Windows 环境下如何添加 jenkins-slave 节点，以及安装过程中一些常见问题如何解决。</p>
+<h2 id="1-实验环境">1. 实验环境</h2>
+<p>本次实验采用服务器为 Windows Server 2012。</p>
+<p>实验中安装软件的版本均为本次实验采用的版本。</p>
+<h2 id="2-预装软件">2. 预装软件</h2>
+<h3 id="21-jdk-安装">2.1 JDK 安装</h3>
+<p>作用：jenkins-slave 服务启动依赖于 JDK。</p>
+<p>下载：<a
+  href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>下载地址</a>。</p>
+<p>安装：按照下图连续点击下一步即可。</p>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/01.png" title="JDK 安装" data-thumbnail="/jenkins-install-windows-slave/01.png" data-sub-html="<h2>JDK 安装</h2><p>JDK 安装</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="01.png"
+      data-srcset="/jenkins-install-windows-slave/01.png, 01.png 1.5x, /jenkins-install-windows-slave/01.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/01.png" />
+  </a><figcaption class="image-caption">JDK 安装</figcaption>
+  </figure></p>
+<p>验证：打开 Windows PowerShell，输入如下命令进行验证：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">C:<span class="se">\U</span>sers<span class="se">\x</span>lxiao&gt; java -version
+
+----------output----------
+java version <span class="s2">&#34;1.8.0_181&#34;</span>
+Java<span class="o">(</span>TM<span class="o">)</span> SE Runtime Environment <span class="o">(</span>build 1.8.0_181-b13<span class="o">)</span>
+Java HotSpot<span class="o">(</span>TM<span class="o">)</span> 64-Bit Server VM <span class="o">(</span>build 25.181-b13, mixed mode<span class="o">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="22-ruby-安装">2.2 Ruby 安装</h3>
+<p>安装版本：ruby2.3.3。</p>
+<p>作用：如果执行 jenkins 任务使用的脚本语言是 Ruby 编写，则需要安装 Ruby。</p>
+<p>下载：<a
+  href="https://rubyinstaller.org/downloads/"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>下载地址</a>。</p>
+<p>安装：按照下图连续点击下一步即可。</p>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/02.png" title="Ruby 安装" data-thumbnail="/jenkins-install-windows-slave/02.png" data-sub-html="<h2>Ruby 安装</h2><p>Ruby 安装</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="02.png"
+      data-srcset="/jenkins-install-windows-slave/02.png, 02.png 1.5x, /jenkins-install-windows-slave/02.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/02.png" />
+  </a><figcaption class="image-caption">Ruby 安装</figcaption>
+  </figure></p>
+<p>验证：打开 Windows PowerShell，输入如下命令进行验证：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">C:<span class="se">\U</span>sers<span class="se">\x</span>lxiao&gt; ruby -v
+
+----------output----------
+ruby 2.3.3p222 <span class="o">(</span>2016-11-21 revision 56859<span class="o">)</span> <span class="o">[</span>x64-mingw32<span class="o">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="23-git-安装">2.3 Git 安装</h3>
+<p>作用：构建任务的脚本语言中如果使用 Git 下载代码，则需要安装 Git。</p>
+<p>下载地址：<a href><a href="https://git-scm.com/download/win">https://git-scm.com/download/win</a></a>。</p>
+<p>安装：按照下图连续点击下一步即可。</p>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/03.png" title="Git 安装" data-thumbnail="/jenkins-install-windows-slave/03.png" data-sub-html="<h2>Git 安装</h2><p>Git 安装</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="03.png"
+      data-srcset="/jenkins-install-windows-slave/03.png, 03.png 1.5x, /jenkins-install-windows-slave/03.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/03.png" />
+  </a><figcaption class="image-caption">Git 安装</figcaption>
+  </figure></p>
+<p>验证：打开 Windows PowerShell，输入如下命令进行验证：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">C:<span class="se">\U</span>sers<span class="se">\x</span>lxiao&gt; git version
+
+----------output----------
+git version 2.21.0.windows.1
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="3-添加-slave-节点">3. 添加 slave 节点</h2>
+<h3 id="31-主节点添加-slave-节点">3.1 主节点添加 slave 节点</h3>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/04.png" title="主节点添加 slave 节点步骤 1" data-thumbnail="/jenkins-install-windows-slave/04.png" data-sub-html="<h2>主节点添加 slave 节点步骤 1</h2><p>主节点添加 slave 节点步骤 1</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="04.png"
+      data-srcset="/jenkins-install-windows-slave/04.png, 04.png 1.5x, /jenkins-install-windows-slave/04.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/04.png" />
+  </a><figcaption class="image-caption">主节点添加 slave 节点步骤 1</figcaption>
+  </figure></p>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/05.png" title="主节点添加 slave 节点步骤 2" data-thumbnail="/jenkins-install-windows-slave/05.png" data-sub-html="<h2>主节点添加 slave 节点步骤 2</h2><p>主节点添加 slave 节点步骤 2</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="05.png"
+      data-srcset="/jenkins-install-windows-slave/05.png, 05.png 1.5x, /jenkins-install-windows-slave/05.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/05.png" />
+  </a><figcaption class="image-caption">主节点添加 slave 节点步骤 2</figcaption>
+  </figure></p>
+<h3 id="32-安装-jenkins-slave-服务">3.2 安装 jenkins-slave 服务</h3>
+<p>进入页面 <a href>http://192.168.2.1:8080/</a>，点击如下刚刚配置的未在线 windows-192-168-2-2。</p>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/06.png" title="未在线 windows-192-168-2-2" data-thumbnail="/jenkins-install-windows-slave/06.png" data-sub-html="<h2>未在线 windows-192-168-2-2</h2><p>未在线 windows-192-168-2-2</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="06.png"
+      data-srcset="/jenkins-install-windows-slave/06.png, 06.png 1.5x, /jenkins-install-windows-slave/06.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/06.png" />
+  </a><figcaption class="image-caption">未在线 windows-192-168-2-2</figcaption>
+  </figure></p>
+<p>进入 <a href>http://192.168.2.1:8080/computer/windows-192-168-2-2/</a>，点击 Launch 进行安装。</p>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/07.png" title="安装 slave" data-thumbnail="/jenkins-install-windows-slave/07.png" data-sub-html="<h2>安装 slave</h2><p>安装 slave</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="07.png"
+      data-srcset="/jenkins-install-windows-slave/07.png, 07.png 1.5x, /jenkins-install-windows-slave/07.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/07.png" />
+  </a><figcaption class="image-caption">安装 slave</figcaption>
+  </figure></p>
+<p>安装为 windows service。</p>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/08.png" title="安装为 windows service" data-thumbnail="/jenkins-install-windows-slave/08.png" data-sub-html="<h2>安装为 windows service</h2><p>安装为 windows service</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="08.png"
+      data-srcset="/jenkins-install-windows-slave/08.png, 08.png 1.5x, /jenkins-install-windows-slave/08.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/08.png" />
+  </a><figcaption class="image-caption">安装为 windows service</figcaption>
+  </figure></p>
+<p>查看 jenkins-slave 服务，打开任务管理器，查看服务。</p>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/09.png" title="任务管理器 jenkins-slave 服务" data-thumbnail="/jenkins-install-windows-slave/09.png" data-sub-html="<h2>任务管理器 jenkins-slave 服务</h2><p>任务管理器 jenkins-slave 服务</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="09.png"
+      data-srcset="/jenkins-install-windows-slave/09.png, 09.png 1.5x, /jenkins-install-windows-slave/09.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/09.png" />
+  </a><figcaption class="image-caption">任务管理器 jenkins-slave 服务</figcaption>
+  </figure></p>
+<h2 id="4-常见问题">4. 常见问题</h2>
+<h3 id="41-cannot-run-program-nohup">4.1 Cannot run program &ldquo;nohup&rdquo;</h3>
+<p>报错信息：java.io.IOException: Cannot run program &ldquo;nohup&rdquo;。</p>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/10.png" title="Cannot run program &amp;ldquo;nohup&amp;rdquo;" data-thumbnail="/jenkins-install-windows-slave/10.png" data-sub-html="<h2>Cannot run program nohup</h2><p>Cannot run program &amp;ldquo;nohup&amp;rdquo;</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="10.png"
+      data-srcset="/jenkins-install-windows-slave/10.png, 10.png 1.5x, /jenkins-install-windows-slave/10.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/10.png" />
+  </a><figcaption class="image-caption">Cannot run program nohup</figcaption>
+  </figure></p>
+<p>报错原因：因为系统没法找到 nohup 执行程序。</p>
+<p>解决方案：</p>
+<ul>
+<li>将 <font color=FF0099><strong>C:\Program Files\Git\usr\bin</strong></font> 添加到 PATH 环境变量，这样系统即找打 nohup 执行程序了。从下图可以看到 nohup 程序确实存在于 C:\Program Files\Git\usr\bin 路径下：</li>
+</ul>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/11.png" title="nohup 执行程序路径" data-thumbnail="/jenkins-install-windows-slave/11.png" data-sub-html="<h2>nohup 执行程序路径</h2><p>nohup 执行程序路径</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="11.png"
+      data-srcset="/jenkins-install-windows-slave/11.png, 11.png 1.5x, /jenkins-install-windows-slave/11.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/11.png" />
+  </a><figcaption class="image-caption">nohup 执行程序路径</figcaption>
+  </figure></p>
+<ul>
+<li><font color=FF0099><strong>重启 jekins-slave 服务</strong></font>，如下图所示：</li>
+</ul>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/12.png" title="重启 Jenkins 服务" data-thumbnail="/jenkins-install-windows-slave/12.png" data-sub-html="<h2>重启 Jenkins 服务</h2><p>重启 Jenkins 服务</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="12.png"
+      data-srcset="/jenkins-install-windows-slave/12.png, 12.png 1.5x, /jenkins-install-windows-slave/12.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/12.png" />
+  </a><figcaption class="image-caption">重启 Jenkins 服务</figcaption>
+  </figure></p>
+<ul>
+<li>参考：<a href><a href="https://stackoverflow.com/questions/45140614/jenkins-pipeline-sh-fail-with-cannot-run-program-nohup-on-windows/45151156">https://stackoverflow.com/questions/45140614/jenkins-pipeline-sh-fail-with-cannot-run-program-nohup-on-windows/45151156</a></a>。</li>
+</ul>
+<h3 id="42-could-not-read-from-remote-repository">4.2 Could not read from remote repository</h3>
+<p>报错信息：Could not read from remote repository。<font color=FF0099><strong>访问 Gitlab 没有权限</strong></font>。</p>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/13.png" title="Could not read from remote repository" data-thumbnail="/jenkins-install-windows-slave/13.png" data-sub-html="<h2>Could not read from remote repository</h2><p>Could not read from remote repository</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="13.png"
+      data-srcset="/jenkins-install-windows-slave/13.png, 13.png 1.5x, /jenkins-install-windows-slave/13.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/13.png" />
+  </a><figcaption class="image-caption">Could not read from remote repository</figcaption>
+  </figure></p>
+<p>报错原因：从下图可以看出 jenkins-slave 服务是以 SYSTEM 用户去启动的，而我们的 <font color=FF0099><strong>ssh-key 并没有种到 SYSTEM 用户下</strong></font>，所以没法下载 git 代码。</p>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/14.png" title="Jenkins 启动用户" data-thumbnail="/jenkins-install-windows-slave/14.png" data-sub-html="<h2>Jenkins 启动用户</h2><p>Jenkins 启动用户</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="14.png"
+      data-srcset="/jenkins-install-windows-slave/14.png, 14.png 1.5x, /jenkins-install-windows-slave/14.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/14.png" />
+  </a><figcaption class="image-caption">Jenkins 启动用户</figcaption>
+  </figure></p>
+<p>解决方案 1：</p>
+<ul>
+<li>
+<p>在当前用户生成 ssh-key，并在当前用户下<font color=FF0099><strong>第一次通过 git clone 命令去访问想要访问的仓库，这时会在 .ssh 目录生成 knows_hosts 文件</strong></font>。</p>
+</li>
+<li>
+<p>将生成的 .ssh 目录复制到 <font color=FF0099><strong>C:\Windows\System32\config\systemprofile\</strong></font> 下。</p>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/15.png" title="C:\Windows\System32\config\systemprofile\.ssh" data-thumbnail="/jenkins-install-windows-slave/15.png" data-sub-html="<h2>C:\Windows\System32\config\systemprofile\\.ssh</h2><p>C:\Windows\System32\config\systemprofile\.ssh</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="15.png"
+      data-srcset="/jenkins-install-windows-slave/15.png, 15.png 1.5x, /jenkins-install-windows-slave/15.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/15.png" />
+  </a><figcaption class="image-caption">C:\Windows\System32\config\systemprofile\\.ssh</figcaption>
+  </figure></p>
+</li>
+<li>
+<p>注意：<font color=FF0099><strong>knows_hosts 文件同样要 copy 到该目录，否则无法访问仓库。</strong></font></p>
+</li>
+<li>
+<p><font color=FF0099><strong>重启 jenkins-slave 服务。</strong></font></p>
+</li>
+</ul>
+<p>解决方案 2：</p>
+<ul>
+<li>
+<p>在当前用户生成 ssh-key，并在当前用户下<font color=FF0099><strong>第一次通过 git clone 命令去访问想要访问的仓库</strong></font>。</p>
+</li>
+<li>
+<p>根据下面的步骤，改变服务登录用户，重启 jenkins-slave 服务。这样 jenkins-slave 就是以<font color=FF0099><strong>当前用户</strong></font>启动的了。</p>
+</li>
+</ul>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/16.png" title="Jenkins 服务" data-thumbnail="/jenkins-install-windows-slave/16.png" data-sub-html="<h2>Jenkins 服务</h2><p>Jenkins 服务</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="16.png"
+      data-srcset="/jenkins-install-windows-slave/16.png, 16.png 1.5x, /jenkins-install-windows-slave/16.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/16.png" />
+  </a><figcaption class="image-caption">Jenkins 服务</figcaption>
+  </figure></p>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/17.png" title="Jenkins 服务属性" data-thumbnail="/jenkins-install-windows-slave/17.png" data-sub-html="<h2>Jenkins 服务属性</h2><p>Jenkins 服务属性</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="17.png"
+      data-srcset="/jenkins-install-windows-slave/17.png, 17.png 1.5x, /jenkins-install-windows-slave/17.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/17.png" />
+  </a><figcaption class="image-caption">Jenkins 服务属性</figcaption>
+  </figure></p>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/18.png" title="更改 Jenkins 服务属性" data-thumbnail="/jenkins-install-windows-slave/18.png" data-sub-html="<h2>更改 Jenkins 服务属性</h2><p>更改 Jenkins 服务属性</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="18.png"
+      data-srcset="/jenkins-install-windows-slave/18.png, 18.png 1.5x, /jenkins-install-windows-slave/18.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/18.png" />
+  </a><figcaption class="image-caption">更改 Jenkins 服务属性</figcaption>
+  </figure></p>
+<h3 id="43-bundlersetup-loaderror">4.3 bundler/setup LoadError</h3>
+<p>报错信息：cannot load such file &ndash; bundler/setup (LoadError)</p>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/19.png" title="cannot load such file" data-thumbnail="/jenkins-install-windows-slave/19.png" data-sub-html="<h2>cannot load such file</h2><p>cannot load such file</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="19.png"
+      data-srcset="/jenkins-install-windows-slave/19.png, 19.png 1.5x, /jenkins-install-windows-slave/19.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/19.png" />
+  </a><figcaption class="image-caption">cannot load such file</figcaption>
+  </figure></p>
+<p>报错原因：没有安装 bundler</p>
+<p>解决方案：安装 bundler</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">C:<span class="se">\U</span>sers<span class="se">\x</span>lxiao&gt; gem <span class="nb">source</span> -r https://rubygems.org/
+C:<span class="se">\U</span>sers<span class="se">\x</span>lxiao&gt; gem <span class="nb">source</span> -a 自己公司内部源
+C:<span class="se">\U</span>sers<span class="se">\x</span>lxiao&gt; gem install bundler
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="44-构建日志乱码">4.4 构建日志乱码</h3>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/20.png" title="构建日志乱码" data-thumbnail="/jenkins-install-windows-slave/20.png" data-sub-html="<h2>构建日志乱码</h2><p>构建日志乱码</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="20.png"
+      data-srcset="/jenkins-install-windows-slave/20.png, 20.png 1.5x, /jenkins-install-windows-slave/20.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/20.png" />
+  </a><figcaption class="image-caption">构建日志乱码</figcaption>
+  </figure></p>
+<p>报错原因：编码设置不正确</p>
+<p>解决办法：添加系统环境变量 JAVA_TOOL_OPTIONS，值设置为 -Dfile.encoding=UTF-8
+<figure><a class="lightgallery" href="/jenkins-install-windows-slave/21.png" title="设置系统环境变量 JAVA_TOOL_OPTIONS" data-thumbnail="/jenkins-install-windows-slave/21.png" data-sub-html="<h2>设置系统环境变量 JAVA_TOOL_OPTIONS</h2><p>设置系统环境变量 JAVA_TOOL_OPTIONS</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="21.png"
+      data-srcset="/jenkins-install-windows-slave/21.png, 21.png 1.5x, /jenkins-install-windows-slave/21.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/21.png" />
+  </a><figcaption class="image-caption">设置系统环境变量 JAVA_TOOL_OPTIONS</figcaption>
+  </figure></p>
+<p><font color=#FF0099><strong>注意：设置完系统环境变量之后，必须要重新启动机器才能生效。</strong></font></p>
+<h3 id="45-将-jenkins-slave-服务安装成-windows-service-报错">4.5 将 jenkins-slave 服务安装成 Windows Service 报错</h3>
+<p>虽然在 Windows 环境中看上去是安装成功了，但是在服务端查看日志，报错如下：</p>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/22.png" title="slave 连接 master 报错" data-thumbnail="/jenkins-install-windows-slave/22.png" data-sub-html="<h2>slave 连接 master 报错</h2><p>slave 连接 master 报错</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="22.png"
+      data-srcset="/jenkins-install-windows-slave/22.png, 22.png 1.5x, /jenkins-install-windows-slave/22.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/22.png" />
+  </a><figcaption class="image-caption">slave 连接 master 报错</figcaption>
+  </figure></p>
+<p>报错原因：原来 jenkins-slave 作为 Windows Service 安装过，会有残留文件存在，导致报错。</p>
+<p>解决办法：</p>
+<ul>
+<li>第一步：停止 Jenkins 服务。</li>
+</ul>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/23.png" title="停止 Jenkins 服务" data-thumbnail="/jenkins-install-windows-slave/23.png" data-sub-html="<h2>停止 Jenkins 服务</h2><p>停止 Jenkins 服务</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="23.png"
+      data-srcset="/jenkins-install-windows-slave/23.png, 23.png 1.5x, /jenkins-install-windows-slave/23.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/23.png" />
+  </a><figcaption class="image-caption">停止 Jenkins 服务</figcaption>
+  </figure></p>
+<ul>
+<li>第二步：删除 Jenkins 服务。以管理员身份打开 cmd 窗口，执行命令 &ldquo;sc delete jenkinsslave-d__jenkins&rdquo;（<font color=#FF0099><strong>注意：命令中的是双下划线</strong></font>）。</li>
+</ul>
+<p><figure><a class="lightgallery" href="/jenkins-install-windows-slave/24.png" title="管理员方式打开 cmd" data-thumbnail="/jenkins-install-windows-slave/24.png" data-sub-html="<h2>管理员方式打开 cmd</h2><p>管理员方式打开 cmd</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="24.png"
+      data-srcset="/jenkins-install-windows-slave/24.png, 24.png 1.5x, /jenkins-install-windows-slave/24.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/24.png" />
+  </a><figcaption class="image-caption">管理员方式打开 cmd</figcaption>
+  </figure></p>
+<ul>
+<li>
+<p>第三步：删除历史的 jenkins-slave 数据。
+<figure><a class="lightgallery" href="/jenkins-install-windows-slave/25.png" title="历史的 jenkins-slave 数据" data-thumbnail="/jenkins-install-windows-slave/25.png" data-sub-html="<h2>历史的 jenkins-slave 数据</h2><p>历史的 jenkins-slave 数据</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="25.png"
+      data-srcset="/jenkins-install-windows-slave/25.png, 25.png 1.5x, /jenkins-install-windows-slave/25.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-install-windows-slave/25.png" />
+  </a><figcaption class="image-caption">历史的 jenkins-slave 数据</figcaption>
+  </figure></p>
+</li>
+<li>
+<p>第四步：将 jenkins-slave 服务安装成 Windows Service。</p>
+</li>
+</ul></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title=2022-04-27&#32;18:51:01>更新于 2022-04-27</span>
+      </div>
+      <div class="post-info-license"><span><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+    <div class="post-info-line">
+      <div class="post-info-md"><span>
+              <a class="link-to-markdown" href="/jenkins-install-windows-slave/index.md" target="_blank">阅读原始文档</a>
+            </span></div>
+      <div class="post-info-share">
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://fixit.lruihao.cn/jenkins-install-windows-slave/" data-title="Windows 环境下如何添加 jenkins-slave 节点" data-hashtags="Jenkins"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://fixit.lruihao.cn/jenkins-install-windows-slave/" data-hashtag="Jenkins"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://fixit.lruihao.cn/jenkins-install-windows-slave/" data-title="Windows 环境下如何添加 jenkins-slave 节点"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://fixit.lruihao.cn/jenkins-install-windows-slave/" data-title="Windows 环境下如何添加 jenkins-slave 节点"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://fixit.lruihao.cn/jenkins-install-windows-slave/" data-title="Windows 环境下如何添加 jenkins-slave 节点"><i class="fab fa-weibo fa-fw"></i></a></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/jenkins/">Jenkins</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/gk-tmp-technical-decision/" class="prev" rel="prev" title="[笔记]技术管理案例课：技术决策者之开始定战略了"><i class="fas fa-angle-left fa-fw"></i>[笔记]技术管理案例课：技术决策者之开始定战略了</a>
+      <a href="/jenkins-enlightenment/" class="next" rel="next" title="一文带你玩转 Jenkins">一文带你玩转 Jenkins<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/Lruihao/FixIt" target="_blank" rel="external nofollow noopener noreffer" title="FixIt 0.2.13"><img class="fixit-icon" src="/images/fixit.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">
+              <a
+  href="https://www.lesliexlxiao.com"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>Leslie</a></span><span class="footer-divider"></span><span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line ibruce">
+          <span id="busuanzi_container_site_uv" title=总访客数
+            ><i class="far fa-user"></i>
+            <span id="busuanzi_value_site_uv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span><span class="site-time footer-divider" title=网站运行中&#32;...
+              ><i class="fas fa-heartbeat animate-icon"></i>
+              <span class="run-times">Loading...</span
+            ></span><span id="busuanzi_container_site_pv" class="footer-divider" title=总访问量
+            ><i class="far fa-eye"></i>
+            <span id="busuanzi_value_site_pv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span>
+        </div></div>
+  </footer></div>
+
+    <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+        <i class="fas fa-arrow-up fa-fw"></i>
+      </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+        <i class="fas fa-comment fa-fw"></i>
+      </a>
+    </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js" defer></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js" defer></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js" async defer></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js" defer></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js" defer></script><script type="text/javascript" src="/lib/sharer/sharer.min.js" async defer></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script type="text/javascript" src="/lib/pangu/pangu.min.js" defer></script><script type="text/javascript" src="/lib/cell-watermark/watermark.min.js" defer></script><script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":100},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePWA":true,"enablePangu":true,"ibruce":{"enable":true,"siteTime":"2021-12-18T16:15:22+08:00"},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"search":{"algoliaAppID":"F9NU6Y7N3C","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b0c935a6f30b83a884c63cb57ec5f455","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"watermark":{"content":"\u003cimg class=\"fixit-icon\" src=\"/images/fixit.svg\" alt=\"FixIt logo\" /\u003e FixIt 主题","enable":true,"height":21,"opacity":0.0125}};</script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript" src="/js/_custom.min.js" defer></script></body>
+</html>

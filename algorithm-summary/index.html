@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <title>算法综述 - LESLIEXLXIAO&#39;S BLOG</title><meta name="author" content="Leslie: https://www.lesliexlxiao.com">
+<meta name="description" content="1. 如何事半功倍地学习算法和数据结构 1.1 Chunk it up（切碎知识点） 庖丁解牛 脉络连接 1.2 Deliberate practing（刻意练习） 刻意练习 练习缺陷、不舒服、弱点地方" />
+<meta name="keywords" content="Algorithm" /><meta itemprop="name" content="算法综述">
+<meta itemprop="description" content="1. 如何事半功倍地学习算法和数据结构 1.1 Chunk it up（切碎知识点） 庖丁解牛 脉络连接 1.2 Deliberate practing（刻意练习） 刻意练习 练习缺陷、不舒服、弱点地方">
+<meta itemprop="datePublished" content="2019-03-24T20:51:01+08:00" />
+<meta itemprop="dateModified" content="2022-04-27T23:00:49+08:00" />
+<meta itemprop="wordCount" content="755">
+<meta itemprop="image" content="https://fixit.lruihao.cn/logo.png"/>
+
+
+
+<meta itemprop="keywords" content="Algorithm," />
+<meta property="og:title" content="算法综述" />
+<meta property="og:description" content="1. 如何事半功倍地学习算法和数据结构 1.1 Chunk it up（切碎知识点） 庖丁解牛 脉络连接 1.2 Deliberate practing（刻意练习） 刻意练习 练习缺陷、不舒服、弱点地方" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fixit.lruihao.cn/algorithm-summary/" />
+<meta property="og:image" content="https://fixit.lruihao.cn/logo.png"/>
+<meta property="article:published_time" content="2019-03-24T20:51:01+08:00" />
+<meta property="article:modified_time" content="2022-04-27T23:00:49+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://fixit.lruihao.cn/logo.png"/>
+
+<meta name="twitter:title" content="算法综述"/>
+<meta name="twitter:description" content="1. 如何事半功倍地学习算法和数据结构 1.1 Chunk it up（切碎知识点） 庖丁解牛 脉络连接 1.2 Deliberate practing（刻意练习） 刻意练习 练习缺陷、不舒服、弱点地方"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#252627"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://fixit.lruihao.cn/algorithm-summary/" /><link rel="prev" href="https://fixit.lruihao.cn/python-virtualenv/" /><link rel="next" href="https://fixit.lruihao.cn/algorithm-two-sum/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "算法综述",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/fixit.lruihao.cn\/algorithm-summary\/"
+    },"image": ["https:\/\/fixit.lruihao.cn\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Algorithm","wordcount":  755 ,
+    "url": "https:\/\/fixit.lruihao.cn\/algorithm-summary\/","datePublished": "2019-03-24T20:51:01+08:00","dateModified": "2022-04-27T23:00:49+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+      "@type": "Organization",
+      "name": "Lruihao","logo": "https:\/\/fixit.lruihao.cn\/images\/avatar.png"},"author": {
+        "@type": "Person",
+        "name": "Leslie"
+      },"description": ""
+  }
+  </script></head>
+  <body header-desktop="sticky" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+    <div class="menu">
+      <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/friends/" title="友情链接"> 友链 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+            <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/algorithm-summary/" selected>简体中文</option></select>
+          </a><span class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+          <i class="fas fa-adjust fa-fw"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</header><header class="mobile" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="menu" id="menu-mobile"><div class="search-wrapper">
+          <div class="search mobile" id="search-mobile">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-mobile">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </div>
+          <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+            取消
+          </a>
+        </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/friends/" title="友情链接">友链</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+        <i class="fas fa-adjust fa-fw"></i>
+      </a><a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+          <select class="language-select" onchange="location = this.value;"><option value="/algorithm-summary/" selected>简体中文</option></select>
+        </a></div>
+  </div>
+</header>
+<div class="search-dropdown desktop">
+  <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+  <div id="search-dropdown-mobile"></div>
+</div>
+<main class="container" page-style="normal"><aside class="toc" id="toc-auto"><h2 class="toc-title">目录</h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    
+  </aside>
+
+  <article class="page single"><h1 class="single-title animate__animated animate__flipInX">算法综述</h1><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a
+  href="https://www.lesliexlxiao.com"
+  
+    title="Author"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer author"
+  
+  
+  
+    class="author"
+  
+  
+><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/algorithm/"><i class="far fa-folder fa-fw"></i>Algorithm</a></span></div>
+      <div class="post-meta-line"><span title=2019-03-24&#32;20:51:01>
+            <i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2019-03-24" >2019-03-24</time>
+          </span>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 755 字&nbsp;
+        <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
+    </div><div class="details toc" id="toc-static" kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fas fa-angle-right"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-如何事半功倍地学习算法和数据结构">1. 如何事半功倍地学习算法和数据结构</a>
+      <ul>
+        <li><a href="#11-chunk-it-up切碎知识点">1.1 Chunk it up（切碎知识点）</a></li>
+        <li><a href="#12-deliberate-practing刻意练习">1.2 Deliberate practing（刻意练习）</a></li>
+        <li><a href="#13-feedback获得反馈">1.3 Feedback（获得反馈）</a></li>
+        <li><a href="#14-算法切题四件套">1.4 算法切题四件套</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-算法复杂度分析">2. 算法复杂度分析</a>
+      <ul>
+        <li><a href="#21-常见复杂度表示">2.1 常见复杂度表示</a></li>
+        <li><a href="#22-示例">2.2 示例</a></li>
+        <li><a href="#22-算法复杂度趋势图">2.2 算法复杂度趋势图</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-如何通过-leetcode-来进行算法练习">3. 如何通过 LeetCode 来进行算法练习</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="1-如何事半功倍地学习算法和数据结构">1. 如何事半功倍地学习算法和数据结构</h2>
+<h3 id="11-chunk-it-up切碎知识点">1.1 Chunk it up（切碎知识点）</h3>
+<p>庖丁解牛</p>
+<p>脉络连接</p>
+<h3 id="12-deliberate-practing刻意练习">1.2 Deliberate practing（刻意练习）</h3>
+<p>刻意练习</p>
+<p><font color=FF0099><strong>练习缺陷、不舒服、弱点地方</strong></font></p>
+<h3 id="13-feedback获得反馈">1.3 Feedback（获得反馈）</h3>
+<p>即时反馈</p>
+<p>主动型反馈（自己去找）</p>
+<ul>
+<li>
+<p>高手代码（Github，LeetCode，etc.）</p>
+</li>
+<li>
+<p>第一视角直播（一些直播的代码）</p>
+</li>
+</ul>
+<p>被动式反馈（高手给你指点）</p>
+<ul>
+<li>
+<p>code review</p>
+</li>
+<li>
+<p>教练看你打，给你反馈</p>
+</li>
+</ul>
+<h3 id="14-算法切题四件套">1.4 算法切题四件套</h3>
+<p>Clarification（明确题目意思）</p>
+<p>Possible solutions（<font color=FF0099><strong>把所有可能解法都搞出来，对比时间复杂度和空间复杂度，使用最优解</strong></font>）</p>
+<ul>
+<li>
+<p>compare（time/space）</p>
+</li>
+<li>
+<p>optimal（加强）</p>
+</li>
+</ul>
+<p>Coding（多写）</p>
+<p>Test cases</p>
+<h2 id="2-算法复杂度分析">2. 算法复杂度分析</h2>
+<p>算法复杂度主要分为：时间复杂度和空间复杂度。</p>
+<h3 id="21-常见复杂度表示">2.1 常见复杂度表示</h3>
+<p>O(1)：Constant Complexity: Constant 常数复杂度</p>
+<p>O(log n)：Logarithmic Complexity: 对数复杂度</p>
+<p>O(n)：Linear Complexity: 线性时间复杂度</p>
+<p>O(n^2)：N square Complexity 平⽅</p>
+<p>O(n^3)：N square Complexity ⽴⽅</p>
+<p>O(2^n)：Exponential Growth 指数</p>
+<p>O(n!)：Factorial 阶乘</p>
+<h3 id="22-示例">2.2 示例</h3>
+<p>O(1)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">1000</span><span class="o">;</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Hey - your input is: &#34;</span> <span class="o">+</span> <span class="n">n</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>O(1)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">1000</span><span class="o">;</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Hey - your input is: &#34;</span> <span class="o">+</span> <span class="n">n</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Hmm.. I&#39;m doing more stuff with: &#34;</span> <span class="o">+</span> <span class="n">n</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;And more: &#34;</span> <span class="o">+</span> <span class="n">n</span><span class="o">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>O(N)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Hey - I&#39;m busy looking at: &#34;</span> <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>O(N^2)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Hey - I&#39;m busy looking at: &#34;</span> <span class="o">+</span> <span class="n">i</span> <span class="o">+</span> <span class="s">&#34; and &#34;</span> <span class="o">+</span> <span class="n">j</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>O(log(n))</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Hey - I&#39;m busy looking at: &#34;</span> <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>O(k^n)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">Math</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">n</span><span class="o">);</span> <span class="n">i</span><span class="o">++){</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Hey - I&#39;m busy looking at: &#34;</span> <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>O(n!)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">factorial</span><span class="o">(</span><span class="n">n</span><span class="o">);</span> <span class="n">i</span><span class="o">++){</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Hey - I&#39;m busy looking at: &#34;</span> <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="22-算法复杂度趋势图">2.2 算法复杂度趋势图</h3>
+<p><figure><a class="lightgallery" href="/algorithm-summary/1.png" title="算法复杂度趋势" data-thumbnail="/algorithm-summary/1.png" data-sub-html="<h2>算法复杂度趋势</h2><p>算法复杂度趋势</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="1.png"
+      data-srcset="/algorithm-summary/1.png, 1.png 1.5x, /algorithm-summary/1.png 2x"
+      data-sizes="auto"
+      alt="/algorithm-summary/1.png" />
+  </a><figcaption class="image-caption">算法复杂度趋势</figcaption>
+  </figure></p>
+<h2 id="3-如何通过-leetcode-来进行算法练习">3. 如何通过 LeetCode 来进行算法练习</h2>
+<p>国外：https://leetcode.com/problemset/all/</p>
+<p>国内：https://leetcode-cn.com/problemset/all/</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title=2022-04-27&#32;23:00:49>更新于 2022-04-27</span>
+      </div>
+      <div class="post-info-license"><span><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+    <div class="post-info-line">
+      <div class="post-info-md"><span>
+              <a class="link-to-markdown" href="/algorithm-summary/index.md" target="_blank">阅读原始文档</a>
+            </span></div>
+      <div class="post-info-share">
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://fixit.lruihao.cn/algorithm-summary/" data-title="算法综述" data-hashtags="Algorithm"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://fixit.lruihao.cn/algorithm-summary/" data-hashtag="Algorithm"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://fixit.lruihao.cn/algorithm-summary/" data-title="算法综述"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://fixit.lruihao.cn/algorithm-summary/" data-title="算法综述"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://fixit.lruihao.cn/algorithm-summary/" data-title="算法综述"><i class="fab fa-weibo fa-fw"></i></a></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/algorithm/">Algorithm</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/python-virtualenv/" class="prev" rel="prev" title="virtualenv and virtualenvwrapper 工具的使用"><i class="fas fa-angle-left fa-fw"></i>virtualenv and virtualenvwrapper 工具的使用</a>
+      <a href="/algorithm-two-sum/" class="next" rel="next" title="两数之和">两数之和<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/Lruihao/FixIt" target="_blank" rel="external nofollow noopener noreffer" title="FixIt 0.2.13"><img class="fixit-icon" src="/images/fixit.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">
+              <a
+  href="https://www.lesliexlxiao.com"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>Leslie</a></span><span class="footer-divider"></span><span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line ibruce">
+          <span id="busuanzi_container_site_uv" title=总访客数
+            ><i class="far fa-user"></i>
+            <span id="busuanzi_value_site_uv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span><span class="site-time footer-divider" title=网站运行中&#32;...
+              ><i class="fas fa-heartbeat animate-icon"></i>
+              <span class="run-times">Loading...</span
+            ></span><span id="busuanzi_container_site_pv" class="footer-divider" title=总访问量
+            ><i class="far fa-eye"></i>
+            <span id="busuanzi_value_site_pv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span>
+        </div></div>
+  </footer></div>
+
+    <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+        <i class="fas fa-arrow-up fa-fw"></i>
+      </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+        <i class="fas fa-comment fa-fw"></i>
+      </a>
+    </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js" defer></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js" defer></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js" async defer></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js" defer></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js" defer></script><script type="text/javascript" src="/lib/sharer/sharer.min.js" async defer></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script type="text/javascript" src="/lib/pangu/pangu.min.js" defer></script><script type="text/javascript" src="/lib/cell-watermark/watermark.min.js" defer></script><script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":100},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePWA":true,"enablePangu":true,"ibruce":{"enable":true,"siteTime":"2021-12-18T16:15:22+08:00"},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"search":{"algoliaAppID":"F9NU6Y7N3C","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b0c935a6f30b83a884c63cb57ec5f455","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"watermark":{"content":"\u003cimg class=\"fixit-icon\" src=\"/images/fixit.svg\" alt=\"FixIt logo\" /\u003e FixIt 主题","enable":true,"height":21,"opacity":0.0125}};</script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript" src="/js/_custom.min.js" defer></script></body>
+</html>

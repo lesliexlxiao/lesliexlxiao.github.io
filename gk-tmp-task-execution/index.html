@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <title>[笔记]技术管理实战 36 讲：任务执行篇 - LESLIEXLXIAO&#39;S BLOG</title><meta name="author" content="Leslie: https://www.lesliexlxiao.com">
+<meta name="description" content="本文主要是对极客时间《技术管理实战 36 讲》任务执行篇做的笔记，详细内容可参考：任务执行篇。" />
+<meta name="keywords" content="Management,Note,Geek" /><meta itemprop="name" content="[笔记]技术管理实战 36 讲：任务执行篇">
+<meta itemprop="description" content="本文主要是对极客时间《技术管理实战 36 讲》任务执行篇做的笔记，详细内容可参考：任务执行篇。">
+<meta itemprop="datePublished" content="2022-04-23T18:51:01+08:00" />
+<meta itemprop="dateModified" content="2022-04-23T18:51:01+08:00" />
+<meta itemprop="wordCount" content="2534">
+<meta itemprop="image" content="https://fixit.lruihao.cn/logo.png"/>
+
+
+
+<meta itemprop="keywords" content="Management,Note,Geek," />
+<meta property="og:title" content="[笔记]技术管理实战 36 讲：任务执行篇" />
+<meta property="og:description" content="本文主要是对极客时间《技术管理实战 36 讲》任务执行篇做的笔记，详细内容可参考：任务执行篇。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fixit.lruihao.cn/gk-tmp-task-execution/" />
+<meta property="og:image" content="https://fixit.lruihao.cn/logo.png"/>
+<meta property="article:published_time" content="2022-04-23T18:51:01+08:00" />
+<meta property="article:modified_time" content="2022-04-23T18:51:01+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://fixit.lruihao.cn/logo.png"/>
+
+<meta name="twitter:title" content="[笔记]技术管理实战 36 讲：任务执行篇"/>
+<meta name="twitter:description" content="本文主要是对极客时间《技术管理实战 36 讲》任务执行篇做的笔记，详细内容可参考：任务执行篇。"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#252627"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://fixit.lruihao.cn/gk-tmp-task-execution/" /><link rel="prev" href="https://fixit.lruihao.cn/linux-too-many-open-files/" /><link rel="next" href="https://fixit.lruihao.cn/gk-tmp-technical-decision/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "[笔记]技术管理实战 36 讲：任务执行篇",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/fixit.lruihao.cn\/gk-tmp-task-execution\/"
+    },"image": ["https:\/\/fixit.lruihao.cn\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Management, Note, Geek","wordcount":  2534 ,
+    "url": "https:\/\/fixit.lruihao.cn\/gk-tmp-task-execution\/","datePublished": "2022-04-23T18:51:01+08:00","dateModified": "2022-04-23T18:51:01+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+      "@type": "Organization",
+      "name": "Lruihao","logo": "https:\/\/fixit.lruihao.cn\/images\/avatar.png"},"author": {
+        "@type": "Person",
+        "name": "Leslie"
+      },"description": ""
+  }
+  </script></head>
+  <body header-desktop="sticky" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+    <div class="menu">
+      <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/friends/" title="友情链接"> 友链 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+            <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/gk-tmp-task-execution/" selected>简体中文</option></select>
+          </a><span class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+          <i class="fas fa-adjust fa-fw"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</header><header class="mobile" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="menu" id="menu-mobile"><div class="search-wrapper">
+          <div class="search mobile" id="search-mobile">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-mobile">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </div>
+          <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+            取消
+          </a>
+        </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/friends/" title="友情链接">友链</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+        <i class="fas fa-adjust fa-fw"></i>
+      </a><a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+          <select class="language-select" onchange="location = this.value;"><option value="/gk-tmp-task-execution/" selected>简体中文</option></select>
+        </a></div>
+  </div>
+</header>
+<div class="search-dropdown desktop">
+  <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+  <div id="search-dropdown-mobile"></div>
+</div>
+<main class="container" page-style="normal"><aside class="toc" id="toc-auto"><h2 class="toc-title">目录</h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    
+  </aside>
+
+  <article class="page single"><h1 class="single-title animate__animated animate__flipInX">[笔记]技术管理实战 36 讲：任务执行篇</h1><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a
+  href="https://www.lesliexlxiao.com"
+  
+    title="Author"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer author"
+  
+  
+  
+    class="author"
+  
+  
+><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/management/"><i class="far fa-folder fa-fw"></i>Management</a></span></div>
+      <div class="post-meta-line"><span title=2022-04-23&#32;18:51:01>
+            <i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-04-23" >2022-04-23</time>
+          </span>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2534 字&nbsp;
+        <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+    </div><div class="details toc" id="toc-static" kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fas fa-angle-right"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0-总纲">0. 总纲</a></li>
+    <li><a href="#1-多任务并行该如何应对">1. 多任务并行该如何应对</a></li>
+    <li><a href="#2-如何确保项目的有效执行">2. 如何确保项目的有效执行</a></li>
+    <li><a href="#3-如何让流程机制得到有效的执行">3 如何让流程机制得到有效的执行</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p>本文主要是对极客时间《技术管理实战 36 讲》任务执行篇做的笔记，详细内容可参考：<a
+  href="https://time.geekbang.org/column/article/41448"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>任务执行篇</a>。</p>
+<h2 id="0-总纲">0. 总纲</h2>
+<p><font color=#FF0099><strong>在做事之前</strong></font>，我们需要回答的问题是：要做哪些事？先做哪件，后做哪件？也就是分清楚轻重缓急，也叫<font color=#FF0099><strong>优先级梳理</strong></font>。</p>
+<p><font color=#FF0099><strong>在做事过程中</strong></font>，我们要确保事情的进展按照计划推进，尽在掌握之中，也就是<font color=#FF0099><strong>有效地推进执行</strong></font>。</p>
+<p><font color=#FF0099><strong>在做事之后</strong></font>，我们要复盘做事的整个过程，并从过去的经验之中<font color=#FF0099><strong>抽取一些流程机制</strong></font>，以便以后在类似的场景下也可以做得更好、更顺畅。</p>
+<p>任务管理三要素：事前的轻重缓急，事中的有效执行，事后的流程机制。</p>
+<h2 id="1-多任务并行该如何应对">1. 多任务并行该如何应对</h2>
+<p>当安排的工作非常多的时候，由于大家的精力有限，所以需要考虑要优先保证哪项工作的顺利进行。可以通过<font color=#FF0099><strong>&ldquo;重要紧急四象限&rdquo;</strong></font>去考虑。</p>
+<p><figure><a class="lightgallery" href="/gk-tmp-task-execution/1.webp" title="重要紧急四象限" data-thumbnail="/gk-tmp-task-execution/1.webp" data-sub-html="<h2>重要紧急四象限</h2><p>重要紧急四象限</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="1.webp"
+      data-srcset="/gk-tmp-task-execution/1.webp, 1.webp 1.5x, /gk-tmp-task-execution/1.webp 2x"
+      data-sizes="auto"
+      alt="/gk-tmp-task-execution/1.webp" />
+  </a><figcaption class="image-caption">重要紧急四象限</figcaption>
+  </figure></p>
+<p>重要紧急 &gt; 不重要紧急 &gt; 重要不紧急 &gt; 不重要不紧急</p>
+<p>如何判定事情是否重要紧急？</p>
+<ol>
+<li>
+<p>如果做，收益是否很大？收益越大，这个事情就越重要。</p>
+</li>
+<li>
+<p>如果不做，损失是否很大？损失越大，这个事情就越紧急。</p>
+</li>
+</ol>
+<p>现实工作中更多考虑的是两种情形：一种是计划内的，也就是按照我们的规划进行的；另外一种是计划外的，即突发的情况和任务。</p>
+<p>对于任何工作任务，决策的步骤就两步：</p>
+<ol>
+<li>
+<p><font color=#FF0099><strong>对于“计划内工作”，看收益是否足够大。收益越大就越重要，也就越需要给予相匹配的优先级、资源和关注度；收益相对不大，就放入“To do list”，作为待办任务处理</strong></font>。</p>
+</li>
+<li>
+<p><font color=#FF0099><strong>对于“计划外的工作”，看损失是否足够大。损失够大，就按照紧急任务安排，以止损为核心目的；如果损失可控，就放入“计划内工作”列表</strong></font>。</p>
+</li>
+</ol>
+<p>重要紧急四象限果见版
+<figure><a class="lightgallery" href="/gk-tmp-task-execution/2.webp" title="重要紧急四象限" data-thumbnail="/gk-tmp-task-execution/2.webp" data-sub-html="<h2>重要紧急四象限</h2><p>重要紧急四象限</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="2.webp"
+      data-srcset="/gk-tmp-task-execution/2.webp, 2.webp 1.5x, /gk-tmp-task-execution/2.webp 2x"
+      data-sizes="auto"
+      alt="/gk-tmp-task-execution/2.webp" />
+  </a><figcaption class="image-caption">重要紧急四象限</figcaption>
+  </figure></p>
+<p>关于任务优先级的安排，除了决策的步骤和方法，还有几个重要的原则：</p>
+<ol>
+<li>
+<p><font color=#FF0099><strong>目标是需要一以贯之的</strong></font>。目标越明确，在关键时刻我们的方向感就越强。</p>
+</li>
+<li>
+<p><font color=#FF0099><strong>任务安排是弹性的</strong></font>。根据进度、质量、效果的不同期待，你可以给出很多种排期方案。这体现一个管理者的经验是否丰富。</p>
+</li>
+<li>
+<p><font color=#FF0099><strong>沟通是不可或缺的</strong></font>。只有和所有相关的人员充分沟通了之后，才算是调整完毕，<font color=#FF0099><strong>尤其是和自己的上级，一定要和他沟通新的工作安排方案。告诉他，你优先保证了什么，从而可能会影响什么</strong></font>。上级倾向于告诉你，每件工作都是重要的，都是要正常推进的。你要清楚上级最核心的期待是什么，从而去完成什么。</p>
+</li>
+</ol>
+<h2 id="2-如何确保项目的有效执行">2. 如何确保项目的有效执行</h2>
+<p>关于如何确保项目的有效执行，我们有两个探讨的角度。</p>
+<p>第一个角度是<font color=#FF0099><strong>充分条件视角</strong></font>，即，列出有效执行的所有要点，大家照着做就可以把项目执行好。这个基本实现不了，所以这一角度无需考虑。</p>
+<p>第二个角度是必要条件视角，即，我们探讨出一些要点，在项目执行中，<font color=#FF0099><strong>只要有一个要点没有做到，项目就很难得到有效的实施</strong></font>。我们把这些要点整理出来，为我们的项目执行提供有价值的参考。</p>
+<p>有效执行四要素：<font color=#FF0099><strong>目标清晰</strong></font>、<font color=#FF0099><strong>责任明确</strong></font>、<font color=#FF0099><strong>机制健全</strong></font>和<font color=#FF0099><strong>沟通到位</strong></font>。</p>
+<p><figure><a class="lightgallery" href="/gk-tmp-task-execution/3.webp" title="有效执行四要素" data-thumbnail="/gk-tmp-task-execution/3.webp" data-sub-html="<h2>有效执行四要素</h2><p>有效执行四要素</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="3.webp"
+      data-srcset="/gk-tmp-task-execution/3.webp, 3.webp 1.5x, /gk-tmp-task-execution/3.webp 2x"
+      data-sizes="auto"
+      alt="/gk-tmp-task-execution/3.webp" />
+  </a><figcaption class="image-caption">有效执行四要素</figcaption>
+  </figure></p>
+<p>为了提升可操作性，四个要素可扩展为 12 个问题。任务执行时，可以参照下图，对症下药。</p>
+<p><figure><a class="lightgallery" href="/gk-tmp-task-execution/4.webp" title="任务执行检查清单" data-thumbnail="/gk-tmp-task-execution/4.webp" data-sub-html="<h2>任务执行检查清单</h2><p>任务执行检查清单</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="4.webp"
+      data-srcset="/gk-tmp-task-execution/4.webp, 4.webp 1.5x, /gk-tmp-task-execution/4.webp 2x"
+      data-sizes="auto"
+      alt="/gk-tmp-task-execution/4.webp" />
+  </a><figcaption class="image-caption">任务执行检查清单</figcaption>
+  </figure></p>
+<h2 id="3-如何让流程机制得到有效的执行">3 如何让流程机制得到有效的执行</h2>
+<p><font color=#FF0099><strong>要想让员工分担我们手头上的工作，要么靠梯队，要么靠机制。</strong></font></p>
+<p>梯队：团队里有胜任度非常好的人，可以帮我们搞定这件事，并且这个人已经是这方面可靠的梯队人才。</p>
+<p>机制：设计一套方案，来专门应对某个场景出现的问题，这套方案可以指导和“搀扶着”员工做好这类工作。从而减轻管理者的负担和精力开销。关于这点，<font color=#FF0099><strong>个人有三点感受</strong></font>：</p>
+<ol>
+<li>
+<p>建立标准的 SOP 文档。有了标准的 SOP 文档，即使真正执行这个项目的人不在时，我们也可以参照 SOP 文档，完成好各项工作。</p>
+</li>
+<li>
+<p>周会项目沟通。通过每周项目沟通会，让大家熟悉团队各个成员各自在做的事情，从而达到组内成员对组内整体项目有个熟悉度的把控。</p>
+</li>
+<li>
+<p>定期技术分享。组内成员可以定期分享自己最近碰到的问题或者新技术，从而提升团队的整体战斗力。</p>
+</li>
+</ol>
+<p>那么，机制要怎么建呢？</p>
+<p><font color=#FF0099><strong>形不形成文档不是关键，很多文档整理出来也发挥不出作用。</strong></font>如果让你检查员工的工作，你检查哪几个点？即你要列清楚你要检查的点，基于这些点去看团队成员的完成度是否满足自己的要求，这才是一套合理的机制。</p>
+<p>授权机制涉及到的五个步骤：</p>
+<ol>
+<li>
+<p><font color=#FF0099><strong>首先要明确该机制要解决什么场景下的什么问题，即明确目标</strong></font>。机制的一大特点，就是场景化特性非常明显，因为它们都是为了应对好特定场景下的问题而产生的。所以，你建立一个机制时，首先要描述清楚场景是什么。<font color=#FF0099><strong>比如 SOP 手册的建立，针对项目的 DR 切换、扩容及日常排障就是一个很好的机制</strong></font>。</p>
+</li>
+<li>
+<p><font color=#FF0099><strong>提炼应对该场景的关键点</strong></font>。和一个步骤完整的文档相比，关键点的提炼更为重要，这会让执行成本降低，也更有可操作性。</p>
+</li>
+<li>
+<p><font color=#FF0099><strong>明确由谁来确保机制的执行，即谁在什么时候检查什么关键点</strong></font>。如果少了这个监督者，流程和机制的有效性就得不到保证。所以，<font color=#FF0099><strong>每个机制，都要设立监督者或检查者</strong></font>。</p>
+</li>
+<li>
+<p><font color=#FF0099><strong>确认操作成本</strong></font>。如果建立的机制反而给执行者带来更大的操作成本，那你就得反思这个机制建立的必要性。</p>
+</li>
+<li>
+<p>沟通，并和其他执行人取得共识。由于机制的制定者和执行者常常不是同一个人，所以，该机制是否有效，以及能否实施，需要和其他执行人沟通，并达成一致。</p>
+</li>
+</ol>
+<p>要想让机制具有可执行性，建立机制时还要遵循如下的四个原则：</p>
+<ol>
+<li>
+<p><font color=#FF0099><strong>可操作，即简单原则</strong></font>。机制要以最小的学习成本和操作成本为原则，这是最首要的原则。不具备操作性的机制是没有意义的。</p>
+</li>
+<li>
+<p><font color=#FF0099><strong>只打关节点，即关键原则</strong></font>。你只要告诉大家，在哪几个最关键的节点，做什么样的动作即可，而且这样的关键点也不能太多，以不超过 5 个为宜。这样做可以大大降低执行成本，提升机制的可操作性。</p>
+</li>
+<li>
+<p><font color=#FF0099><strong>明确到人，即问责原则</strong></font>。</p>
+</li>
+<li>
+<p><font color=#FF0099><strong>从 case 中来，到 case 中去，即实用原则</strong></font>。每一个机制都要有实用价值。由于机制都是有场景化特性的，当场景发生了变化，机制也要随着升级，而对于机制的重新审视和学习都意味着额外的开销，所以，每个机制的维护都是有成本的。</p>
+</li>
+</ol>
+<p>作者分享的两个关于机制的观点。</p>
+<ol>
+<li>
+<p><font color=#FF0099><strong>机制不是越多越好，而是越少越好</strong></font>。机制的建立、执行和后期维护都是需要成本的，所以，千万不要贪多，在风险可控的前提下，机制能不建就不建，能少则少。</p>
+</li>
+<li>
+<p><font color=#FF0099><strong>关于到底是人靠谱还是机制靠谱</strong></font>。机制的意义就在于，当人不靠谱时，事情也不至于变得很差。所以，机制是为了保证做事的“下限”的。同时，机制有很好的迁移性和传承性，不会随着某个人的缺位而产生大的影响。因此，必要的机制是不可或缺的。</p>
+</li>
+</ol></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title=2022-04-23&#32;18:51:01>更新于 2022-04-23</span>
+      </div>
+      <div class="post-info-license"><span><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+    <div class="post-info-line">
+      <div class="post-info-md"><span>
+              <a class="link-to-markdown" href="/gk-tmp-task-execution/index.md" target="_blank">阅读原始文档</a>
+            </span></div>
+      <div class="post-info-share">
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://fixit.lruihao.cn/gk-tmp-task-execution/" data-title="[笔记]技术管理实战 36 讲：任务执行篇" data-hashtags="Management,Note,Geek"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://fixit.lruihao.cn/gk-tmp-task-execution/" data-hashtag="Management"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://fixit.lruihao.cn/gk-tmp-task-execution/" data-title="[笔记]技术管理实战 36 讲：任务执行篇"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://fixit.lruihao.cn/gk-tmp-task-execution/" data-title="[笔记]技术管理实战 36 讲：任务执行篇"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://fixit.lruihao.cn/gk-tmp-task-execution/" data-title="[笔记]技术管理实战 36 讲：任务执行篇"><i class="fab fa-weibo fa-fw"></i></a></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/management/">Management</a>,&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/geek/">Geek</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/linux-too-many-open-files/" class="prev" rel="prev" title="如何解决 linux too many open files 问题"><i class="fas fa-angle-left fa-fw"></i>如何解决 linux too many open files 问题</a>
+      <a href="/gk-tmp-technical-decision/" class="next" rel="next" title="[笔记]技术管理案例课：技术决策者之开始定战略了">[笔记]技术管理案例课：技术决策者之开始定战略了<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/Lruihao/FixIt" target="_blank" rel="external nofollow noopener noreffer" title="FixIt 0.2.13"><img class="fixit-icon" src="/images/fixit.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">
+              <a
+  href="https://www.lesliexlxiao.com"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>Leslie</a></span><span class="footer-divider"></span><span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line ibruce">
+          <span id="busuanzi_container_site_uv" title=总访客数
+            ><i class="far fa-user"></i>
+            <span id="busuanzi_value_site_uv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span><span class="site-time footer-divider" title=网站运行中&#32;...
+              ><i class="fas fa-heartbeat animate-icon"></i>
+              <span class="run-times">Loading...</span
+            ></span><span id="busuanzi_container_site_pv" class="footer-divider" title=总访问量
+            ><i class="far fa-eye"></i>
+            <span id="busuanzi_value_site_pv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span>
+        </div></div>
+  </footer></div>
+
+    <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+        <i class="fas fa-arrow-up fa-fw"></i>
+      </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+        <i class="fas fa-comment fa-fw"></i>
+      </a>
+    </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js" defer></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js" defer></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js" async defer></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js" defer></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js" defer></script><script type="text/javascript" src="/lib/sharer/sharer.min.js" async defer></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script type="text/javascript" src="/lib/pangu/pangu.min.js" defer></script><script type="text/javascript" src="/lib/cell-watermark/watermark.min.js" defer></script><script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":100},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePWA":true,"enablePangu":true,"ibruce":{"enable":true,"siteTime":"2021-12-18T16:15:22+08:00"},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"search":{"algoliaAppID":"F9NU6Y7N3C","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b0c935a6f30b83a884c63cb57ec5f455","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"watermark":{"content":"\u003cimg class=\"fixit-icon\" src=\"/images/fixit.svg\" alt=\"FixIt logo\" /\u003e FixIt 主题","enable":true,"height":21,"opacity":0.0125}};</script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript" src="/js/_custom.min.js" defer></script></body>
+</html>

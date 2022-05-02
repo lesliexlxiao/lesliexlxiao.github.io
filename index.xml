@@ -1,0 +1,80 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>LESLIEXLXIAO&#39;S BLOG</title>
+    <link>https://fixit.lruihao.cn/</link>
+    <description>关于 FixIt 主题</description>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>lesliexlxiao@163.com (Leslie)</managingEditor>
+      <webMaster>lesliexlxiao@163.com (Leslie)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 26 Apr 2022 18:51:01 &#43;0800</lastBuildDate>
+      <atom:link href="https://fixit.lruihao.cn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+  <title>Jenkins 常用插件介绍</title>
+  <link>https://fixit.lruihao.cn/jenkins-common-plugins/</link>
+  <pubDate>Tue, 26 Apr 2022 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/jenkins-common-plugins/</guid>
+  <description><![CDATA[本文主要介绍了 Jenkins 的一些常用插件。 1. 常用插件介绍 1.1 CAS Plugin 用于 CAS 接入。 CAS 插件介绍CAS 插件介绍 " CAS 插件介绍 CAS 插件配置CAS 插件配置 " CAS 插件配置 1.2 Matrix]]></description>
+</item><item>
+  <title>Docker 多阶段构建</title>
+  <link>https://fixit.lruihao.cn/docker-multi-stage-build/</link>
+  <pubDate>Thu, 24 Mar 2022 22:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/docker-multi-stage-build/</guid>
+  <description><![CDATA[本文主要介绍了 Docker 的多阶段构建，以及多阶段构建的一些优势。 Docker 17.05 之前的版本是不支持 multi-stage 镜像构建，通常会采用两种方式构建。一种是全部放入一个 Dockerfile 文件中]]></description>
+</item><item>
+  <title>Dockerfile 最佳实践（指令相关）</title>
+  <link>https://fixit.lruihao.cn/docker-dockerfile-bp2/</link>
+  <pubDate>Thu, 24 Mar 2022 21:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/docker-dockerfile-bp2/</guid>
+  <description><![CDATA[本文主要介绍了编写 Dockerfile 指令相关的一些最佳实践。 1. FROM 尽可能使用当前官方仓库作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私]]></description>
+</item><item>
+  <title>Dockerfile 最佳实践（常规指南和建议）</title>
+  <link>https://fixit.lruihao.cn/docker-dockerfile-bp1/</link>
+  <pubDate>Thu, 24 Mar 2022 20:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/docker-dockerfile-bp1/</guid>
+  <description><![CDATA[本文主要介绍了编写 Dockerfile 时的一些最佳实践，主要包括一些常规指南和建议。 1. 忽略 docker build 构建文件 在 docker build 的过程中，首先会将指定的上下文目录打包传递给 docker 引擎]]></description>
+</item><item>
+  <title>设计模式系列（一）：单例模式</title>
+  <link>https://fixit.lruihao.cn/design-pattern-singleton/</link>
+  <pubDate>Sat, 12 Mar 2022 18:02:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/design-pattern-singleton/</guid>
+  <description><![CDATA[本文主要介绍了什么是单例模式，同时给出了其应用场景及 Golang 代码的具体实现。 1. 什么是单例 单例模式是一种常用的软件设计模式，其定义是单例对象的类只能]]></description>
+</item><item>
+  <title>私有 cnpm 无法下载外网包的问题排查</title>
+  <link>https://fixit.lruihao.cn/scm-private-npm-error/</link>
+  <pubDate>Wed, 02 Mar 2022 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/scm-private-npm-error/</guid>
+  <description><![CDATA[本文主要记录了私有 cnpm 无法下载外网包的问题排查过程。同时给出对应的解决方案并对解决方案进行了验证。 1. 故障现象 用户报障外网 npm 包下载不到。 下载报错]]></description>
+</item><item>
+  <title>[笔记]Kubernetes 架构原则和对象设计</title>
+  <link>https://fixit.lruihao.cn/gk-cloudnative-k8s-arch/</link>
+  <pubDate>Sat, 19 Feb 2022 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/gk-cloudnative-k8s-arch/</guid>
+  <description><![CDATA[<p>本文主要是看了极客时间上《Kubernetes 架构原则和对象设计》的分享而做的一些笔记及总结。</p>]]></description>
+</item><item>
+  <title>Golang 空结构体妙用</title>
+  <link>https://fixit.lruihao.cn/go-empty-struct.go/</link>
+  <pubDate>Tue, 15 Feb 2022 20:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/go-empty-struct.go/</guid>
+  <description><![CDATA[本文主要介绍了 golang 语言中的空结构体及其使用场景。 1. 空结构体 空结构体的宽度是 0，占用了 0 字节的内存空间。 由于空结构体占用0字节，那么空结构体也不]]></description>
+</item><item>
+  <title>一文带你玩转 Jenkins</title>
+  <link>https://fixit.lruihao.cn/jenkins-enlightenment/</link>
+  <pubDate>Wed, 24 Jun 2020 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/jenkins-enlightenment/</guid>
+  <description><![CDATA[1. 实验环境 本次实验采用的机器为 MAC。 需要预装的软件：Docker。 2. 构建 Jenkins Master 镜像 首先请先下载我的个人项目 jenkins-alpine-do]]></description>
+</item><item>
+  <title>Windows 环境下如何添加 jenkins-slave 节点</title>
+  <link>https://fixit.lruihao.cn/jenkins-install-windows-slave/</link>
+  <pubDate>Thu, 30 May 2019 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/jenkins-install-windows-slave/</guid>
+  <description><![CDATA[<p>本文主要介绍了 Windows 环境下如何添加 jenkins-slave 节点，以及安装过程中一些常见问题如何解决。</p>]]></description>
+</item></channel>
+</rss>

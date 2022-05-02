@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <title>Dockerfile 最佳实践（指令相关） - LESLIEXLXIAO&#39;S BLOG</title><meta name="author" content="Leslie: https://www.lesliexlxiao.com">
+<meta name="description" content="本文主要介绍了编写 Dockerfile 指令相关的一些最佳实践。 1. FROM 尽可能使用当前官方仓库作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私" />
+<meta name="keywords" content="Docker" /><meta itemprop="name" content="Dockerfile 最佳实践（指令相关）">
+<meta itemprop="description" content="本文主要介绍了编写 Dockerfile 指令相关的一些最佳实践。 1. FROM 尽可能使用当前官方仓库作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私">
+<meta itemprop="datePublished" content="2022-03-24T21:51:01+08:00" />
+<meta itemprop="dateModified" content="2022-03-24T21:51:01+08:00" />
+<meta itemprop="wordCount" content="1875">
+<meta itemprop="image" content="https://fixit.lruihao.cn/logo.png"/>
+
+
+
+<meta itemprop="keywords" content="Docker," />
+<meta property="og:title" content="Dockerfile 最佳实践（指令相关）" />
+<meta property="og:description" content="本文主要介绍了编写 Dockerfile 指令相关的一些最佳实践。 1. FROM 尽可能使用当前官方仓库作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fixit.lruihao.cn/docker-dockerfile-bp2/" />
+<meta property="og:image" content="https://fixit.lruihao.cn/logo.png"/>
+<meta property="article:published_time" content="2022-03-24T21:51:01+08:00" />
+<meta property="article:modified_time" content="2022-03-24T21:51:01+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://fixit.lruihao.cn/logo.png"/>
+
+<meta name="twitter:title" content="Dockerfile 最佳实践（指令相关）"/>
+<meta name="twitter:description" content="本文主要介绍了编写 Dockerfile 指令相关的一些最佳实践。 1. FROM 尽可能使用当前官方仓库作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#252627"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://fixit.lruihao.cn/docker-dockerfile-bp2/" /><link rel="prev" href="https://fixit.lruihao.cn/docker-dockerfile-bp1/" /><link rel="next" href="https://fixit.lruihao.cn/docker-multi-stage-build/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Dockerfile 最佳实践（指令相关）",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/fixit.lruihao.cn\/docker-dockerfile-bp2\/"
+    },"image": ["https:\/\/fixit.lruihao.cn\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Docker","wordcount":  1875 ,
+    "url": "https:\/\/fixit.lruihao.cn\/docker-dockerfile-bp2\/","datePublished": "2022-03-24T21:51:01+08:00","dateModified": "2022-03-24T21:51:01+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+      "@type": "Organization",
+      "name": "Lruihao","logo": "https:\/\/fixit.lruihao.cn\/images\/avatar.png"},"author": {
+        "@type": "Person",
+        "name": "Leslie"
+      },"description": ""
+  }
+  </script></head>
+  <body header-desktop="sticky" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+    <div class="menu">
+      <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/friends/" title="友情链接"> 友链 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+            <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/docker-dockerfile-bp2/" selected>简体中文</option></select>
+          </a><span class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+          <i class="fas fa-adjust fa-fw"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</header><header class="mobile" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="menu" id="menu-mobile"><div class="search-wrapper">
+          <div class="search mobile" id="search-mobile">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-mobile">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </div>
+          <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+            取消
+          </a>
+        </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/friends/" title="友情链接">友链</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+        <i class="fas fa-adjust fa-fw"></i>
+      </a><a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+          <select class="language-select" onchange="location = this.value;"><option value="/docker-dockerfile-bp2/" selected>简体中文</option></select>
+        </a></div>
+  </div>
+</header>
+<div class="search-dropdown desktop">
+  <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+  <div id="search-dropdown-mobile"></div>
+</div>
+<main class="container" page-style="normal"><aside class="toc" id="toc-auto"><h2 class="toc-title">目录</h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    
+  </aside>
+
+  <article class="page single"><h1 class="single-title animate__animated animate__flipInX">Dockerfile 最佳实践（指令相关）</h1><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a
+  href="https://www.lesliexlxiao.com"
+  
+    title="Author"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer author"
+  
+  
+  
+    class="author"
+  
+  
+><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/docker/"><i class="far fa-folder fa-fw"></i>Docker</a></span></div>
+      <div class="post-meta-line"><span title=2022-03-24&#32;21:51:01>
+            <i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-03-24" >2022-03-24</time>
+          </span>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1875 字&nbsp;
+        <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+    </div><div class="details toc" id="toc-static" kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fas fa-angle-right"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-from">1. FROM</a></li>
+    <li><a href="#2-label">2. LABEL</a></li>
+    <li><a href="#3-run">3. RUN</a></li>
+    <li><a href="#4-cmd">4. CMD</a></li>
+    <li><a href="#5-expose">5. EXPOSE</a></li>
+    <li><a href="#6-env">6. ENV</a></li>
+    <li><a href="#7-add-和-copy">7. ADD 和 COPY</a></li>
+    <li><a href="#8-entrypoint">8. ENTRYPOINT</a></li>
+    <li><a href="#9-volume">9. VOLUME</a></li>
+    <li><a href="#10-user">10. USER</a></li>
+    <li><a href="#11-workdir">11. WORKDIR</a></li>
+    <li><a href="#12-参考文献">12. 参考文献</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p>本文主要介绍了编写 Dockerfile 指令相关的一些最佳实践。</p>
+<h2 id="1-from">1. FROM</h2>
+<p>尽可能使用<font color=FF0099><strong>当前官方仓库</strong></font>作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私有 registry。</p>
+<p>推荐使用 <font color=FF0099><strong>Alpine 镜像（Alpine Linux 是一个完整的操作系统）</strong></font>，因为其被严格控制并保持在最小尺寸（目前大小 5.52M）。基于此基础镜像，再去构建自己的基础镜像，可以有效控制镜像的大小。</p>
+<h2 id="2-label">2. LABEL</h2>
+<p>通过给镜像添加标签可以帮助<font color=FF0099><strong>组织镜像、记录许可信息、辅助自动化构建</strong></font>等。示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">LABEL com.example.version=&#34;0.0.1-beta&#34;
+
+LABEL vendor=&#34;ACME Incorporated&#34;
+
+LABEL com.example.release-date=&#34;2015-02-12&#34;
+
+LABEL com.example.version.is-production=&#34;&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>注意：如果你的字符串中包含空格，<font color=FF0099><strong>必须将字符串放入引号中或者对空格使用转义</strong></font>。如果字符串内容本身就包含引号，<font color=FF0099><strong>必须对引号使用转义。</strong></font></p>
+<p>一个镜像可以包含多个标签，但建议将多个标签放入到一个 LABEL 指令中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">LABEL vendor=ACME\ Incorporated \
+  com.example.is-beta= \
+  com.example.is-production=&#34;&#34; \
+  com.example.version=&#34;0.0.1-beta&#34; \
+  com.example.release-date=&#34;2015-02-12&#34;
+</code></pre></td></tr></table>
+</div>
+</div><p>标签可接受的键值参考：<a href="https://docs.docker.com/config/labels-custom-metadata/"  target="_blank">Understanding object labels</a></p>
+<p>查询标签信息参考：<a href="https://docs.docker.com/config/labels-custom-metadata/"  target="_blank">Managing labels on objects</a></p>
+<p>在实际运维过程中，容器的数量级一旦上升，就会给运维上带来很大的挑战。<font color=FF0099><strong>通过 label 可以很好的将容器分类，从而便于运维</strong></font>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 创建容器的时候定义一个 label，表示该容器在 test 这个区域</span>
+$ docker run -itd --name nginx-test --label <span class="nv">zone</span><span class="o">=</span><span class="nb">test</span>
+
+<span class="c1"># 使用自定义的 label 快速检索容器，并进行下一步操作</span>
+$ docker ps -f <span class="nv">label</span><span class="o">=</span><span class="nv">zone</span><span class="o">=</span><span class="nb">test</span> --format<span class="o">=</span><span class="s1">&#39;{{.NAMES}}&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="3-run">3. RUN</h2>
+<p>为了保持 Dockerfile 文件的<font color=FF0099><strong>可读性，可理解性，以及可维护性</strong></font>，过长的或复杂的 RUN 指令使用反斜杠 \ 分行。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">RUN yum install -y pip \
+  git-1.9.3.1 \
+  wget-1.14 &amp;&amp; \
+  yum clean all
+</code></pre></td></tr></table>
+</div>
+</div><p>Ubuntu，通常会使用 apt-get 去安装包。</p>
+<p>不要使用 RUN apt-get upgrade 或 dist-upgrade，<font color=FF0099><strong>因为 upgrade 命令会导致升级所有包</strong></font>，其实常常用户并不想升级基础镜像里面的包。如果要单独升级某一个包，使用 apt-get install -y foo。</p>
+<p>将 RUN apt-get update 和 apt-get install 组合成一条 RUN 声明：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">RUN apt-get update &amp;&amp; apt-get install -y \
+  package-bar \
+  package-baz
+</code></pre></td></tr></table>
+</div>
+</div><p><font color=FF0099><strong>如果将 RUN apt-get update 和 apt-get install 拆解为两条命令，会导致缓存问题记忆后续的 install 失败</strong></font>，示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">FROM ubuntu:14.04
+
+RUN apt-get update
+
+RUN apt-get install -y curl
+</code></pre></td></tr></table>
+</div>
+</div><p>构建镜像后，所有的镜像层都在 Docker 缓存中。这时修改 Dockerfile 如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">FROM ubuntu:14.04
+
+RUN apt-get update
+
+RUN apt-get install -y curl nginx
+</code></pre></td></tr></table>
+</div>
+</div><p>再次构建镜像，Docker 发现  RUN apt-get update 指令一样。这样会导致 apt-get update 不再执行，使用缓存镜像。<font color=FF0099><strong>后面使用 apt-get install 安装的是过时的 curl 和 nginx 版本。</strong></font></p>
+<h2 id="4-cmd">4. CMD</h2>
+<p>多数情况下都应该以 CMD [&ldquo;executable&rdquo;, &ldquo;param1&rdquo;, &ldquo;param2&rdquo;&hellip;] 的形式使用。</p>
+<p>极少情况下才能以 CMD [&ldquo;param&rdquo;, &ldquo;param&rdquo;] 的形式与 ENTRYPOINT 协同使用。</p>
+<h2 id="5-expose">5. EXPOSE</h2>
+<p>为应用程序 EXPOSE 常用端口，如 Apache web 服务的镜像使用 EXPOSE 80，MongoDB 服务的镜像使用 EXPOSE 27017。</p>
+<h2 id="6-env">6. ENV</h2>
+<p>主要有以下作用：</p>
+<ul>
+<li>
+<p>为容器中安装的程序更新 PATH 环境变量，确保如 CMD [&ldquo;nginx&rdquo;] 正确运行。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ENV PATH /usr/local/nginx/bin:$PATH
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>为容器化服务提供必要的环境变量。</p>
+</li>
+</ul>
+<h2 id="7-add-和-copy">7. ADD 和 COPY</h2>
+<p><font color=FF0099><strong>优先使用 COPY，COPY 语义更明确。</strong></font></p>
+<p>ADD 能够将本地 tar 文件自动提取到镜像中，这种场景用 ADD 更合适。</p>
+<p>如果 Dockerfile 中需要 COPY 多个上下文中的文件，不要一次性 COPY 所有文件，这将保证每个步骤的构建缓存只在特定的文件变化时失效。最好的做法是按文件组织结构以及功能去 COPY 文件。</p>
+<p>为了让镜像尽量小，最好不要使用 ADD 指令从远程 URL 获取包，而是使用 curl 和 wget 。这样可以避免使用 ADD 而会多出的额外镜像层，示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># invalid method
+ADD http://example.com/big.tar.xz /usr/src/things/
+
+RUN tar -xJf /usr/src/things/big.tar.xz -C /usr/src/things &amp;&amp; \
+  make -C /usr/src/things all
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback"># valid method
+RUN mkdir -p /usr/src/things \
+&amp;&amp; curl -SL http://example.com/big.tar.xz \
+| tar -xJC /usr/src/things \
+&amp;&amp; make -C /usr/src/things all
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看出第一种方法会比第二种方法多出额外的镜像层。</p>
+<h2 id="8-entrypoint">8. ENTRYPOINT</h2>
+<p>最佳用处是设置镜像的主命令，<font color=FF0099><strong>允许将镜像当成命令本身来运行。</strong></font>示例如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">ENTRYPOINT [&#34;s3cmd&#34;]
+
+CMD [&#34;--help&#34;]
+</code></pre></td></tr></table>
+</div>
+</div><p>运行容器：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ docker run s3cmd
+
+$ docker run s3cmd ls s3://mybucket
+</code></pre></td></tr></table>
+</div>
+</div><p>将 ENTRYPOINT 指令结合一个辅助脚本使用，去解决容器启动中多步骤问题。</p>
+<ul>
+<li>
+<p>例如，Postgres 官方镜像使用下面的脚本作为 ENTRYPOINT:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
+</span><span class="cp"></span><span class="nb">set</span> -e
+
+<span class="k">if</span> <span class="o">[</span> <span class="s2">&#34;</span><span class="nv">$1</span><span class="s2">&#34;</span> <span class="o">=</span> <span class="s1">&#39;postgres&#39;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    chown -R postgres <span class="s2">&#34;</span><span class="nv">$PGDATA</span><span class="s2">&#34;</span>
+
+    <span class="k">if</span> <span class="o">[</span> -z <span class="s2">&#34;</span><span class="k">$(</span>ls -A <span class="s2">&#34;</span><span class="nv">$PGDATA</span><span class="s2">&#34;</span><span class="k">)</span><span class="s2">&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        gosu postgres initdb
+    <span class="k">fi</span>
+
+    <span class="nb">exec</span> gosu postgres <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span>
+<span class="k">fi</span>
+
+<span class="nb">exec</span> <span class="s2">&#34;</span><span class="nv">$@</span><span class="s2">&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><font color=FF0099><strong>注意：</strong></font> 该脚本使用了 Bash 的内置命令 exec，所以最后运行的进程就是容器的 PID 为 1 的进程。这样，进程就可以接收到任何发送给容器的 Unix 信号了。</li>
+</ul>
+</li>
+<li>
+<p>该辅助脚本被拷贝到容器，并在容器启动时通过 ENTRYPOINT 执行:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">COPY ./docker-entrypoint.sh /
+
+ENTRYPOINT [&#34;/docker-entrypoint.sh&#34;]
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>这样可以使用多种方式和 postgres 交互：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="c1"># 简单启动 Postgres</span>
+$ docker run postgres
+
+<span class="c1"># 执行 Postgres 并传递参数</span>
+$ docker run postgres postgres --help
+</code></pre></td></tr></table>
+</div>
+</div></li>
+</ul>
+<h2 id="9-volume">9. VOLUME</h2>
+<p>建议使用 VOLUME 来管理镜像中的可变部分和用户可以改变的部分，如数据库存储文件、配置文件、容器创建的文件和目录等。</p>
+<h2 id="10-user">10. USER</h2>
+<p>不需要使用特权执行的服务，建议使用 USER 指令切换到非 root 用户。使用下面的方法创建用户和用户组：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">RUN groupadd -r postgres &amp;&amp; \
+  useradd -r -g postgres postgres
+</code></pre></td></tr></table>
+</div>
+</div><p>避免使用 sudo，因为它可预期的 TTY 和信号转发行为可能造成很多问题。可以使用 <a href="url">gosu</a> 来替代 sudo。</p>
+<p>为了减少层数和复杂度，避免频繁地使用 USER 来回切换用户。</p>
+<h2 id="11-workdir">11. WORKDIR</h2>
+<p>为了清晰性和可靠性，应该总是在 WORKDIR 中使用绝对路径</p>
+<p>使用 WORKDIR 来替代类似于 RUN cd &hellip; &amp;&amp; do-something 的指令，后者难以阅读、排错和维护。</p>
+<h2 id="12-参考文献">12. 参考文献</h2>
+<p>[1] yeasy.Docker 从入门到实践[M]:369-375.</p>
+<p>[2] 廖煜,晏东.Docker 容器实战[M].北京:电子工业出版社,2016:183-199.</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title=2022-03-24&#32;21:51:01>更新于 2022-03-24</span>
+      </div>
+      <div class="post-info-license"><span><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+    <div class="post-info-line">
+      <div class="post-info-md"><span>
+              <a class="link-to-markdown" href="/docker-dockerfile-bp2/index.md" target="_blank">阅读原始文档</a>
+            </span></div>
+      <div class="post-info-share">
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://fixit.lruihao.cn/docker-dockerfile-bp2/" data-title="Dockerfile 最佳实践（指令相关）" data-hashtags="Docker"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://fixit.lruihao.cn/docker-dockerfile-bp2/" data-hashtag="Docker"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://fixit.lruihao.cn/docker-dockerfile-bp2/" data-title="Dockerfile 最佳实践（指令相关）"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://fixit.lruihao.cn/docker-dockerfile-bp2/" data-title="Dockerfile 最佳实践（指令相关）"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://fixit.lruihao.cn/docker-dockerfile-bp2/" data-title="Dockerfile 最佳实践（指令相关）"><i class="fab fa-weibo fa-fw"></i></a></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/docker/">Docker</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/docker-dockerfile-bp1/" class="prev" rel="prev" title="Dockerfile 最佳实践（常规指南和建议）"><i class="fas fa-angle-left fa-fw"></i>Dockerfile 最佳实践（常规指南和建议）</a>
+      <a href="/docker-multi-stage-build/" class="next" rel="next" title="Docker 多阶段构建">Docker 多阶段构建<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/Lruihao/FixIt" target="_blank" rel="external nofollow noopener noreffer" title="FixIt 0.2.13"><img class="fixit-icon" src="/images/fixit.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">
+              <a
+  href="https://www.lesliexlxiao.com"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>Leslie</a></span><span class="footer-divider"></span><span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line ibruce">
+          <span id="busuanzi_container_site_uv" title=总访客数
+            ><i class="far fa-user"></i>
+            <span id="busuanzi_value_site_uv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span><span class="site-time footer-divider" title=网站运行中&#32;...
+              ><i class="fas fa-heartbeat animate-icon"></i>
+              <span class="run-times">Loading...</span
+            ></span><span id="busuanzi_container_site_pv" class="footer-divider" title=总访问量
+            ><i class="far fa-eye"></i>
+            <span id="busuanzi_value_site_pv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span>
+        </div></div>
+  </footer></div>
+
+    <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+        <i class="fas fa-arrow-up fa-fw"></i>
+      </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+        <i class="fas fa-comment fa-fw"></i>
+      </a>
+    </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js" defer></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js" defer></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js" async defer></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js" defer></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js" defer></script><script type="text/javascript" src="/lib/sharer/sharer.min.js" async defer></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script type="text/javascript" src="/lib/pangu/pangu.min.js" defer></script><script type="text/javascript" src="/lib/cell-watermark/watermark.min.js" defer></script><script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":100},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePWA":true,"enablePangu":true,"ibruce":{"enable":true,"siteTime":"2021-12-18T16:15:22+08:00"},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"search":{"algoliaAppID":"F9NU6Y7N3C","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b0c935a6f30b83a884c63cb57ec5f455","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"watermark":{"content":"\u003cimg class=\"fixit-icon\" src=\"/images/fixit.svg\" alt=\"FixIt logo\" /\u003e FixIt 主题","enable":true,"height":21,"opacity":0.0125}};</script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript" src="/js/_custom.min.js" defer></script></body>
+</html>

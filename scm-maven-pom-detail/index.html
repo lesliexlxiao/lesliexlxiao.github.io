@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <title>Maven pom.xml 文件详解 - LESLIEXLXIAO&#39;S BLOG</title><meta name="author" content="Leslie: https://www.lesliexlxiao.com">
+<meta name="description" content="本文主要介绍了 maven pom.xml 中各元素的详细意义。 1. pom.xml 文件详解 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45" />
+<meta name="keywords" content="Maven,SCM" /><meta itemprop="name" content="Maven pom.xml 文件详解">
+<meta itemprop="description" content="本文主要介绍了 maven pom.xml 中各元素的详细意义。 1. pom.xml 文件详解 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45">
+<meta itemprop="datePublished" content="2020-04-13T18:51:01+08:00" />
+<meta itemprop="dateModified" content="2022-04-27T06:55:54+08:00" />
+<meta itemprop="wordCount" content="2247">
+<meta itemprop="image" content="https://fixit.lruihao.cn/logo.png"/>
+
+
+
+<meta itemprop="keywords" content="Maven,SCM," />
+<meta property="og:title" content="Maven pom.xml 文件详解" />
+<meta property="og:description" content="本文主要介绍了 maven pom.xml 中各元素的详细意义。 1. pom.xml 文件详解 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fixit.lruihao.cn/scm-maven-pom-detail/" />
+<meta property="og:image" content="https://fixit.lruihao.cn/logo.png"/>
+<meta property="article:published_time" content="2020-04-13T18:51:01+08:00" />
+<meta property="article:modified_time" content="2022-04-27T06:55:54+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://fixit.lruihao.cn/logo.png"/>
+
+<meta name="twitter:title" content="Maven pom.xml 文件详解"/>
+<meta name="twitter:description" content="本文主要介绍了 maven pom.xml 中各元素的详细意义。 1. pom.xml 文件详解 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#252627"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://fixit.lruihao.cn/scm-maven-pom-detail/" /><link rel="prev" href="https://fixit.lruihao.cn/algorithm-two-sum/" /><link rel="next" href="https://fixit.lruihao.cn/scm-maven-dependency-relative/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Maven pom.xml 文件详解",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/fixit.lruihao.cn\/scm-maven-pom-detail\/"
+    },"image": ["https:\/\/fixit.lruihao.cn\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Maven, SCM","wordcount":  2247 ,
+    "url": "https:\/\/fixit.lruihao.cn\/scm-maven-pom-detail\/","datePublished": "2020-04-13T18:51:01+08:00","dateModified": "2022-04-27T06:55:54+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+      "@type": "Organization",
+      "name": "Lruihao","logo": "https:\/\/fixit.lruihao.cn\/images\/avatar.png"},"author": {
+        "@type": "Person",
+        "name": "Leslie"
+      },"description": ""
+  }
+  </script></head>
+  <body header-desktop="sticky" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+    <div class="menu">
+      <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/friends/" title="友情链接"> 友链 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+            <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/scm-maven-pom-detail/" selected>简体中文</option></select>
+          </a><span class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+          <i class="fas fa-adjust fa-fw"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</header><header class="mobile" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="menu" id="menu-mobile"><div class="search-wrapper">
+          <div class="search mobile" id="search-mobile">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-mobile">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </div>
+          <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+            取消
+          </a>
+        </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/friends/" title="友情链接">友链</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+        <i class="fas fa-adjust fa-fw"></i>
+      </a><a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+          <select class="language-select" onchange="location = this.value;"><option value="/scm-maven-pom-detail/" selected>简体中文</option></select>
+        </a></div>
+  </div>
+</header>
+<div class="search-dropdown desktop">
+  <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+  <div id="search-dropdown-mobile"></div>
+</div>
+<main class="container" page-style="normal"><aside class="toc" id="toc-auto"><h2 class="toc-title">目录</h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    
+  </aside>
+
+  <article class="page single"><h1 class="single-title animate__animated animate__flipInX">Maven pom.xml 文件详解</h1><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a
+  href="https://www.lesliexlxiao.com"
+  
+    title="Author"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer author"
+  
+  
+  
+    class="author"
+  
+  
+><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/scm/"><i class="far fa-folder fa-fw"></i>SCM</a></span></div>
+      <div class="post-meta-line"><span title=2020-04-13&#32;18:51:01>
+            <i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-04-13" >2020-04-13</time>
+          </span>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2247 字&nbsp;
+        <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 5 分钟&nbsp;</div>
+    </div><div class="details toc" id="toc-static" kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fas fa-angle-right"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-pomxml-文件详解">1. pom.xml 文件详解</a></li>
+    <li><a href="#2-插件参考文档">2. 插件参考文档</a></li>
+    <li><a href="#3-参考文献">3. 参考文献</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p>本文主要介绍了 maven pom.xml 中各元素的详细意义。</p>
+<h2 id="1-pomxml-文件详解">1. pom.xml 文件详解</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span><span class="lnt">234
+</span><span class="lnt">235
+</span><span class="lnt">236
+</span><span class="lnt">237
+</span><span class="lnt">238
+</span><span class="lnt">239
+</span><span class="lnt">240
+</span><span class="lnt">241
+</span><span class="lnt">242
+</span><span class="lnt">243
+</span><span class="lnt">244
+</span><span class="lnt">245
+</span><span class="lnt">246
+</span><span class="lnt">247
+</span><span class="lnt">248
+</span><span class="lnt">249
+</span><span class="lnt">250
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">&#34;http://maven.apache.org/POM/4.0.0&#34;</span>
+<span class="na">xmlns:xsi=</span><span class="s">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+<span class="na">xsi:schemaLocation=</span><span class="s">&#34;http://maven.apache.org/POM/4.0.0
+</span><span class="s">http://maven.apache.org/xsd/maven-4.0.0.xsd&#34;</span><span class="nt">&gt;</span>
+
+    <span class="c">&lt;!--
+</span><span class="c">    声明项目描述符遵循哪一个 POM 模型版本。
+</span><span class="c">    模型本身的版本很少改变，虽然如此，但它仍然是必不可少的，
+</span><span class="c">    这是为了当 Maven 引入了新的特性或者其他模型变更的时候，确保稳定性。
+</span><span class="c">    maven2.0 必须使用如下写法，现在是 maven2.0 唯一支持的版本。
+</span><span class="c">    --&gt;</span>
+    <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+
+    <span class="c">&lt;!--
+</span><span class="c">    父项目的坐标。如果项目中没有规定某个元素的值，那么父项目中的对应值即为项目的默认值。
+</span><span class="c">    --&gt;</span>
+    <span class="nt">&lt;parent&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>com.bidu<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>super-pom<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;version&gt;</span>0.0.1<span class="nt">&lt;/version&gt;</span>
+
+        <span class="c">&lt;!--
+</span><span class="c">        父项目的 pom.xml 文件的相对路径。相对路径允许你选择一个不同的路径。默认值是../pom.xml。
+</span><span class="c">        Maven 首先在构建当前项目的地方寻找父项目的 pom，然后在本地仓库，最后在远程仓库寻找父项目的 pom。
+</span><span class="c">        RelativePath 允许你选择一个不同的位置。
+</span><span class="c">        --&gt;</span>
+        <span class="nt">&lt;relativePath&gt;</span>xxx<span class="nt">&lt;/relativePath&gt;</span>
+    <span class="nt">&lt;/parent&gt;</span>
+
+    <span class="c">&lt;!--
+</span><span class="c">    定义了项目属于哪个组，公司或者组织的唯一标识，
+</span><span class="c">    并且构建时生成的路径也是由此生成，
+</span><span class="c">    如 com.mycompany.app 生成的相对路径为：/com/mycompany/app
+</span><span class="c">    --&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.bidu<span class="nt">&lt;/groupId&gt;</span>
+
+    <span class="c">&lt;!--
+</span><span class="c">    定义了当前 maven 项目在组中的唯一的 ID。
+</span><span class="c">    它和 group ID 一起唯一标识一个构件。
+</span><span class="c">    --&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>super-pom<span class="nt">&lt;/artifactId&gt;</span>
+
+    <span class="c">&lt;!-- 本项目目前所处的版本号 --&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.0.1<span class="nt">&lt;/version&gt;</span>
+
+    <span class="c">&lt;!--
+</span><span class="c">    项目产生的构件类型，例如 jar、war、ear、pom。
+</span><span class="c">    插件可以创建他们自己的构件类型，所以前面列的不是全部构件类型。默认为 jar。
+</span><span class="c">    --&gt;</span>
+    <span class="nt">&lt;packaging&gt;</span>pom<span class="nt">&lt;/packaging&gt;</span>
+
+    <span class="c">&lt;!-- 项目的名称，Maven 产生的文档用 --&gt;</span>
+    <span class="nt">&lt;name&gt;</span>Bidu company super pom<span class="nt">&lt;/name&gt;</span>
+
+    <span class="c">&lt;!-- 项目主页的 URL，Maven 产生的文档用 --&gt;</span>
+    <span class="nt">&lt;url&gt;</span> http://maven.apache.org <span class="nt">&lt;/url&gt;</span>
+
+    <span class="c">&lt;!--
+</span><span class="c">    项目的详细描述, Maven 产生的文档用。
+</span><span class="c">    当这个元素能够用 HTML 格式描述时（例如，CDATA 中的文本会被解析器忽略，就可以包含HTML标签），
+</span><span class="c">    不鼓励使用纯文本描述。
+</span><span class="c">    如果你需要修改产生的 web 站点的索引页面，你应该修改你自己的索引页文件，而不是调整这里的文档。
+</span><span class="c">    --&gt;</span>
+    <span class="nt">&lt;description&gt;</span>Bidu 公司 super pom<span class="nt">&lt;/description&gt;</span>
+
+    <span class="c">&lt;!-- 描述项目所属组织的各种属性。Maven 产生的文档用 --&gt;</span>
+    <span class="nt">&lt;organization&gt;</span>
+        <span class="c">&lt;!-- 组织的全名 --&gt;</span>
+        <span class="nt">&lt;name&gt;</span>Bidi<span class="nt">&lt;/name&gt;</span>
+
+        <span class="c">&lt;!-- 组织主页的URL --&gt;</span>
+        <span class="nt">&lt;url&gt;</span>http://www.bidu.com<span class="nt">&lt;/url&gt;</span>
+    <span class="nt">&lt;/organization&gt;</span>
+
+    <span class="c">&lt;!--
+</span><span class="c">    为 pom 定义一些常量，在 pom 中的其它地方可以直接引用，
+</span><span class="c">    使用方式如下：${java.version} ，${maven-surefire-plugin.version}
+</span><span class="c">    --&gt;</span>
+    <span class="nt">&lt;properties&gt;</span>
+        <span class="nt">&lt;java.version&gt;</span>1.7<span class="nt">&lt;/java.version&gt;</span>
+        <span class="nt">&lt;maven-surefire-plugin.version&gt;</span>2.19.1<span class="nt">&lt;/maven-surefire-plugin.version&gt;</span>
+        <span class="nt">&lt;spring.version&gt;</span>4.3.4.RELEASE<span class="nt">&lt;/spring.version&gt;</span>
+    <span class="nt">&lt;/properties&gt;</span>
+
+    <span class="c">&lt;!-- 构建项目需要的信息 --&gt;</span>
+    <span class="nt">&lt;build&gt;</span>
+        <span class="c">&lt;!--
+</span><span class="c">        子项目可以引用的默认插件信息。
+</span><span class="c">        该插件配置项直到被引用时才会被解析或绑定到生命周期。
+</span><span class="c">        给定插件的任何本地配置都会覆盖这里的配置。
+</span><span class="c">        --&gt;</span>
+        <span class="nt">&lt;pluginManagement&gt;</span>
+            <span class="nt">&lt;plugins&gt;</span>
+                <span class="nt">&lt;plugin&gt;</span>
+                    <span class="c">&lt;!-- 插件在仓库里的 group ID --&gt;</span>
+                    <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+
+                    <span class="c">&lt;!-- 插件在仓库里的 artifact ID --&gt;</span>
+                    <span class="nt">&lt;artifactId&gt;</span>maven-enforcer-plugin<span class="nt">&lt;/artifactId&gt;</span>
+
+                    <span class="c">&lt;!-- 被使用的插件的版本（或版本范围） --&gt;</span>
+                    <span class="nt">&lt;version&gt;</span>${maven-enforcer-plugin_version}<span class="nt">&lt;/version&gt;</span>
+
+                    <span class="c">&lt;!--
+</span><span class="c">                    是否从该插件下载 Maven 扩展（例如打包和类型处理器），
+</span><span class="c">                    由于性能原因，只有在真需要下载时，该元素才被设置成 enabled。
+</span><span class="c">                    --&gt;</span>
+                    <span class="nt">&lt;extensions&gt;</span>true/false<span class="nt">&lt;/extensions&gt;</span>
+
+                    <span class="c">&lt;!-- 在构建生命周期中执行一组目标的配置。每个目标可能有不同的配置。 --&gt;</span>
+                    <span class="nt">&lt;executions&gt;</span>
+                        <span class="nt">&lt;execution&gt;</span>
+                            <span class="c">&lt;!-- 执行目标的标识符，用于标识构建过程中的目标，或者匹配继承过程中需要合并的执行目标 --&gt;</span>
+                            <span class="nt">&lt;id&gt;&lt;/id&gt;</span>
+
+                            <span class="c">&lt;!-- 绑定了目标的构建生命周期阶段，如果省略，目标会被绑定到源数据里配置的默认阶段 --&gt;</span>
+                            <span class="nt">&lt;phase&gt;&lt;/phase&gt;</span>
+
+                            <span class="c">&lt;!-- 配置的执行目标 --&gt;</span>
+                            <span class="nt">&lt;goals&gt;&lt;/goals&gt;</span>
+
+                            <span class="c">&lt;!-- 配置是否被传播到子POM --&gt;</span>
+                            <span class="nt">&lt;inherited&gt;</span>true/false<span class="nt">&lt;/inherited&gt;</span>
+
+                            <span class="c">&lt;!-- 作为 DOM 对象的配置 --&gt;</span>
+                            <span class="nt">&lt;configuration&gt;&lt;/configuration&gt;</span>
+                        <span class="nt">&lt;/execution&gt;</span>
+                    <span class="nt">&lt;/executions&gt;</span>
+
+                    <span class="c">&lt;!-- 项目引入插件所需要的额外依赖 --&gt;</span>
+                    <span class="nt">&lt;dependencies&gt;</span>
+                        <span class="c">&lt;!-- 参见dependencies/dependency元素 --&gt;</span>
+                        <span class="nt">&lt;dependency&gt;</span>
+                            <span class="nt">&lt;groupId&gt;</span>bidu.scm<span class="nt">&lt;/groupId&gt;</span>
+                            <span class="nt">&lt;artifactId&gt;</span>enforcer-custom-rules<span class="nt">&lt;/artifactId&gt;</span>
+                            <span class="nt">&lt;version&gt;</span>${enforcer-custom-rules_version}<span class="nt">&lt;/version&gt;</span>
+                        <span class="nt">&lt;/dependency&gt;</span>
+                        <span class="nt">&lt;dependency&gt;</span>
+                            <span class="nt">&lt;groupId&gt;</span>org.codehaus.mojo<span class="nt">&lt;/groupId&gt;</span>
+                            <span class="nt">&lt;artifactId&gt;</span>extra-enforcer-rules<span class="nt">&lt;/artifactId&gt;</span>
+                            <span class="nt">&lt;version&gt;</span>${extra-enforcer-rules_version}<span class="nt">&lt;/version&gt;</span>
+                        <span class="nt">&lt;/dependency&gt;</span>
+                    <span class="nt">&lt;/dependencies&gt;</span>
+
+                    <span class="c">&lt;!-- 任何配置是否被传播到子项目 --&gt;</span>
+                    <span class="nt">&lt;inherited&gt;</span>true/false<span class="nt">&lt;/inherited&gt;</span>
+
+                    <span class="c">&lt;!-- 作为 DOM 对象的配置 --&gt;</span>
+                    <span class="nt">&lt;configuration&gt;&lt;/configuration&gt;</span>
+                <span class="nt">&lt;/plugin&gt;</span>
+            <span class="nt">&lt;/plugins&gt;</span>
+        <span class="nt">&lt;/pluginManagement&gt;</span>
+
+        <span class="c">&lt;!-- 该项目使用的插件列表 --&gt;</span>
+        <span class="nt">&lt;plugins&gt;</span>
+            <span class="nt">&lt;plugin&gt;</span>
+                <span class="c">&lt;!-- 插件在仓库里的 group ID --&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+
+                <span class="c">&lt;!-- 插件在仓库里的 artifact ID --&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>maven-enforcer-plugin<span class="nt">&lt;/artifactId&gt;</span>
+
+                <span class="c">&lt;!-- 被使用的插件的版本（或版本范围）--&gt;</span>
+                <span class="nt">&lt;version&gt;&lt;/version&gt;</span>
+
+                <span class="c">&lt;!--
+</span><span class="c">                是否从该插件下载 Maven 扩展（例如打包和类型处理器），
+</span><span class="c">                由于性能原因，只有在真需要下载时，该元素才被设置成 enabled。
+</span><span class="c">                --&gt;</span>
+                <span class="nt">&lt;extensions&gt;</span>true/false<span class="nt">&lt;/extensions&gt;</span>
+
+
+                <span class="c">&lt;!-- 在构建生命周期中执行一组目标的配置。每个目标可能有不同的配置。 --&gt;</span>
+                <span class="nt">&lt;executions&gt;</span>
+
+                    <span class="c">&lt;!-- execution 元素包含了插件执行需要的信息 --&gt;</span>
+                    <span class="nt">&lt;execution&gt;</span>
+
+                        <span class="c">&lt;!-- 执行目标的标识符，用于标识构建过程中的目标，或者匹配继承过程中需要合并的执行目标 --&gt;</span>
+                        <span class="nt">&lt;id&gt;</span>bidu-check<span class="nt">&lt;/id&gt;</span>
+
+                        <span class="c">&lt;!-- 绑定了目标的构建生命周期阶段，如果省略，目标会被绑定到源数据里配置的默认阶段 --&gt;</span>
+                        <span class="nt">&lt;phase&gt;</span>validate<span class="nt">&lt;/phase&gt;</span>
+
+                        <span class="c">&lt;!-- 配置的执行目标 --&gt;</span>
+                        <span class="nt">&lt;goals&gt;</span>
+                            <span class="nt">&lt;goal&gt;</span>enforce<span class="nt">&lt;/goal&gt;</span>
+                        <span class="nt">&lt;/goals&gt;</span>
+
+                        <span class="c">&lt;!-- 配置是否被传播到子 POM --&gt;</span>
+                        <span class="nt">&lt;inherited&gt;</span>true/false<span class="nt">&lt;/inherited&gt;</span>
+
+                        <span class="c">&lt;!-- 作为 DOM 对象的配置 --&gt;</span>
+                        <span class="nt">&lt;configuration&gt;&lt;/configuration&gt;</span>
+                    <span class="nt">&lt;/execution&gt;</span>
+                <span class="nt">&lt;/executions&gt;</span>
+            <span class="nt">&lt;/plugin&gt;</span>
+        <span class="nt">&lt;/plugins&gt;</span>
+    <span class="nt">&lt;/build&gt;</span>
+
+    <span class="c">&lt;!--
+</span><span class="c">    dependencyManagement 声明的依赖，既不会给父 pom 引入依赖，也不会给子模块 引入依赖。
+</span><span class="c">
+</span><span class="c">    子模块会继承这段配置，子模块只需要配置简单的 groupID 和 artifactID 就能获得对应的依赖信息，
+</span><span class="c">    从而引入正确的依赖。
+</span><span class="c">
+</span><span class="c">    虽然使用这种依赖管理机制不能减少太多的 pom 配置。
+</span><span class="c">    但是在父 pom 中使用 dependencyManagement 声明依赖能够统一项目范围中的版本，
+</span><span class="c">    当依赖版本在父 pom 声明之后，子模块在使用依赖的时候就无须声明版本，
+</span><span class="c">    也就不会发生多个子模块使用依赖版本不一致的情况，降低依赖冲突的几率。
+</span><span class="c">    --&gt;</span>
+    <span class="nt">&lt;dependencyManagement&gt;</span>
+        <span class="nt">&lt;dependencies&gt;</span>
+            <span class="nt">&lt;dependency&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>org.springframework<span class="nt">&lt;/groupId&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>spring-core<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;version&gt;</span>${spring.version}<span class="nt">&lt;/version&gt;</span>
+
+                <span class="c">&lt;!--
+</span><span class="c">                当计算传递依赖时，从依赖构件列表里，列出被排除的依赖构件集。
+</span><span class="c">                即告诉 maven 你只依赖指定的项目，不依赖项目的依赖。
+</span><span class="c">                此元素主要用于解决版本冲突问题。
+</span><span class="c">                --&gt;</span>
+                <span class="nt">&lt;exclusions&gt;</span>
+                    <span class="nt">&lt;exclusion&gt;</span>
+                        <span class="nt">&lt;groupId&gt;</span>commons-logging<span class="nt">&lt;/groupId&gt;</span>
+                        <span class="nt">&lt;artifactId&gt;</span>commons-logging<span class="nt">&lt;/artifactId&gt;</span>
+                    <span class="nt">&lt;/exclusion&gt;</span>
+                <span class="nt">&lt;/exclusions&gt;</span>
+            <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;/dependencies&gt;</span>
+    <span class="nt">&lt;/dependencyManagement&gt;</span>
+
+    <span class="c">&lt;!--
+</span><span class="c">    项目分发信息，在执行 mvn deploy 后表示要发布的位置。
+</span><span class="c">    有了这些信息就可以把网站部署到远程服务器或者把构件部署到远程仓库。
+</span><span class="c">    --&gt;</span>
+    <span class="nt">&lt;distributionManagement&gt;</span>
+        <span class="c">&lt;!-- 部署项目产生的构件到远程仓库需要的信息 --&gt;</span>
+        <span class="nt">&lt;repository&gt;</span>
+            <span class="nt">&lt;id&gt;</span>releases<span class="nt">&lt;/id&gt;</span>
+            <span class="nt">&lt;url&gt;</span>${releases.repo}<span class="nt">&lt;/url&gt;</span>
+        <span class="nt">&lt;/repository&gt;</span>
+        <span class="c">&lt;!-- 构件的快照部署到哪里？如果没有配置该元素，默认部署到 repository 元素配置的仓库 --&gt;</span>
+        <span class="nt">&lt;snapshotRepository&gt;</span>
+            <span class="nt">&lt;id&gt;</span>snapshots<span class="nt">&lt;/id&gt;</span>
+            <span class="nt">&lt;url&gt;</span>${snapshots.repo}<span class="nt">&lt;/url&gt;</span>
+        <span class="nt">&lt;/snapshotRepository&gt;</span>
+    <span class="nt">&lt;/distributionManagement&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="2-插件参考文档">2. 插件参考文档</h2>
+<p>文档地址：<a
+  href="https://maven.apache.org/plugins/"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>https://maven.apache.org/plugins/</a>.</p>
+<h2 id="3-参考文献">3. 参考文献</h2>
+<p>[1] <a
+  href="https://www.cnblogs.com/hafiz/p/5360195.html"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>史上最全的 maven 的 pom.xml 文件详解</a>.</p>
+<p>[2] <a
+  href="https://blog.csdn.net/qq_33363618/article/details/79438044"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>Maven 之 pom.xml 配置文件详解</a>.</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title=2022-04-27&#32;06:55:54>更新于 2022-04-27</span>
+      </div>
+      <div class="post-info-license"><span><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+    <div class="post-info-line">
+      <div class="post-info-md"><span>
+              <a class="link-to-markdown" href="/scm-maven-pom-detail/index.md" target="_blank">阅读原始文档</a>
+            </span></div>
+      <div class="post-info-share">
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://fixit.lruihao.cn/scm-maven-pom-detail/" data-title="Maven pom.xml 文件详解" data-hashtags="Maven,SCM"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://fixit.lruihao.cn/scm-maven-pom-detail/" data-hashtag="Maven"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://fixit.lruihao.cn/scm-maven-pom-detail/" data-title="Maven pom.xml 文件详解"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://fixit.lruihao.cn/scm-maven-pom-detail/" data-title="Maven pom.xml 文件详解"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://fixit.lruihao.cn/scm-maven-pom-detail/" data-title="Maven pom.xml 文件详解"><i class="fab fa-weibo fa-fw"></i></a></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/maven/">Maven</a>,&nbsp;<a href="/tags/scm/">SCM</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/algorithm-two-sum/" class="prev" rel="prev" title="两数之和"><i class="fas fa-angle-left fa-fw"></i>两数之和</a>
+      <a href="/scm-maven-dependency-relative/" class="next" rel="next" title="[笔记]Maven 项目依赖介绍">[笔记]Maven 项目依赖介绍<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/Lruihao/FixIt" target="_blank" rel="external nofollow noopener noreffer" title="FixIt 0.2.13"><img class="fixit-icon" src="/images/fixit.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">
+              <a
+  href="https://www.lesliexlxiao.com"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>Leslie</a></span><span class="footer-divider"></span><span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line ibruce">
+          <span id="busuanzi_container_site_uv" title=总访客数
+            ><i class="far fa-user"></i>
+            <span id="busuanzi_value_site_uv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span><span class="site-time footer-divider" title=网站运行中&#32;...
+              ><i class="fas fa-heartbeat animate-icon"></i>
+              <span class="run-times">Loading...</span
+            ></span><span id="busuanzi_container_site_pv" class="footer-divider" title=总访问量
+            ><i class="far fa-eye"></i>
+            <span id="busuanzi_value_site_pv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span>
+        </div></div>
+  </footer></div>
+
+    <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+        <i class="fas fa-arrow-up fa-fw"></i>
+      </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+        <i class="fas fa-comment fa-fw"></i>
+      </a>
+    </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js" defer></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js" defer></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js" async defer></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js" defer></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js" defer></script><script type="text/javascript" src="/lib/sharer/sharer.min.js" async defer></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script type="text/javascript" src="/lib/pangu/pangu.min.js" defer></script><script type="text/javascript" src="/lib/cell-watermark/watermark.min.js" defer></script><script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":100},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePWA":true,"enablePangu":true,"ibruce":{"enable":true,"siteTime":"2021-12-18T16:15:22+08:00"},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"search":{"algoliaAppID":"F9NU6Y7N3C","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b0c935a6f30b83a884c63cb57ec5f455","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"watermark":{"content":"\u003cimg class=\"fixit-icon\" src=\"/images/fixit.svg\" alt=\"FixIt logo\" /\u003e FixIt 主题","enable":true,"height":21,"opacity":0.0125}};</script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript" src="/js/_custom.min.js" defer></script></body>
+</html>

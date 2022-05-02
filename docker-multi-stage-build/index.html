@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <title>Docker 多阶段构建 - LESLIEXLXIAO&#39;S BLOG</title><meta name="author" content="Leslie: https://www.lesliexlxiao.com">
+<meta name="description" content="本文主要介绍了 Docker 的多阶段构建，以及多阶段构建的一些优势。 Docker 17.05 之前的版本是不支持 multi-stage 镜像构建，通常会采用两种方式构建。一种是全部放入一个 Dockerfile 文件中" />
+<meta name="keywords" content="Docker" /><meta itemprop="name" content="Docker 多阶段构建">
+<meta itemprop="description" content="本文主要介绍了 Docker 的多阶段构建，以及多阶段构建的一些优势。 Docker 17.05 之前的版本是不支持 multi-stage 镜像构建，通常会采用两种方式构建。一种是全部放入一个 Dockerfile 文件中">
+<meta itemprop="datePublished" content="2022-03-24T22:51:01+08:00" />
+<meta itemprop="dateModified" content="2022-03-24T22:51:01+08:00" />
+<meta itemprop="wordCount" content="1529">
+<meta itemprop="image" content="https://fixit.lruihao.cn/logo.png"/>
+
+
+
+<meta itemprop="keywords" content="Docker," />
+<meta property="og:title" content="Docker 多阶段构建" />
+<meta property="og:description" content="本文主要介绍了 Docker 的多阶段构建，以及多阶段构建的一些优势。 Docker 17.05 之前的版本是不支持 multi-stage 镜像构建，通常会采用两种方式构建。一种是全部放入一个 Dockerfile 文件中" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fixit.lruihao.cn/docker-multi-stage-build/" />
+<meta property="og:image" content="https://fixit.lruihao.cn/logo.png"/>
+<meta property="article:published_time" content="2022-03-24T22:51:01+08:00" />
+<meta property="article:modified_time" content="2022-03-24T22:51:01+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://fixit.lruihao.cn/logo.png"/>
+
+<meta name="twitter:title" content="Docker 多阶段构建"/>
+<meta name="twitter:description" content="本文主要介绍了 Docker 的多阶段构建，以及多阶段构建的一些优势。 Docker 17.05 之前的版本是不支持 multi-stage 镜像构建，通常会采用两种方式构建。一种是全部放入一个 Dockerfile 文件中"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#252627"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://fixit.lruihao.cn/docker-multi-stage-build/" /><link rel="prev" href="https://fixit.lruihao.cn/docker-dockerfile-bp2/" /><link rel="next" href="https://fixit.lruihao.cn/jenkins-common-plugins/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Docker 多阶段构建",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/fixit.lruihao.cn\/docker-multi-stage-build\/"
+    },"image": ["https:\/\/fixit.lruihao.cn\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Docker","wordcount":  1529 ,
+    "url": "https:\/\/fixit.lruihao.cn\/docker-multi-stage-build\/","datePublished": "2022-03-24T22:51:01+08:00","dateModified": "2022-03-24T22:51:01+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+      "@type": "Organization",
+      "name": "Lruihao","logo": "https:\/\/fixit.lruihao.cn\/images\/avatar.png"},"author": {
+        "@type": "Person",
+        "name": "Leslie"
+      },"description": ""
+  }
+  </script></head>
+  <body header-desktop="sticky" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+    <div class="menu">
+      <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/friends/" title="友情链接"> 友链 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+            <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/docker-multi-stage-build/" selected>简体中文</option></select>
+          </a><span class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+          <i class="fas fa-adjust fa-fw"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</header><header class="mobile" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="menu" id="menu-mobile"><div class="search-wrapper">
+          <div class="search mobile" id="search-mobile">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-mobile">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </div>
+          <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+            取消
+          </a>
+        </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/friends/" title="友情链接">友链</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+        <i class="fas fa-adjust fa-fw"></i>
+      </a><a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+          <select class="language-select" onchange="location = this.value;"><option value="/docker-multi-stage-build/" selected>简体中文</option></select>
+        </a></div>
+  </div>
+</header>
+<div class="search-dropdown desktop">
+  <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+  <div id="search-dropdown-mobile"></div>
+</div>
+<main class="container" page-style="normal"><aside class="toc" id="toc-auto"><h2 class="toc-title">目录</h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    
+  </aside>
+
+  <article class="page single"><h1 class="single-title animate__animated animate__flipInX">Docker 多阶段构建</h1><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a
+  href="https://www.lesliexlxiao.com"
+  
+    title="Author"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer author"
+  
+  
+  
+    class="author"
+  
+  
+><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/docker/"><i class="far fa-folder fa-fw"></i>Docker</a></span></div>
+      <div class="post-meta-line"><span title=2022-03-24&#32;22:51:01>
+            <i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-03-24" >2022-03-24</time>
+          </span>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1529 字&nbsp;
+        <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+    </div><div class="details toc" id="toc-static" kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fas fa-angle-right"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-单-dockerfile-构建">1. 单 Dockerfile 构建</a></li>
+    <li><a href="#2-多-dockerfile-构建">2. 多 Dockerfile 构建</a></li>
+    <li><a href="#3-multi-stage-镜像构建">3. multi-stage 镜像构建</a></li>
+    <li><a href="#4-只构建某一阶段的镜像">4. 只构建某一阶段的镜像</a></li>
+    <li><a href="#5-构建时从其他镜像复制文件">5. 构建时从其他镜像复制文件</a></li>
+    <li><a href="#6-参考文献">6. 参考文献</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p>本文主要介绍了 Docker 的多阶段构建，以及多阶段构建的一些优势。</p>
+<p><font color=FF0099><strong>Docker 17.05 之前的版本是不支持 multi-stage 镜像构建</strong></font>，通常会采用两种方式构建。一种是全部放入一个 Dockerfile 文件中构建，一种是分散到多个 Dockerfile 文件中构建。</p>
+<h2 id="1-单-dockerfile-构建">1. 单 Dockerfile 构建</h2>
+<p>这种方式会将项目及其依赖库的编译、测试、打包的所有构建过程放到一个 Dockerfile 中。示例如下：</p>
+<p>app.go 文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&#34;fmt&#34;</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;Hello World!\n&#34;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Dockerfile.one 文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">FROM golang:1.9-alpine
+
+WORKDIR /var/www/code/go/
+
+COPY app.go .
+
+RUN go build app.go
+
+CMD [&#34;./app&#34;]
+</code></pre></td></tr></table>
+</div>
+</div><p>构建镜像</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ docker build -t go/helloworld:v1 -f Dockerfile.one .
+
+----------output----------
+Sending build context to Docker daemon  3.072kB
+Step 1/5 : FROM golang:1.9-alpine
+ ---&gt; b0260be938c6
+Step 2/5 : WORKDIR /var/www/code/go/
+Removing intermediate container e5fdc95ae667
+ ---&gt; bf72ca2f4c1e
+Step 3/5 : COPY app.go .
+ ---&gt; 4303ab391236
+Step 4/5 : RUN go build app.go
+ ---&gt; Running in 61ff23d31be3
+Removing intermediate container 61ff23d31be3
+ ---&gt; 00924c2d8fea
+Step 5/5 : CMD <span class="o">[</span><span class="s2">&#34;./app&#34;</span><span class="o">]</span>
+ ---&gt; Running in bc84752fea13
+Removing intermediate container bc84752fea13
+ ---&gt; 3360ad3ce4f1
+Successfully built 3360ad3ce4f1
+Successfully tagged go/helloworld:v1
+</code></pre></td></tr></table>
+</div>
+</div><p>这种构建方式存在的问题：</p>
+<ul>
+<li>
+<p>Dockerfile 过长（<font color=FF0099><strong>包括一系列编译、测试、打包过程</strong></font>），可维护性降低。</p>
+</li>
+<li>
+<p>镜像层次多，增加构建时长。因为打镜像时<font color=FF0099><strong>每一层都会起容器</strong></font>执行一些命令，如果<font color=FF0099><strong>层级过多镜像会非常臃肿且构建时间变长</strong></font><a
+  href="#refer-anchor-1"
+  
+  
+  
+  
+  
+  
+><sup>2</sup></a>。</p>
+<ul>
+<li>如上例中的 <font color=FF0099><strong>COPY 源码，构建源码</strong></font>都会增加镜像的层级。</li>
+</ul>
+</li>
+<li>
+<p>镜像体积较大，部署时间变长。</p>
+<ul>
+<li>镜像体积大，可以看到该 Dockerfile 构建出的镜像有 242M。</li>
+</ul>
+</li>
+</ul>
+<p><figure><a class="lightgallery" href="/docker-multi-stage-build/1.png" title="镜像构建大小" data-thumbnail="/docker-multi-stage-build/1.png" data-sub-html="<h2>镜像构建大小</h2><p>镜像构建大小</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="1.png"
+      data-srcset="/docker-multi-stage-build/1.png, 1.png 1.5x, /docker-multi-stage-build/1.png 2x"
+      data-sizes="auto"
+      alt="/docker-multi-stage-build/1.png" />
+  </a><figcaption class="image-caption">镜像构建大小</figcaption>
+  </figure></p>
+<ul>
+<li>
+<p><font color=FF0099><strong>源代码存在泄漏风险</strong></font>。</p>
+<ul>
+<li>
+<p>这是由于构建出的镜像里面包含了源代码，可以通过如下命令查看：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ docker run --rm go/helloworld:v1 ls
+
+----------output----------
+app.go
+app
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><font color=FF0099><strong>可以看到包含了源代码 app.go 文件</strong></font>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-多-dockerfile-构建">2. 多 Dockerfile 构建</h2>
+<p>这种方式主要是把镜像过程分散到多个 Dockerfile 中。主要实现方法是<font color=FF0099><strong>事先在一个 Dockerfile 将项目及其依赖库编译测试打包好，再将包拷贝到运行环境中。</strong></font>这种方式需要两个 Dockerfile 和一段编译脚本才可实现。示例如下：</p>
+<p>Dockerfile.build 文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">FROM golang:1.9-alpine
+
+WORKDIR /var/www/code/go/
+
+COPY app.go .
+
+RUN go build app.go
+</code></pre></td></tr></table>
+</div>
+</div><p>Dockerfile.run 文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">FROM alpine:latest
+
+WORKDIR /var/www/code/go/
+
+COPY app .
+
+CMD [&#34;./app&#34;]
+</code></pre></td></tr></table>
+</div>
+</div><p>build.sh 文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/bin/sh
+</span><span class="cp"></span>
+<span class="nb">echo</span> Building go/helloworld:build
+
+docker build -t go/helloworld:build -f Dockerfile.build .
+
+<span class="c1"># create temporary container</span>
+docker create --name extract go/helloworld:build
+<span class="c1"># extract app</span>
+docker cp extract:/var/www/code/go/app ./app
+<span class="c1"># remove temporary container</span>
+docker rm -f extract
+
+<span class="nb">echo</span> Building go/helloworld:v2
+
+docker build --no-cache -t go/helloworld:v2 . -f Dockerfile.run
+
+rm ./app
+</code></pre></td></tr></table>
+</div>
+</div><p>运行脚本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ chmod +x build.sh
+
+$ ./build.sh
+</code></pre></td></tr></table>
+</div>
+</div><p>如果分散多个 Dockerfile 会存在如下问题：</p>
+<ul>
+<li>部署过程复杂，一旦涉及到的 Dockerfile 过多，整合比较容易出错。</li>
+</ul>
+<p>当然这种方式也有自己的优势：</p>
+<ul>
+<li>将这种方式和第一种方式生成的镜像做下比较，如下图所示镜像 v2 的要比镜像 v1 小很多。</li>
+</ul>
+<p><figure><a class="lightgallery" href="/docker-multi-stage-build/2.png" title="镜像构建大小" data-thumbnail="/docker-multi-stage-build/2.png" data-sub-html="<h2>镜像构建大小</h2><p>镜像构建大小</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="2.png"
+      data-srcset="/docker-multi-stage-build/2.png, 2.png 1.5x, /docker-multi-stage-build/2.png 2x"
+      data-sizes="auto"
+      alt="/docker-multi-stage-build/2.png" />
+  </a><figcaption class="image-caption">镜像构建大小</figcaption>
+  </figure></p>
+<ul>
+<li>这是因为镜像 v1 需要的基础镜像 golang:1.9-alpine 比镜像 v2 需要的基础镜像 alpine:latest 要大的多。</li>
+</ul>
+<p><figure><a class="lightgallery" href="/docker-multi-stage-build/3.png" title="镜像构建大小" data-thumbnail="/docker-multi-stage-build/3.png" data-sub-html="<h2>镜像构建大小</h2><p>镜像构建大小</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="3.png"
+      data-srcset="/docker-multi-stage-build/3.png, 3.png 1.5x, /docker-multi-stage-build/3.png 2x"
+      data-sizes="auto"
+      alt="/docker-multi-stage-build/3.png" />
+  </a><figcaption class="image-caption">镜像构建大小</figcaption>
+  </figure></p>
+<h2 id="3-multi-stage-镜像构建">3. multi-stage 镜像构建</h2>
+<p><font color=FF0099><strong>Dockerfile v17.05 开始支持多阶段构建( multi-stage builds )</strong></font>，只需要一个 Dockerfile。示例如下：</p>
+<p>Dockerfile.three</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">FROM golang:1.9-alpine as builder
+
+WORKDIR /var/www/code/go/
+
+COPY app.go .
+
+RUN go build app.go
+
+FROM alpine:latest as prod
+
+WORKDIR /var/www/code/go/
+
+COPY --from=0 /var/www/code/go/ .
+
+CMD [&#34;./app&#34;]
+</code></pre></td></tr></table>
+</div>
+</div><p>构建镜像</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ docker build -t go/helloworld:v3 .
+
+----------output----------
+Sending build context to Docker daemon  7.168kB
+Step 1/8 : FROM golang:1.9-alpine as builder
+ ---&gt; b0260be938c6
+Step 2/8 : WORKDIR /var/www/code/go/
+ ---&gt; Using cache
+ ---&gt; bf72ca2f4c1e
+Step 3/8 : COPY app.go .
+ ---&gt; Using cache
+ ---&gt; 4303ab391236
+Step 4/8 : RUN go build app.go
+ ---&gt; Using cache
+ ---&gt; 00924c2d8fea
+Step 5/8 : FROM alpine:latest as prod
+ ---&gt; 5cb3aa00f899
+Step 6/8 : WORKDIR /var/www/code/go/
+ ---&gt; Using cache
+ ---&gt; 328cf5fcaaf2
+Step 7/8 : COPY --from<span class="o">=</span><span class="m">0</span> /var/www/code/go/ .
+ ---&gt; eab42f02e484
+Step 8/8 : CMD <span class="o">[</span><span class="s2">&#34;./app&#34;</span><span class="o">]</span>
+ ---&gt; Running in f8a42b2f9a14
+Removing intermediate container f8a42b2f9a14
+ ---&gt; 81ec45b799db
+Successfully built 81ec45b799db
+Successfully tagged go/helloworld:v3
+</code></pre></td></tr></table>
+</div>
+</div><p>这种构建方式的优势：</p>
+<ul>
+<li>
+<p>解决了上述第一种方式和第二种方式存在的弊端。</p>
+</li>
+<li>
+<p>镜像体积大小对比如下:</p>
+</li>
+</ul>
+<p><figure><a class="lightgallery" href="/docker-multi-stage-build/4.png" title="镜像体积大小对比" data-thumbnail="/docker-multi-stage-build/4.png" data-sub-html="<h2>镜像体积大小对比</h2><p>镜像体积大小对比</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="4.png"
+      data-srcset="/docker-multi-stage-build/4.png, 4.png 1.5x, /docker-multi-stage-build/4.png 2x"
+      data-sizes="auto"
+      alt="/docker-multi-stage-build/4.png" />
+  </a><figcaption class="image-caption">镜像体积大小对比</figcaption>
+  </figure></p>
+<h2 id="4-只构建某一阶段的镜像">4. 只构建某一阶段的镜像</h2>
+<p>使用 as 来为某一阶段命名</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">FROM golang:1.9-alpine as builder
+</code></pre></td></tr></table>
+</div>
+</div><p>以上述例子为例，只想构建 builder 阶段的镜像时，可以在 docker build 命令时加上 &ndash;target 参数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"> $ docker build --target builder -t username/imagename:tag .
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="5-构建时从其他镜像复制文件">5. 构建时从其他镜像复制文件</h2>
+<p>从上一阶段镜像中复制文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">COPY --from=0 /go/src/github.com/go/helloworld/app .
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>指定 &ndash;from=0 参数，把前一阶段构建的产物拷贝到了当前的镜像中。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">COPY --from=builder /go/src/github.com/go/helloworld/app .
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>指定 &ndash;from=builder 参数，把命名阶段的构建产物拷贝到当前的镜像中。</li>
+</ul>
+<p>复制任意镜像中的文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">COPY --from=nginx:latest /etc/nginx/nginx.conf /nginx.conf
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="6-参考文献">6. 参考文献</h2>
+<p>[1] yeasy.Docker 从入门到实践[M]:98-104.</p>
+<div id="refer-anchor-1"></div>
+[2] 使用 Dockerfile 定制镜像[N].https://www.dazhuanlan.com/2020/02/22/5e51368ed08e7/.
+<p>[3] 孙宏亮.深刻理解 Docker 镜像大小[N].https://blog.csdn.net/shlazww/article/details/47375009.</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title=2022-03-24&#32;22:51:01>更新于 2022-03-24</span>
+      </div>
+      <div class="post-info-license"><span><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+    <div class="post-info-line">
+      <div class="post-info-md"><span>
+              <a class="link-to-markdown" href="/docker-multi-stage-build/index.md" target="_blank">阅读原始文档</a>
+            </span></div>
+      <div class="post-info-share">
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://fixit.lruihao.cn/docker-multi-stage-build/" data-title="Docker 多阶段构建" data-hashtags="Docker"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://fixit.lruihao.cn/docker-multi-stage-build/" data-hashtag="Docker"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://fixit.lruihao.cn/docker-multi-stage-build/" data-title="Docker 多阶段构建"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://fixit.lruihao.cn/docker-multi-stage-build/" data-title="Docker 多阶段构建"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://fixit.lruihao.cn/docker-multi-stage-build/" data-title="Docker 多阶段构建"><i class="fab fa-weibo fa-fw"></i></a></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/docker/">Docker</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/docker-dockerfile-bp2/" class="prev" rel="prev" title="Dockerfile 最佳实践（指令相关）"><i class="fas fa-angle-left fa-fw"></i>Dockerfile 最佳实践（指令相关）</a>
+      <a href="/jenkins-common-plugins/" class="next" rel="next" title="Jenkins 常用插件介绍">Jenkins 常用插件介绍<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/Lruihao/FixIt" target="_blank" rel="external nofollow noopener noreffer" title="FixIt 0.2.13"><img class="fixit-icon" src="/images/fixit.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">
+              <a
+  href="https://www.lesliexlxiao.com"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>Leslie</a></span><span class="footer-divider"></span><span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line ibruce">
+          <span id="busuanzi_container_site_uv" title=总访客数
+            ><i class="far fa-user"></i>
+            <span id="busuanzi_value_site_uv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span><span class="site-time footer-divider" title=网站运行中&#32;...
+              ><i class="fas fa-heartbeat animate-icon"></i>
+              <span class="run-times">Loading...</span
+            ></span><span id="busuanzi_container_site_pv" class="footer-divider" title=总访问量
+            ><i class="far fa-eye"></i>
+            <span id="busuanzi_value_site_pv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span>
+        </div></div>
+  </footer></div>
+
+    <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+        <i class="fas fa-arrow-up fa-fw"></i>
+      </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+        <i class="fas fa-comment fa-fw"></i>
+      </a>
+    </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js" defer></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js" defer></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js" async defer></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js" defer></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js" defer></script><script type="text/javascript" src="/lib/sharer/sharer.min.js" async defer></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script type="text/javascript" src="/lib/pangu/pangu.min.js" defer></script><script type="text/javascript" src="/lib/cell-watermark/watermark.min.js" defer></script><script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":100},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePWA":true,"enablePangu":true,"ibruce":{"enable":true,"siteTime":"2021-12-18T16:15:22+08:00"},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"search":{"algoliaAppID":"F9NU6Y7N3C","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b0c935a6f30b83a884c63cb57ec5f455","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"watermark":{"content":"\u003cimg class=\"fixit-icon\" src=\"/images/fixit.svg\" alt=\"FixIt logo\" /\u003e FixIt 主题","enable":true,"height":21,"opacity":0.0125}};</script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript" src="/js/_custom.min.js" defer></script></body>
+</html>

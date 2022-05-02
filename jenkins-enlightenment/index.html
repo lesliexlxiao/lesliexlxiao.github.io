@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <title>一文带你玩转 Jenkins - LESLIEXLXIAO&#39;S BLOG</title><meta name="author" content="Leslie: https://www.lesliexlxiao.com">
+<meta name="description" content="1. 实验环境 本次实验采用的机器为 MAC。 需要预装的软件：Docker。 2. 构建 Jenkins Master 镜像 首先请先下载我的个人项目 jenkins-alpine-do" />
+<meta name="keywords" content="Jenkins" /><meta itemprop="name" content="一文带你玩转 Jenkins">
+<meta itemprop="description" content="1. 实验环境 本次实验采用的机器为 MAC。 需要预装的软件：Docker。 2. 构建 Jenkins Master 镜像 首先请先下载我的个人项目 jenkins-alpine-do">
+<meta itemprop="datePublished" content="2020-06-24T18:51:01+08:00" />
+<meta itemprop="dateModified" content="2022-04-27T22:05:02+08:00" />
+<meta itemprop="wordCount" content="1194">
+<meta itemprop="image" content="https://fixit.lruihao.cn/logo.png"/>
+
+
+
+<meta itemprop="keywords" content="Jenkins," />
+<meta property="og:title" content="一文带你玩转 Jenkins" />
+<meta property="og:description" content="1. 实验环境 本次实验采用的机器为 MAC。 需要预装的软件：Docker。 2. 构建 Jenkins Master 镜像 首先请先下载我的个人项目 jenkins-alpine-do" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fixit.lruihao.cn/jenkins-enlightenment/" />
+<meta property="og:image" content="https://fixit.lruihao.cn/logo.png"/>
+<meta property="article:published_time" content="2020-06-24T18:51:01+08:00" />
+<meta property="article:modified_time" content="2022-04-27T22:05:02+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://fixit.lruihao.cn/logo.png"/>
+
+<meta name="twitter:title" content="一文带你玩转 Jenkins"/>
+<meta name="twitter:description" content="1. 实验环境 本次实验采用的机器为 MAC。 需要预装的软件：Docker。 2. 构建 Jenkins Master 镜像 首先请先下载我的个人项目 jenkins-alpine-do"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#252627"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://fixit.lruihao.cn/jenkins-enlightenment/" /><link rel="prev" href="https://fixit.lruihao.cn/jenkins-install-windows-slave/" /><link rel="next" href="https://fixit.lruihao.cn/go-empty-struct.go/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "一文带你玩转 Jenkins",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/fixit.lruihao.cn\/jenkins-enlightenment\/"
+    },"image": ["https:\/\/fixit.lruihao.cn\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Jenkins","wordcount":  1194 ,
+    "url": "https:\/\/fixit.lruihao.cn\/jenkins-enlightenment\/","datePublished": "2020-06-24T18:51:01+08:00","dateModified": "2022-04-27T22:05:02+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+      "@type": "Organization",
+      "name": "Lruihao","logo": "https:\/\/fixit.lruihao.cn\/images\/avatar.png"},"author": {
+        "@type": "Person",
+        "name": "Leslie"
+      },"description": ""
+  }
+  </script></head>
+  <body header-desktop="sticky" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+    <div class="menu">
+      <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/friends/" title="友情链接"> 友链 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+            <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/jenkins-enlightenment/" selected>简体中文</option></select>
+          </a><span class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+          <i class="fas fa-adjust fa-fw"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</header><header class="mobile" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="menu" id="menu-mobile"><div class="search-wrapper">
+          <div class="search mobile" id="search-mobile">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-mobile">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </div>
+          <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+            取消
+          </a>
+        </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/friends/" title="友情链接">友链</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+        <i class="fas fa-adjust fa-fw"></i>
+      </a><a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+          <select class="language-select" onchange="location = this.value;"><option value="/jenkins-enlightenment/" selected>简体中文</option></select>
+        </a></div>
+  </div>
+</header>
+<div class="search-dropdown desktop">
+  <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+  <div id="search-dropdown-mobile"></div>
+</div>
+<main class="container" page-style="normal"><aside class="toc" id="toc-auto"><h2 class="toc-title">目录</h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    
+  </aside>
+
+  <article class="page single"><h1 class="single-title animate__animated animate__flipInX">一文带你玩转 Jenkins</h1><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a
+  href="https://www.lesliexlxiao.com"
+  
+    title="Author"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer author"
+  
+  
+  
+    class="author"
+  
+  
+><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/jenkins/"><i class="far fa-folder fa-fw"></i>Jenkins</a></span></div>
+      <div class="post-meta-line"><span title=2020-06-24&#32;18:51:01>
+            <i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-06-24" >2020-06-24</time>
+          </span>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1194 字&nbsp;
+        <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 3 分钟&nbsp;</div>
+    </div><div class="details toc" id="toc-static" kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fas fa-angle-right"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-实验环境">1. 实验环境</a></li>
+    <li><a href="#2-构建-jenkins-master-镜像">2. 构建 Jenkins Master 镜像</a></li>
+    <li><a href="#3-启动-jenkins-master">3. 启动 Jenkins Master</a></li>
+    <li><a href="#4-创建-job-并完成构建">4. 创建 Job 并完成构建</a>
+      <ul>
+        <li><a href="#41-创建-job">4.1 创建 Job</a></li>
+        <li><a href="#42-配置-job">4.2 配置 Job</a></li>
+        <li><a href="#43-构建">4.3 构建</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-升级-jenkins-master">5. 升级 Jenkins Master</a></li>
+    <li><a href="#6-常用插件安装及升级">6. 常用插件安装及升级</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="1-实验环境">1. 实验环境</h2>
+<p>本次实验采用的机器为 MAC。</p>
+<p>需要预装的软件：Docker。</p>
+<h2 id="2-构建-jenkins-master-镜像">2. 构建 Jenkins Master 镜像</h2>
+<p>首先请先下载我的个人项目 <a
+  href="https://github.com/lesliexlxiao/jenkins-alpine-dockerfiles"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>jenkins-alpine-dockerfiles</a>。该项目是从 Jenkins 官方项目剥离出的简化版 Dockerfile。基于该项目可以构建出 jenkins-master、jenkins-slave 镜像。</p>
+<p>下载完成后，开始构建镜像。</p>
+<p>构建命令如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">docker build <span class="se">\
+</span><span class="se"></span>  --build-arg <span class="nv">HTTPS_PROXY</span><span class="o">=</span>your-proxy <span class="se">\
+</span><span class="se"></span>  --build-arg <span class="nv">HTTP_PROXY</span><span class="o">=</span>your-proxy <span class="se">\
+</span><span class="se"></span>  -t jenkins-master:2.345 -f master/Dockerfile ./master
+</code></pre></td></tr></table>
+</div>
+</div><p>构建说明：</p>
+<ul>
+<li>
+<p>构建时需要添加自己的 PROXY，如果不添加 PROXY，由于需要访问一些国外的站点，很有可能导致构建失败。如果不需要配置 PROXY，去除命令中的 PROXY 即可。</p>
+</li>
+<li>
+<p>为什么镜像的 tag 是 2.345？因为写这篇博客时，官方最新的版本为 2.345，而我的个人项目 <a
+  href="https://github.com/lesliexlxiao/jenkins-alpine-dockerfiles"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>jenkins-alpine-dockerfiles</a> 用的也是这个版本。</p>
+</li>
+</ul>
+<p>构建结果如下：</p>
+<p><figure><a class="lightgallery" href="/jenkins-enlightenment/01.png" title="jenkins 镜像构建" data-thumbnail="/jenkins-enlightenment/01.png" data-sub-html="<h2>jenkins 镜像构建</h2><p>jenkins 镜像构建</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="01.png"
+      data-srcset="/jenkins-enlightenment/01.png, 01.png 1.5x, /jenkins-enlightenment/01.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-enlightenment/01.png" />
+  </a><figcaption class="image-caption">jenkins 镜像构建</figcaption>
+  </figure></p>
+<h2 id="3-启动-jenkins-master">3. 启动 Jenkins Master</h2>
+<p>预处理：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">mkdir -p /tmp/jenkins_home
+
+<span class="c1"># 和容器保持一致</span>
+sudo chown -R 1000:1000 /tmp/jenkins_home
+
+<span class="c1"># 修改权限，否则会报如下报错</span>
+sudo chmod <span class="m">777</span> /tmp/jenkins_home
+</code></pre></td></tr></table>
+</div>
+</div><p><figure><a class="lightgallery" href="/jenkins-enlightenment/02.png" title="jenkins 容器启动报错" data-thumbnail="/jenkins-enlightenment/02.png" data-sub-html="<h2>jenkins 容器启动报错</h2><p>jenkins 容器启动报错</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="02.png"
+      data-srcset="/jenkins-enlightenment/02.png, 02.png 1.5x, /jenkins-enlightenment/02.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-enlightenment/02.png" />
+  </a><figcaption class="image-caption">jenkins 容器启动报错</figcaption>
+  </figure></p>
+<p>启动命令如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">docker run --name jenkins-master <span class="se">\
+</span><span class="se"></span>  -p 8080:8080 -v /tmp/jenkins_home:/var/jenkins_home -d jenkins-master:2.345
+</code></pre></td></tr></table>
+</div>
+</div><p>启动说明：</p>
+<ul>
+<li>-v /tmp/jenkins_home:/var/jenkins_home 表示将<font color=#FF0099><strong>宿主机目录 /tmp/jenkins_home</strong></font> 挂载到<font color=#FF0099><strong>容器目录 /var/jenkins_home</strong></font> 下。</li>
+</ul>
+<p>启动结果：
+<figure><a class="lightgallery" href="/jenkins-enlightenment/03.png" title="jenkins 容器启动" data-thumbnail="/jenkins-enlightenment/03.png" data-sub-html="<h2>jenkins 容器启动</h2><p>jenkins 容器启动</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="03.png"
+      data-srcset="/jenkins-enlightenment/03.png, 03.png 1.5x, /jenkins-enlightenment/03.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-enlightenment/03.png" />
+  </a><figcaption class="image-caption">jenkins 容器启动</figcaption>
+  </figure></p>
+<p>访问地址：<a
+  href="http://127.0.0.1:8080/"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>http://127.0.0.1:8080/</a></p>
+<p><figure><a class="lightgallery" href="/jenkins-enlightenment/04.png" title="访问 Jenkins" data-thumbnail="/jenkins-enlightenment/04.png" data-sub-html="<h2>访问 Jenkins</h2><p>访问 Jenkins</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="04.png"
+      data-srcset="/jenkins-enlightenment/04.png, 04.png 1.5x, /jenkins-enlightenment/04.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-enlightenment/04.png" />
+  </a><figcaption class="image-caption">访问 Jenkins</figcaption>
+  </figure></p>
+<p>进入容器，查看 /var/jenkins_home/secrets/initialAdminPassword 内容（或直接查看宿主机 /tmp/jenkins_home/secrets/initialAdminPassword 内容），并填入上图中。</p>
+<p>安装插件，<font color=#FF0099><strong>初始建议不安装任何插件，直接点击下图 X 即可</strong></font>。一旦选择 Install suggested plugins，Jenkins 会默认装上一堆插件，<font color=#FF0099><strong>这会导致你不清楚安装的每一个插件的具体功能</strong></font>。可以后期用到一个插件，便去研究一个插件的特性，从而打到庖丁解牛的目的。</p>
+<p><figure><a class="lightgallery" href="/jenkins-enlightenment/05.png" title="Jenkins 插件安装" data-thumbnail="/jenkins-enlightenment/05.png" data-sub-html="<h2>Jenkins 插件安装</h2><p>Jenkins 插件安装</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="05.png"
+      data-srcset="/jenkins-enlightenment/05.png, 05.png 1.5x, /jenkins-enlightenment/05.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-enlightenment/05.png" />
+  </a><figcaption class="image-caption">Jenkins 插件安装</figcaption>
+  </figure></p>
+<p>点击 Start using Jenkins。</p>
+<p><figure><a class="lightgallery" href="/jenkins-enlightenment/06.png" title="Jenkins is ready" data-thumbnail="/jenkins-enlightenment/06.png" data-sub-html="<h2>Jenkins is ready</h2><p>Jenkins is ready</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="06.png"
+      data-srcset="/jenkins-enlightenment/06.png, 06.png 1.5x, /jenkins-enlightenment/06.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-enlightenment/06.png" />
+  </a><figcaption class="image-caption">Jenkins is ready</figcaption>
+  </figure></p>
+<p>至此，Jenkins Master 启动完毕。</p>
+<p><font color=#FF0099><strong>为了方便后面的登录，可以新创建一个管理员账户和密码。</strong></font></p>
+<p><figure><a class="lightgallery" href="/jenkins-enlightenment/07.png" title="Manage Users" data-thumbnail="/jenkins-enlightenment/07.png" data-sub-html="<h2>Manage Users</h2><p>Manage Users</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="07.png"
+      data-srcset="/jenkins-enlightenment/07.png, 07.png 1.5x, /jenkins-enlightenment/07.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-enlightenment/07.png" />
+  </a><figcaption class="image-caption">Manage Users</figcaption>
+  </figure></p>
+<p><figure><a class="lightgallery" href="/jenkins-enlightenment/08.png" title="Create Users" data-thumbnail="/jenkins-enlightenment/08.png" data-sub-html="<h2>Create User</h2><p>Create Users</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="08.png"
+      data-srcset="/jenkins-enlightenment/08.png, 08.png 1.5x, /jenkins-enlightenment/08.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-enlightenment/08.png" />
+  </a><figcaption class="image-caption">Create User</figcaption>
+  </figure></p>
+<h2 id="4-创建-job-并完成构建">4. 创建 Job 并完成构建</h2>
+<h3 id="41-创建-job">4.1 创建 Job</h3>
+<p><figure><a class="lightgallery" href="/jenkins-enlightenment/09.png" title="创建 Job 步骤 1" data-thumbnail="/jenkins-enlightenment/09.png" data-sub-html="<h2>创建 Job 步骤 1</h2><p>创建 Job 步骤 1</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="09.png"
+      data-srcset="/jenkins-enlightenment/09.png, 09.png 1.5x, /jenkins-enlightenment/09.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-enlightenment/09.png" />
+  </a><figcaption class="image-caption">创建 Job 步骤 1</figcaption>
+  </figure></p>
+<p><figure><a class="lightgallery" href="/jenkins-enlightenment/10.png" title="创建 Job 步骤 2" data-thumbnail="/jenkins-enlightenment/10.png" data-sub-html="<h2>创建 Job 步骤 2</h2><p>创建 Job 步骤 2</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="10.png"
+      data-srcset="/jenkins-enlightenment/10.png, 10.png 1.5x, /jenkins-enlightenment/10.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-enlightenment/10.png" />
+  </a><figcaption class="image-caption">创建 Job 步骤 2</figcaption>
+  </figure></p>
+<h3 id="42-配置-job">4.2 配置 Job</h3>
+<ol>
+<li>General 配置：</li>
+</ol>
+<p><figure><a class="lightgallery" href="/jenkins-enlightenment/11.png" title="General 配置" data-thumbnail="/jenkins-enlightenment/11.png" data-sub-html="<h2>General 配置</h2><p>General 配置</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="11.png"
+      data-srcset="/jenkins-enlightenment/11.png, 11.png 1.5x, /jenkins-enlightenment/11.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-enlightenment/11.png" />
+  </a><figcaption class="image-caption">General 配置</figcaption>
+  </figure></p>
+<ol start="2">
+<li>Build 配置：</li>
+</ol>
+<p><figure><a class="lightgallery" href="/jenkins-enlightenment/12.png" title="Build 配置" data-thumbnail="/jenkins-enlightenment/12.png" data-sub-html="<h2>Build 配置</h2><p>Build 配置</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="12.png"
+      data-srcset="/jenkins-enlightenment/12.png, 12.png 1.5x, /jenkins-enlightenment/12.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-enlightenment/12.png" />
+  </a><figcaption class="image-caption">Build 配置</figcaption>
+  </figure></p>
+<h3 id="43-构建">4.3 构建</h3>
+<ol>
+<li>
+<p>构建：
+<figure><a class="lightgallery" href="/jenkins-enlightenment/13.png" title="构建" data-thumbnail="/jenkins-enlightenment/13.png" data-sub-html="<h2>构建</h2><p>构建</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="13.png"
+      data-srcset="/jenkins-enlightenment/13.png, 13.png 1.5x, /jenkins-enlightenment/13.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-enlightenment/13.png" />
+  </a><figcaption class="image-caption">构建</figcaption>
+  </figure></p>
+</li>
+<li>
+<p>查看构建日志：
+<figure><a class="lightgallery" href="/jenkins-enlightenment/14.png" title="查看构建日志" data-thumbnail="/jenkins-enlightenment/14.png" data-sub-html="<h2>查看构建日志</h2><p>查看构建日志</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="14.png"
+      data-srcset="/jenkins-enlightenment/14.png, 14.png 1.5x, /jenkins-enlightenment/14.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-enlightenment/14.png" />
+  </a><figcaption class="image-caption">查看构建日志</figcaption>
+  </figure></p>
+</li>
+</ol>
+<h2 id="5-升级-jenkins-master">5. 升级 Jenkins Master</h2>
+<p>访问 <a href="https://updates.jenkins-ci.org/download/war/">https://updates.jenkins-ci.org/download/war/</a> 地址，找到最新版本 Jenkins 的 <font color=#FF0099><strong>SHA-256</strong></font> 值。替换 <a
+  href="https://github.com/lesliexlxiao/jenkins-alpine-dockerfiles"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>jenkins-alpine-dockerfiles</a> 项目 master 目录下 Dockerfile 文件的 <font color=#FF0099><strong>Jenkins 版本号</strong></font>和 <font color=#FF0099><strong>JENKINS_SHA</strong></font> 的值。</p>
+<p><figure><a class="lightgallery" href="/jenkins-enlightenment/15.png" title="Upgrade Jenkins Master" data-thumbnail="/jenkins-enlightenment/15.png" data-sub-html="<h2>Upgrade Jenkins Master</h2><p>Upgrade Jenkins Master</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="15.png"
+      data-srcset="/jenkins-enlightenment/15.png, 15.png 1.5x, /jenkins-enlightenment/15.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-enlightenment/15.png" />
+  </a><figcaption class="image-caption">Upgrade Jenkins Master</figcaption>
+  </figure></p>
+<p>参照第 2 小节，重新构建镜像，基于该镜像启动新的 Jenkins 容器，这样 Jenkins 就升级完成了（<font color=#FF0099><strong>这边不考虑插件的升级</strong></font>）。</p>
+<h2 id="6-常用插件安装及升级">6. 常用插件安装及升级</h2>
+<p>常用插件安装请参照文章：<a
+  href="https://www.lesliexlxiao.com/jenkins-common-plugins/"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>https://www.lesliexlxiao.com/jenkins-common-plugins/</a></p>
+<p>如何加速插件安装，将插件源替换成 <a
+  href="https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json</a> 即可。</p>
+<p><figure><a class="lightgallery" href="/jenkins-enlightenment/16.png" title="更新 Jenkins 插件源步骤 1" data-thumbnail="/jenkins-enlightenment/16.png" data-sub-html="<h2>更新 Jenkins 插件源步骤 1</h2><p>更新 Jenkins 插件源步骤 1</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="16.png"
+      data-srcset="/jenkins-enlightenment/16.png, 16.png 1.5x, /jenkins-enlightenment/16.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-enlightenment/16.png" />
+  </a><figcaption class="image-caption">更新 Jenkins 插件源步骤 1</figcaption>
+  </figure></p>
+<p><figure><a class="lightgallery" href="/jenkins-enlightenment/17.png" title="更新 Jenkins 插件源步骤 2" data-thumbnail="/jenkins-enlightenment/17.png" data-sub-html="<h2>更新 Jenkins 插件源步骤 2</h2><p>更新 Jenkins 插件源步骤 2</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="17.png"
+      data-srcset="/jenkins-enlightenment/17.png, 17.png 1.5x, /jenkins-enlightenment/17.png 2x"
+      data-sizes="auto"
+      alt="/jenkins-enlightenment/17.png" />
+  </a><figcaption class="image-caption">更新 Jenkins 插件源步骤 2</figcaption>
+  </figure></p>
+<p><font color=#FF0099><strong>注意：更新完插件源之后，重启下 Jenkins。</strong></font></p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title=2022-04-27&#32;22:05:02>更新于 2022-04-27</span>
+      </div>
+      <div class="post-info-license"><span><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+    <div class="post-info-line">
+      <div class="post-info-md"><span>
+              <a class="link-to-markdown" href="/jenkins-enlightenment/index.md" target="_blank">阅读原始文档</a>
+            </span></div>
+      <div class="post-info-share">
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://fixit.lruihao.cn/jenkins-enlightenment/" data-title="一文带你玩转 Jenkins" data-hashtags="Jenkins"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://fixit.lruihao.cn/jenkins-enlightenment/" data-hashtag="Jenkins"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://fixit.lruihao.cn/jenkins-enlightenment/" data-title="一文带你玩转 Jenkins"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://fixit.lruihao.cn/jenkins-enlightenment/" data-title="一文带你玩转 Jenkins"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://fixit.lruihao.cn/jenkins-enlightenment/" data-title="一文带你玩转 Jenkins"><i class="fab fa-weibo fa-fw"></i></a></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/jenkins/">Jenkins</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/jenkins-install-windows-slave/" class="prev" rel="prev" title="Windows 环境下如何添加 jenkins-slave 节点"><i class="fas fa-angle-left fa-fw"></i>Windows 环境下如何添加 jenkins-slave 节点</a>
+      <a href="/go-empty-struct.go/" class="next" rel="next" title="Golang 空结构体妙用">Golang 空结构体妙用<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/Lruihao/FixIt" target="_blank" rel="external nofollow noopener noreffer" title="FixIt 0.2.13"><img class="fixit-icon" src="/images/fixit.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">
+              <a
+  href="https://www.lesliexlxiao.com"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>Leslie</a></span><span class="footer-divider"></span><span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line ibruce">
+          <span id="busuanzi_container_site_uv" title=总访客数
+            ><i class="far fa-user"></i>
+            <span id="busuanzi_value_site_uv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span><span class="site-time footer-divider" title=网站运行中&#32;...
+              ><i class="fas fa-heartbeat animate-icon"></i>
+              <span class="run-times">Loading...</span
+            ></span><span id="busuanzi_container_site_pv" class="footer-divider" title=总访问量
+            ><i class="far fa-eye"></i>
+            <span id="busuanzi_value_site_pv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span>
+        </div></div>
+  </footer></div>
+
+    <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+        <i class="fas fa-arrow-up fa-fw"></i>
+      </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+        <i class="fas fa-comment fa-fw"></i>
+      </a>
+    </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js" defer></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js" defer></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js" async defer></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js" defer></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js" defer></script><script type="text/javascript" src="/lib/sharer/sharer.min.js" async defer></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script type="text/javascript" src="/lib/pangu/pangu.min.js" defer></script><script type="text/javascript" src="/lib/cell-watermark/watermark.min.js" defer></script><script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":100},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePWA":true,"enablePangu":true,"ibruce":{"enable":true,"siteTime":"2021-12-18T16:15:22+08:00"},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"search":{"algoliaAppID":"F9NU6Y7N3C","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b0c935a6f30b83a884c63cb57ec5f455","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"watermark":{"content":"\u003cimg class=\"fixit-icon\" src=\"/images/fixit.svg\" alt=\"FixIt logo\" /\u003e FixIt 主题","enable":true,"height":21,"opacity":0.0125}};</script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript" src="/js/_custom.min.js" defer></script></body>
+</html>

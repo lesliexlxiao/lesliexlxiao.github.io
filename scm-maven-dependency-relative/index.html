@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <title>[笔记]Maven 项目依赖介绍 - LESLIEXLXIAO&#39;S BLOG</title><meta name="author" content="Leslie: https://www.lesliexlxiao.com">
+<meta name="description" content="本文主要介绍了 Maven 项目依赖的配置、依赖范围、传递性依赖范围、依赖调解和可选依赖相关内容。 1. 依赖的配置 一个依赖声明可以包含如下元素 1 2 3 4 5 6 7" />
+<meta name="keywords" content="SCM,Maven" /><meta itemprop="name" content="[笔记]Maven 项目依赖介绍">
+<meta itemprop="description" content="本文主要介绍了 Maven 项目依赖的配置、依赖范围、传递性依赖范围、依赖调解和可选依赖相关内容。 1. 依赖的配置 一个依赖声明可以包含如下元素 1 2 3 4 5 6 7">
+<meta itemprop="datePublished" content="2020-04-16T18:51:01+08:00" />
+<meta itemprop="dateModified" content="2020-04-16T18:51:01+08:00" />
+<meta itemprop="wordCount" content="1763">
+<meta itemprop="image" content="https://fixit.lruihao.cn/logo.png"/>
+
+
+
+<meta itemprop="keywords" content="SCM,Maven," />
+<meta property="og:title" content="[笔记]Maven 项目依赖介绍" />
+<meta property="og:description" content="本文主要介绍了 Maven 项目依赖的配置、依赖范围、传递性依赖范围、依赖调解和可选依赖相关内容。 1. 依赖的配置 一个依赖声明可以包含如下元素 1 2 3 4 5 6 7" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fixit.lruihao.cn/scm-maven-dependency-relative/" />
+<meta property="og:image" content="https://fixit.lruihao.cn/logo.png"/>
+<meta property="article:published_time" content="2020-04-16T18:51:01+08:00" />
+<meta property="article:modified_time" content="2020-04-16T18:51:01+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://fixit.lruihao.cn/logo.png"/>
+
+<meta name="twitter:title" content="[笔记]Maven 项目依赖介绍"/>
+<meta name="twitter:description" content="本文主要介绍了 Maven 项目依赖的配置、依赖范围、传递性依赖范围、依赖调解和可选依赖相关内容。 1. 依赖的配置 一个依赖声明可以包含如下元素 1 2 3 4 5 6 7"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#252627"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://fixit.lruihao.cn/scm-maven-dependency-relative/" /><link rel="prev" href="https://fixit.lruihao.cn/scm-maven-pom-detail/" /><link rel="next" href="https://fixit.lruihao.cn/scm-maven-dependency-best-practice/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "[笔记]Maven 项目依赖介绍",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/fixit.lruihao.cn\/scm-maven-dependency-relative\/"
+    },"image": ["https:\/\/fixit.lruihao.cn\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "SCM, Maven","wordcount":  1763 ,
+    "url": "https:\/\/fixit.lruihao.cn\/scm-maven-dependency-relative\/","datePublished": "2020-04-16T18:51:01+08:00","dateModified": "2020-04-16T18:51:01+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+      "@type": "Organization",
+      "name": "Lruihao","logo": "https:\/\/fixit.lruihao.cn\/images\/avatar.png"},"author": {
+        "@type": "Person",
+        "name": "Leslie"
+      },"description": ""
+  }
+  </script></head>
+  <body header-desktop="sticky" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+    <div class="menu">
+      <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/friends/" title="友情链接"> 友链 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+            <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/scm-maven-dependency-relative/" selected>简体中文</option></select>
+          </a><span class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+          <i class="fas fa-adjust fa-fw"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</header><header class="mobile" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="menu" id="menu-mobile"><div class="search-wrapper">
+          <div class="search mobile" id="search-mobile">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-mobile">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </div>
+          <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+            取消
+          </a>
+        </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/friends/" title="友情链接">友链</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+        <i class="fas fa-adjust fa-fw"></i>
+      </a><a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+          <select class="language-select" onchange="location = this.value;"><option value="/scm-maven-dependency-relative/" selected>简体中文</option></select>
+        </a></div>
+  </div>
+</header>
+<div class="search-dropdown desktop">
+  <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+  <div id="search-dropdown-mobile"></div>
+</div>
+<main class="container" page-style="normal"><aside class="toc" id="toc-auto"><h2 class="toc-title">目录</h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    
+  </aside>
+
+  <article class="page single"><h1 class="single-title animate__animated animate__flipInX">[笔记]Maven 项目依赖介绍</h1><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a
+  href="https://www.lesliexlxiao.com"
+  
+    title="Author"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer author"
+  
+  
+  
+    class="author"
+  
+  
+><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/scm/"><i class="far fa-folder fa-fw"></i>SCM</a></span></div>
+      <div class="post-meta-line"><span title=2020-04-16&#32;18:51:01>
+            <i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-04-16" >2020-04-16</time>
+          </span>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1763 字&nbsp;
+        <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+    </div><div class="details toc" id="toc-static" kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fas fa-angle-right"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-依赖的配置">1. 依赖的配置</a></li>
+    <li><a href="#2-依赖范围">2. 依赖范围</a></li>
+    <li><a href="#3-传递性依赖">3. 传递性依赖</a>
+      <ul>
+        <li><a href="#31-何为传递性依赖">3.1 何为传递性依赖</a></li>
+        <li><a href="#32-传递性依赖范围">3.2 传递性依赖范围</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-依赖调解">4. 依赖调解</a></li>
+    <li><a href="#5-可选依赖">5. 可选依赖</a></li>
+    <li><a href="#6-参考文献">6. 参考文献</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><div class="details admonition warning open">
+      <div class="details-summary admonition-title">
+        <i class="icon fas fa-exclamation-triangle fa-fw"></i>警告<i class="details-icon fas fa-angle-right fa-fw"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2020-04-16，文中内容可能已过时。</div>
+      </div>
+    </div><p>本文主要介绍了 Maven 项目<font color=FF0099><strong>依赖的配置、依赖范围、传递性依赖范围、依赖调解和可选依赖</strong></font>相关内容。</p>
+<h2 id="1-依赖的配置">1. 依赖的配置</h2>
+<p>一个依赖声明可以包含如下元素</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;project&gt;</span>
+    ...
+    <span class="nt">&lt;dependencies&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>...<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>...<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>...<span class="nt">&lt;/version&gt;</span>
+            <span class="nt">&lt;type&gt;</span>...<span class="nt">&lt;/type&gt;</span>
+            <span class="nt">&lt;scope&gt;</span>...<span class="nt">&lt;/scope&gt;</span>
+            <span class="nt">&lt;optional&gt;</span>...<span class="nt">&lt;/optional&gt;</span>
+            <span class="nt">&lt;exclusions&gt;</span>
+                <span class="nt">&lt;exclusion&gt;</span>
+                ...
+                <span class="nt">&lt;/exclusion&gt;</span>
+            ...
+            <span class="nt">&lt;/exclusions&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+    ...
+    <span class="nt">&lt;/dependencies&gt;</span>
+    ...
+<span class="nt">&lt;/project&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>type：依赖的类型，<font color=FF0099><strong>对应于项目坐标定义的 packaging。</strong></font></p>
+<p>scope：依赖的范围。</p>
+<p>optional：标记依赖是否可选。</p>
+<p>exclusions：用来排除传递性依赖。</p>
+<h2 id="2-依赖范围">2. 依赖范围</h2>
+<p>Maven 相关的三种 classpath：编译 classpath、测试 classpath、运行 classpath。</p>
+<p>Maven 在编译项目主代码的时候，用到的文件以依赖方式被引入到<font color=FF0099><strong>编译 classpath 中</strong></font>。</p>
+<p>Maven 在编译和执行测试的时候，用到的文件以依赖方式被引入到<font color=FF0099><strong>测试 classpath 中</strong></font>。</p>
+<p>实际运行 Maven 项目的时候，用到的文件以依赖方式被引入到<font color=FF0099><strong>运行 classpath 中</strong></font>。</p>
+<p>Maven 有以下几种依赖范围：</p>
+<ul>
+<li>
+<p>compile：编译依赖范围。如果没有指定，就会默认使用该依赖范围。</p>
+</li>
+<li>
+<p>test：测试依赖范围。</p>
+</li>
+<li>
+<p>provided：已提供依赖范围。</p>
+</li>
+<li>
+<p>runtime：运行时依赖范围。</p>
+</li>
+<li>
+<p>system：系统依赖范围。该依赖范围与三种 classpath 的关系，和 provided 依赖范围是一样的。但是，使用该范围的依赖时<font color=FF0099><strong>必须通过 systemPath 元素显式地指定依赖文件的路径。</strong></font> 此类依赖不是通过 Maven 仓库解析的，往往与本机系统绑定，可能造成构建的不可移植，<font color=FF0099><strong>因此应该慎用</strong></font>。例子如下：</p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>javax.sql<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>jdbc-stdext<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>2.0<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;scope&gt;</span>system<span class="nt">&lt;/scope&gt;</span>
+  <span class="nt">&lt;systemPath&gt;</span>${java.home}/lib/rt.jar<span class="nt">&lt;/systemPath&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>下表展示了依赖范围与三种 classpath 的关系：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">依赖范围（scope）</th>
+<th style="text-align:center">对于编译 classpath 有效</th>
+<th style="text-align:center">对于测试 classpath 有效</th>
+<th style="text-align:center">对于运行时 classpath 有效</th>
+<th style="text-align:center">例  子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">compile</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">spring-core</td>
+</tr>
+<tr>
+<td style="text-align:center">test</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">Junit</td>
+</tr>
+<tr>
+<td style="text-align:center">provided</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">servlet-api</td>
+</tr>
+<tr>
+<td style="text-align:center">runtime</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">JDBC 驱动实现</td>
+</tr>
+<tr>
+<td style="text-align:center">system</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">本地的，Maven 仓库之外的类库</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-传递性依赖">3. 传递性依赖</h2>
+<h3 id="31-何为传递性依赖">3.1 何为传递性依赖</h3>
+<p>假设我们的应用为 account-email，它有一个 spring-core 依赖，而 spring-core 有一个 commons-logging 依赖，那么 <font color=FF0099><strong>commons-logging 是 account-email 的一个传递性依赖。</strong></font></p>
+<p><figure><a class="lightgallery" href="/scm-maven-dependency-relative/1.png" title="传递性依赖" data-thumbnail="/scm-maven-dependency-relative/1.png" data-sub-html="<h2>传递性依赖</h2><p>传递性依赖</p>">
+    <img
+      class="lazyload"
+      src="/svg/loading.min.svg"
+      data-src="1.png"
+      data-srcset="/scm-maven-dependency-relative/1.png, 1.png 1.5x, /scm-maven-dependency-relative/1.png 2x"
+      data-sizes="auto"
+      alt="/scm-maven-dependency-relative/1.png" />
+  </a><figcaption class="image-caption">传递性依赖</figcaption>
+  </figure></p>
+<h3 id="32-传递性依赖范围">3.2 传递性依赖范围</h3>
+<p>下表最左边一列表示第一直接依赖范围，最上面一行表示第二直接依赖范围，中间交叉单元格表示传递性依赖范围。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">compile</th>
+<th style="text-align:center">test</th>
+<th style="text-align:center">provided</th>
+<th style="text-align:center">runtime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">compile</td>
+<td style="text-align:center">compile</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">runtime</td>
+</tr>
+<tr>
+<td style="text-align:center">test</td>
+<td style="text-align:center">test</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">test</td>
+</tr>
+<tr>
+<td style="text-align:center">provided</td>
+<td style="text-align:center">provided</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">provided</td>
+<td style="text-align:center">provided</td>
+</tr>
+<tr>
+<td style="text-align:center">runtime</td>
+<td style="text-align:center">runtime</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">—</td>
+<td style="text-align:center">runtime</td>
+</tr>
+</tbody>
+</table>
+<p>可以通过一个例子来理解上面这个表格。account-email 有一个 spring-core 的直接依赖，我们说这是第一直接依赖，其依赖范围是 compile；spring-core 又有一个 commons-logging 的直接依赖，我们说这是第二直接依赖，其依赖范围是 compile。那么 commons-logging 是 ccount-email 的传递性依赖，对照上表可以知道，<font color=FF0099><strong>第一直接依赖范围是 compile，第二直接依赖范围是 compile 时，传递性依赖范围是 compile。</strong></font></p>
+<h2 id="4-依赖调解">4. 依赖调解</h2>
+<p>依赖调解主要遵循两个规则：</p>
+<ul>
+<li>
+<p><font color=FF0099><strong>路径最近者优先</strong></font>。比如 A-&gt;B-&gt;C-&gt;X(1.0)，A-&gt;D-&gt;X(2.0)，那么此时 X(2.0) 会被解析使用。</p>
+</li>
+<li>
+<p><font color=FF0099><strong>第一声明者优先</strong></font>。比如 A-&gt;B-&gt;Y(1.0)，A-&gt;B-&gt;Y(1.0)，因为两条依赖路径的长度是一样的，那么就得遵循第一声明者优先原则。如果 B 声明在 C 之前，那么此时 Y(1.0) 会被解析使用。</p>
+</li>
+</ul>
+<h2 id="5-可选依赖">5. 可选依赖</h2>
+<p>假如有这样一个依赖关系：A-&gt;B、B-&gt;X(可选依赖)、B-&gt;Y(可选依赖)，那么 X、Y 将不会对 A 有任何影响，因为<font color=FF0099><strong>可选依赖不会得以传递</strong></font>。</p>
+<p>为什么需要可选依赖？可能项目 B 实现了两个特性，其中的特性一依赖于 X，特性二依赖于 Y，而且这两个特性是互斥的，用户不可能同时使用两个特性。<font color=FF0099><strong>如果不设置可选依赖，那么 X、Y 都会被传递给 A，造成冲突。</strong></font>比如 B 是一个持久层隔离工具包，它支持多种数据库，包括 MySQL、PostgreSQL 等，在构建工具包的时候，需要这两种数据库的驱动程序，但在使用这个工具包的时候，只会依赖某种数据库。</p>
+<p>项目 B 依赖声明如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;project&gt;</span>
+    <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.juvenxu.mvnbook<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>project-b<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1.0.0<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;dependencies&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>mysql<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>mysql-connector-java<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>5.1.0<span class="nt">&lt;/version&gt;</span>
+            <span class="nt">&lt;optional&gt;</span>true<span class="nt">&lt;/optional&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>postgresql<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>postgresql<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>8.4-701.jdbc3<span class="nt">&lt;/version&gt;</span>
+            <span class="nt">&lt;optional&gt;</span>true<span class="nt">&lt;/optional&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;/dependencies&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上述 XML 中 optional 为 true，它们只会对当前项目 B 产生影响。此时由于 mysql、postgresql 依赖都不会被传递个 A，所以当 A 使用 MySQL 数据库时，就需要<font color=FF0099><strong>显式地声明 mysql-connector-java 这一依赖。</strong></font></p>
+<p>在理想情况下，是不应该使用可选依赖的。面向对象设计中，有个单一职责原则，即<font color=FF0099><strong>一个类只有一项职责</strong></font>。所以针对上述例子，更好的做法是为 MySQL 和 PostgreSQL 分别创建一个 Maven 项目。将 B 拆分为两个项目 C 和 D，C 和 D 中声明对应的 JDBC 驱动依赖，那么此时 A 就可以根据需求去选择使用 C 或者 B 依赖。</p>
+<h2 id="6-参考文献">6. 参考文献</h2>
+<p>[1] 许晓斌.Maven 实战[M].北京:机械工业出版社,2010:62-68.</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title=2020-04-16&#32;18:51:01>更新于 2020-04-16</span>
+      </div>
+      <div class="post-info-license"><span><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+    <div class="post-info-line">
+      <div class="post-info-md"><span>
+              <a class="link-to-markdown" href="/scm-maven-dependency-relative/index.md" target="_blank">阅读原始文档</a>
+            </span></div>
+      <div class="post-info-share">
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://fixit.lruihao.cn/scm-maven-dependency-relative/" data-title="[笔记]Maven 项目依赖介绍" data-hashtags="SCM,Maven"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://fixit.lruihao.cn/scm-maven-dependency-relative/" data-hashtag="SCM"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://fixit.lruihao.cn/scm-maven-dependency-relative/" data-title="[笔记]Maven 项目依赖介绍"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://fixit.lruihao.cn/scm-maven-dependency-relative/" data-title="[笔记]Maven 项目依赖介绍"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://fixit.lruihao.cn/scm-maven-dependency-relative/" data-title="[笔记]Maven 项目依赖介绍"><i class="fab fa-weibo fa-fw"></i></a></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/scm/">SCM</a>,&nbsp;<a href="/tags/maven/">Maven</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/scm-maven-pom-detail/" class="prev" rel="prev" title="Maven pom.xml 文件详解"><i class="fas fa-angle-left fa-fw"></i>Maven pom.xml 文件详解</a>
+      <a href="/scm-maven-dependency-best-practice/" class="next" rel="next" title="[笔记]Maven 项目依赖最佳实践">[笔记]Maven 项目依赖最佳实践<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/Lruihao/FixIt" target="_blank" rel="external nofollow noopener noreffer" title="FixIt 0.2.13"><img class="fixit-icon" src="/images/fixit.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">
+              <a
+  href="https://www.lesliexlxiao.com"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>Leslie</a></span><span class="footer-divider"></span><span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line ibruce">
+          <span id="busuanzi_container_site_uv" title=总访客数
+            ><i class="far fa-user"></i>
+            <span id="busuanzi_value_site_uv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span><span class="site-time footer-divider" title=网站运行中&#32;...
+              ><i class="fas fa-heartbeat animate-icon"></i>
+              <span class="run-times">Loading...</span
+            ></span><span id="busuanzi_container_site_pv" class="footer-divider" title=总访问量
+            ><i class="far fa-eye"></i>
+            <span id="busuanzi_value_site_pv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span>
+        </div></div>
+  </footer></div>
+
+    <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+        <i class="fas fa-arrow-up fa-fw"></i>
+      </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+        <i class="fas fa-comment fa-fw"></i>
+      </a>
+    </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js" defer></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js" defer></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js" async defer></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js" defer></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js" defer></script><script type="text/javascript" src="/lib/sharer/sharer.min.js" async defer></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script type="text/javascript" src="/lib/pangu/pangu.min.js" defer></script><script type="text/javascript" src="/lib/cell-watermark/watermark.min.js" defer></script><script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":100},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePWA":true,"enablePangu":true,"ibruce":{"enable":true,"siteTime":"2021-12-18T16:15:22+08:00"},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"search":{"algoliaAppID":"F9NU6Y7N3C","algoliaIndex":"index.zh-cn","algoliaSearchKey":"b0c935a6f30b83a884c63cb57ec5f455","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"watermark":{"content":"\u003cimg class=\"fixit-icon\" src=\"/images/fixit.svg\" alt=\"FixIt logo\" /\u003e FixIt 主题","enable":true,"height":21,"opacity":0.0125}};</script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript" src="/js/_custom.min.js" defer></script></body>
+</html>
