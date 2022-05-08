@@ -5,19 +5,19 @@
     <description>所有文章 | LESLIEXLXIAO&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>lesliexlxiao@163.com (Leslie)</managingEditor>
       <webMaster>lesliexlxiao@163.com (Leslie)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 26 Apr 2022 18:51:01 &#43;0800</lastBuildDate><atom:link href="https://fixit.lruihao.cn/posts/" rel="self" type="application/rss+xml" /><item>
-  <title>Jenkins 常用插件介绍</title>
-  <link>https://fixit.lruihao.cn/jenkins-common-plugins/</link>
-  <pubDate>Tue, 26 Apr 2022 18:51:01 &#43;0800</pubDate>
-  <author>Leslie</author>
-  <guid>https://fixit.lruihao.cn/jenkins-common-plugins/</guid>
-  <description><![CDATA[本文主要介绍了 Jenkins 的一些常用插件。 1. 常用插件介绍 1.1 CAS Plugin 用于 CAS 接入。 CAS 插件介绍CAS 插件介绍 " CAS 插件介绍 CAS 插件配置CAS 插件配置 " CAS 插件配置 1.2 Matrix]]></description>
+  <title>Markdown 基本语法</title>
+  <link>https://fixit.lruihao.cn/basic-markdown-syntax/</link>
+  <pubDate>Sun, 01 Dec 2019 21:57:40 &#43;0800</pubDate>
+  <author>Dillon</author>
+  <guid>https://fixit.lruihao.cn/basic-markdown-syntax/</guid>
+  <description><![CDATA[<p>这篇文章提供了可以在 Hugo 的文章中使用的基本 Markdown 语法示例。</p>]]></description>
 </item><item>
-  <title>两数之和</title>
-  <link>https://fixit.lruihao.cn/algorithm-two-sum/</link>
-  <pubDate>Sat, 25 May 2019 20:51:01 &#43;0800</pubDate>
+  <title>virtualenv and virtualenvwrapper 工具的使用</title>
+  <link>https://fixit.lruihao.cn/python-virtualenv/</link>
+  <pubDate>Sun, 17 Mar 2019 18:51:01 &#43;0800</pubDate>
   <author>Leslie</author>
-  <guid>https://fixit.lruihao.cn/algorithm-two-sum/</guid>
-  <description><![CDATA[1. 题目描述 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那两个整数，并返回他们的数组下标。 你可以假设每种输入只会]]></description>
+  <guid>https://fixit.lruihao.cn/python-virtualenv/</guid>
+  <description><![CDATA[本文主要介绍了 Python 开发中如何搭建虚拟的隔离环境，从而确保各应用之间的依赖互不影响。 1. 工具简介 virtualenv 用来为一个应用创建一套&quot;隔离&quot]]></description>
 </item><item>
   <title>算法综述</title>
   <link>https://fixit.lruihao.cn/algorithm-summary/</link>
@@ -26,12 +26,82 @@
   <guid>https://fixit.lruihao.cn/algorithm-summary/</guid>
   <description><![CDATA[1. 如何事半功倍地学习算法和数据结构 1.1 Chunk it up（切碎知识点） 庖丁解牛 脉络连接 1.2 Deliberate practing（刻意练习） 刻意练习 练习缺陷、不舒服、弱点地方]]></description>
 </item><item>
-  <title>一文带你玩转 Jenkins</title>
-  <link>https://fixit.lruihao.cn/jenkins-enlightenment/</link>
-  <pubDate>Wed, 24 Jun 2020 18:51:01 &#43;0800</pubDate>
+  <title>两数之和</title>
+  <link>https://fixit.lruihao.cn/algorithm-two-sum/</link>
+  <pubDate>Sat, 25 May 2019 20:51:01 &#43;0800</pubDate>
   <author>Leslie</author>
-  <guid>https://fixit.lruihao.cn/jenkins-enlightenment/</guid>
-  <description><![CDATA[1. 实验环境 本次实验采用的机器为 MAC。 需要预装的软件：Docker。 2. 构建 Jenkins Master 镜像 首先请先下载我的个人项目 jenkins-alpine-do]]></description>
+  <guid>https://fixit.lruihao.cn/algorithm-two-sum/</guid>
+  <description><![CDATA[1. 题目描述 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那两个整数，并返回他们的数组下标。 你可以假设每种输入只会]]></description>
+</item><item>
+  <title>Maven pom.xml 文件详解</title>
+  <link>https://fixit.lruihao.cn/scm-maven-pom-detail/</link>
+  <pubDate>Mon, 13 Apr 2020 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/scm-maven-pom-detail/</guid>
+  <description><![CDATA[本文主要介绍了 maven pom.xml 中各元素的详细意义。 1. pom.xml 文件详解 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45]]></description>
+</item><item>
+  <title>[笔记]Maven 项目依赖介绍</title>
+  <link>https://fixit.lruihao.cn/scm-maven-dependency-relative/</link>
+  <pubDate>Thu, 16 Apr 2020 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/scm-maven-dependency-relative/</guid>
+  <description><![CDATA[本文主要介绍了 Maven 项目依赖的配置、依赖范围、传递性依赖范围、依赖调解和可选依赖相关内容。 1. 依赖的配置 一个依赖声明可以包含如下元素 1 2 3 4 5 6 7]]></description>
+</item><item>
+  <title>[笔记]Maven 项目依赖最佳实践</title>
+  <link>https://fixit.lruihao.cn/scm-maven-dependency-best-practice/</link>
+  <pubDate>Fri, 17 Apr 2020 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/scm-maven-dependency-best-practice/</guid>
+  <description><![CDATA[本文主要介绍了 Maven 依赖相关的一些最佳实践，用来避免和处理很多常见的问题。 1. 排除依赖 传递性依赖会给项目隐式地引入很多依赖，极大地简化了项目依赖的]]></description>
+</item><item>
+  <title>Python 中如何处理 CSV 文件</title>
+  <link>https://fixit.lruihao.cn/python-csv/</link>
+  <pubDate>Sun, 21 Jun 2020 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/python-csv/</guid>
+  <description><![CDATA[本文主要介绍了 Python 开发当中如何处理 CSV 文件。由于平时开发中经常会使用到相关知识，故作小记以备不时之需。 1. 参数说明 delimiter：分隔符，默认]]></description>
+</item><item>
+  <title>Golang 开发规范</title>
+  <link>https://fixit.lruihao.cn/golang-style-rules/</link>
+  <pubDate>Sat, 11 Jul 2020 20:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/golang-style-rules/</guid>
+  <description><![CDATA[本文主要介绍了 golang 语言开发中的一些规范。 1. 声明语句的规范化 我们在编写 golang 程序的时候，通常涉及到的内容声明语句包括 package、import、f]]></description>
+</item><item>
+  <title>[笔记]搭建可靠性系统工程实践</title>
+  <link>https://fixit.lruihao.cn/sre-reliability-systems-engineering-practice/</link>
+  <pubDate>Wed, 16 Feb 2022 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/sre-reliability-systems-engineering-practice/</guid>
+  <description><![CDATA[本文主要是看了携程集团商旅事业部的 CTO 宋涛在极客时间上《搭建可靠性系统工程实践》的分享而做的一些笔记及总结。 1. 可靠性：互联网时代的挑战 关于系统]]></description>
+</item><item>
+  <title>Golang 正则小试</title>
+  <link>https://fixit.lruihao.cn/golang-regexp/</link>
+  <pubDate>Thu, 17 Feb 2022 20:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/golang-regexp/</guid>
+  <description><![CDATA[本文主要记录了日常开发中关于 Golang 正则的一些尝试。主要包括 &quot;&quot; 和 `` 的区别，贪婪模式和非贪婪模式等。 1. &quot;&quot; 和 `` 的区别 首先介绍下 &quot;&quot; 和 `` 的区别，因为在后文]]></description>
+</item><item>
+  <title>tcpdump 小试</title>
+  <link>https://fixit.lruihao.cn/network-tcpdump-try/</link>
+  <pubDate>Tue, 22 Feb 2022 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/network-tcpdump-try/</guid>
+  <description><![CDATA[本文主要对 tcpdump 做了些简单介绍，以及一些实践经验。 1. 什么是 tcpdupm tcpdump：dump the traffic on a network，根据使用者的定义对网络上的数据包进行]]></description>
+</item><item>
+  <title>如何解决 linux too many open files 问题</title>
+  <link>https://fixit.lruihao.cn/linux-too-many-open-files/</link>
+  <pubDate>Sat, 23 Apr 2022 10:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/linux-too-many-open-files/</guid>
+  <description><![CDATA[<p>本文主要分析了当 linux 系统中出现 too many open files 问题时，我们应该如何去解决这类问题。</p>]]></description>
+</item><item>
+  <title>[笔记]技术管理实战 36 讲：任务执行篇（管理三部曲之三）</title>
+  <link>https://fixit.lruihao.cn/gk-tmp-task-execution/</link>
+  <pubDate>Sat, 23 Apr 2022 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/gk-tmp-task-execution/</guid>
+  <description><![CDATA[本文主要是对极客时间《技术管理实战 36 讲》任务执行篇做的笔记，详细内容可参考：任务执行篇。 0. 总纲 在做事之前，我们需要回答的问题是：要做哪些事？]]></description>
 </item><item>
   <title>Windows 环境下如何添加 jenkins-slave 节点</title>
   <link>https://fixit.lruihao.cn/jenkins-install-windows-slave/</link>
@@ -40,12 +110,68 @@
   <guid>https://fixit.lruihao.cn/jenkins-install-windows-slave/</guid>
   <description><![CDATA[<p>本文主要介绍了 Windows 环境下如何添加 jenkins-slave 节点，以及安装过程中一些常见问题如何解决。</p>]]></description>
 </item><item>
-  <title>Maven pom.xml 文件详解</title>
-  <link>https://fixit.lruihao.cn/scm-maven-pom-detail/</link>
-  <pubDate>Mon, 13 Apr 2020 18:51:01 &#43;0800</pubDate>
+  <title>一文带你玩转 Jenkins</title>
+  <link>https://fixit.lruihao.cn/jenkins-enlightenment/</link>
+  <pubDate>Wed, 24 Jun 2020 18:51:01 &#43;0800</pubDate>
   <author>Leslie</author>
-  <guid>https://fixit.lruihao.cn/scm-maven-pom-detail/</guid>
-  <description><![CDATA[本文主要介绍了 maven pom.xml 中各元素的详细意义。 1. pom.xml 文件详解 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45]]></description>
+  <guid>https://fixit.lruihao.cn/jenkins-enlightenment/</guid>
+  <description><![CDATA[1. 实验环境 本次实验采用的机器为 MAC。 需要预装的软件：Docker。 2. 构建 Jenkins Master 镜像 首先请先下载我的个人项目 jenkins-alpine-do]]></description>
+</item><item>
+  <title>Golang 空结构体妙用</title>
+  <link>https://fixit.lruihao.cn/go-empty-struct.go/</link>
+  <pubDate>Tue, 15 Feb 2022 20:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/go-empty-struct.go/</guid>
+  <description><![CDATA[本文主要介绍了 golang 语言中的空结构体及其使用场景。 1. 空结构体 空结构体的宽度是 0，占用了 0 字节的内存空间。 由于空结构体占用0字节，那么空结构体也不]]></description>
+</item><item>
+  <title>[笔记]Kubernetes 架构原则和对象设计</title>
+  <link>https://fixit.lruihao.cn/gk-cloudnative-k8s-arch/</link>
+  <pubDate>Sat, 19 Feb 2022 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/gk-cloudnative-k8s-arch/</guid>
+  <description><![CDATA[<p>本文主要是看了极客时间上《Kubernetes 架构原则和对象设计》的分享而做的一些笔记及总结。</p>]]></description>
+</item><item>
+  <title>私有 cnpm 无法下载外网包的问题排查</title>
+  <link>https://fixit.lruihao.cn/scm-private-npm-error/</link>
+  <pubDate>Wed, 02 Mar 2022 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/scm-private-npm-error/</guid>
+  <description><![CDATA[本文主要记录了私有 cnpm 无法下载外网包的问题排查过程。同时给出对应的解决方案并对解决方案进行了验证。 1. 故障现象 用户报障外网 npm 包下载不到。 下载报错]]></description>
+</item><item>
+  <title>设计模式系列（一）：单例模式</title>
+  <link>https://fixit.lruihao.cn/design-pattern-singleton/</link>
+  <pubDate>Sat, 12 Mar 2022 18:02:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/design-pattern-singleton/</guid>
+  <description><![CDATA[本文主要介绍了什么是单例模式，同时给出了其应用场景及 Golang 代码的具体实现。 1. 什么是单例 单例模式是一种常用的软件设计模式，其定义是单例对象的类只能]]></description>
+</item><item>
+  <title>Dockerfile 最佳实践（常规指南和建议）</title>
+  <link>https://fixit.lruihao.cn/docker-dockerfile-bp1/</link>
+  <pubDate>Thu, 24 Mar 2022 20:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/docker-dockerfile-bp1/</guid>
+  <description><![CDATA[本文主要介绍了编写 Dockerfile 时的一些最佳实践，主要包括一些常规指南和建议。 1. 忽略 docker build 构建文件 在 docker build 的过程中，首先会将指定的上下文目录打包传递给 docker 引擎]]></description>
+</item><item>
+  <title>Dockerfile 最佳实践（指令相关）</title>
+  <link>https://fixit.lruihao.cn/docker-dockerfile-bp2/</link>
+  <pubDate>Thu, 24 Mar 2022 21:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/docker-dockerfile-bp2/</guid>
+  <description><![CDATA[本文主要介绍了编写 Dockerfile 指令相关的一些最佳实践。 1. FROM 尽可能使用当前官方仓库作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私]]></description>
+</item><item>
+  <title>Docker 多阶段构建</title>
+  <link>https://fixit.lruihao.cn/docker-multi-stage-build/</link>
+  <pubDate>Thu, 24 Mar 2022 22:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/docker-multi-stage-build/</guid>
+  <description><![CDATA[本文主要介绍了 Docker 的多阶段构建，以及多阶段构建的一些优势。 Docker 17.05 之前的版本是不支持 multi-stage 镜像构建，通常会采用两种方式构建。一种是全部放入一个 Dockerfile 文件中]]></description>
+</item><item>
+  <title>Jenkins 常用插件介绍</title>
+  <link>https://fixit.lruihao.cn/jenkins-common-plugins/</link>
+  <pubDate>Tue, 26 Apr 2022 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/jenkins-common-plugins/</guid>
+  <description><![CDATA[本文主要介绍了 Jenkins 的一些常用插件。 1. 常用插件介绍 1.1 CAS Plugin 用于 CAS 接入。 CAS 插件介绍CAS 插件介绍 " CAS 插件介绍 CAS 插件配置CAS 插件配置 " CAS 插件配置 1.2 Matrix]]></description>
 </item><item>
   <title>Jenkins 常用插件介绍</title>
   <link>https://fixit.lruihao.cn/jenkins-common-plugins/</link>

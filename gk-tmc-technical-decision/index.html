@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <title>[笔记]技术管理案例课：技术决策者之开始定战略了 - LESLIEXLXIAO&#39;S BLOG</title><meta name="author" content="Leslie: https://www.lesliexlxiao.com">
+<meta name="description" content="本文主要是对极客时间《技术管理案例课》技术决策者之开始定战略了做的笔记，详细内容可参考：技术决策者之开始定战略了。" />
+<meta name="keywords" content="Management,Note,Geek" /><meta itemprop="name" content="[笔记]技术管理案例课：技术决策者之开始定战略了">
+<meta itemprop="description" content="本文主要是对极客时间《技术管理案例课》技术决策者之开始定战略了做的笔记，详细内容可参考：技术决策者之开始定战略了。">
+<meta itemprop="datePublished" content="2022-04-23T20:51:01+08:00" />
+<meta itemprop="dateModified" content="2022-04-23T20:51:01+08:00" />
+<meta itemprop="wordCount" content="2659">
+<meta itemprop="image" content="https://fixit.lruihao.cn/logo.png"/>
+
+
+
+<meta itemprop="keywords" content="Management,Note,Geek," />
+<meta property="og:title" content="[笔记]技术管理案例课：技术决策者之开始定战略了" />
+<meta property="og:description" content="本文主要是对极客时间《技术管理案例课》技术决策者之开始定战略了做的笔记，详细内容可参考：技术决策者之开始定战略了。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fixit.lruihao.cn/gk-tmc-technical-decision/" />
+<meta property="og:image" content="https://fixit.lruihao.cn/logo.png"/>
+<meta property="article:published_time" content="2022-04-23T20:51:01+08:00" />
+<meta property="article:modified_time" content="2022-04-23T20:51:01+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://fixit.lruihao.cn/logo.png"/>
+
+<meta name="twitter:title" content="[笔记]技术管理案例课：技术决策者之开始定战略了"/>
+<meta name="twitter:description" content="本文主要是对极客时间《技术管理案例课》技术决策者之开始定战略了做的笔记，详细内容可参考：技术决策者之开始定战略了。"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#252627"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://fixit.lruihao.cn/gk-tmc-technical-decision/" /><link rel="prev" href="https://fixit.lruihao.cn/gk-tmp-task-execution/" /><link rel="next" href="https://fixit.lruihao.cn/jenkins-install-windows-slave/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "[笔记]技术管理案例课：技术决策者之开始定战略了",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/fixit.lruihao.cn\/gk-tmc-technical-decision\/"
+    },"image": ["https:\/\/fixit.lruihao.cn\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Management, Note, Geek","wordcount":  2659 ,
+    "url": "https:\/\/fixit.lruihao.cn\/gk-tmc-technical-decision\/","datePublished": "2022-04-23T20:51:01+08:00","dateModified": "2022-04-23T20:51:01+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+      "@type": "Organization",
+      "name": "Lruihao","logo": "https:\/\/fixit.lruihao.cn\/images\/avatar.png"},"author": {
+        "@type": "Person",
+        "name": "Leslie"
+      },"description": ""
+  }
+  </script></head>
+  <body header-desktop="sticky" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+    <div class="menu">
+      <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/friends/" title="友情链接"> 友链 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+            <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/gk-tmc-technical-decision/" selected>简体中文</option></select>
+          </a><span class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+          <i class="fas fa-adjust fa-fw"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</header><header class="mobile" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="menu" id="menu-mobile"><div class="search-wrapper">
+          <div class="search mobile" id="search-mobile">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-mobile">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </div>
+          <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+            取消
+          </a>
+        </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/friends/" title="友情链接">友链</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+        <i class="fas fa-adjust fa-fw"></i>
+      </a><a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+          <select class="language-select" onchange="location = this.value;"><option value="/gk-tmc-technical-decision/" selected>简体中文</option></select>
+        </a></div>
+  </div>
+</header>
+<div class="search-dropdown desktop">
+  <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+  <div id="search-dropdown-mobile"></div>
+</div>
+<main class="container" page-style="normal"><aside class="toc" id="toc-auto"><h2 class="toc-title">目录</h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    
+  </aside>
+
+  <article class="page single"><h1 class="single-title animate__animated animate__flipInX">[笔记]技术管理案例课：技术决策者之开始定战略了</h1><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a
+  href="https://www.lesliexlxiao.com"
+  
+    title="Author"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer author"
+  
+  
+  
+    class="author"
+  
+  
+><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/management/"><i class="far fa-folder fa-fw"></i>Management</a></span></div>
+      <div class="post-meta-line"><span title=2022-04-23&#32;20:51:01>
+            <i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-04-23" >2022-04-23</time>
+          </span>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 2659 字&nbsp;
+        <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 6 分钟&nbsp;</div>
+    </div><div class="details toc" id="toc-static" kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fas fa-angle-right"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#3-技术决策3持续跟进进度执行细节决定成败">3. 技术决策（3）：持续跟进进度，执行细节决定成败</a>
+      <ul>
+        <li><a href="#31-关键细节如何把握">3.1 关键细节如何把握？</a>
+          <ul>
+            <li><a href="#方法一执行负责人要制定可衡量的阶段性目标">方法一：执行负责人要制定可衡量的阶段性目标</a></li>
+            <li><a href="#方法二定期的项目评审和周报">方法二：定期的项目评审和周报</a></li>
+            <li><a href="#方法三不定时地找团队一线骨干做-deep-dive">方法三：不定时地找团队一线骨干做 Deep Dive</a></li>
+          </ul>
+        </li>
+        <li><a href="#32-持续跟进的注意事项">3.2 持续跟进的注意事项</a>
+          <ul>
+            <li><a href="#决策不等于落实">决策不等于落实</a></li>
+            <li><a href="#经理也是执行者">经理也是执行者</a></li>
+            <li><a href="#早点到真实环境历练">早点到真实环境历练</a></li>
+            <li><a href="#通过关键细节做人员选育">通过关键细节做人员选育</a></li>
+          </ul>
+        </li>
+        <li><a href="#33-总结">3.3 总结</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p>本文主要是对极客时间《技术管理案例课》技术决策者之开始定战略了做的笔记，详细内容可参考：<a
+  href="https://time.geekbang.org/column/article/293934"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>技术决策者之开始定战略了</a>。</p>
+<hr>
+<h2 id="3-技术决策3持续跟进进度执行细节决定成败">3. 技术决策（3）：持续跟进进度，执行细节决定成败</h2>
+<p>关键路径的关键细节一定要把控好。</p>
+<p>做完决策就可以了吗？如果我们觉得决策做完了就万事大吉，那么常常就会有这样的后果：</p>
+<ol>
+<li>
+<p>是经理自己被架空。如果不能把握关键细节，完整地跟进进度，经理就容易把自己架空。</p>
+</li>
+<li>
+<p>会导致业务价值无法按时交付。</p>
+</li>
+<li>
+<p>无法解决部下的困难。技术经理要了解一线的具体困难，采取行动解决，否则会直接影响到自己的领导力。</p>
+</li>
+</ol>
+<p>只有注重了关键的细节，你才能对你手上的关键产品和项目有比较全面的了解，才能持续地根据实际情况做后续的技术决策。</p>
+<h3 id="31-关键细节如何把握">3.1 关键细节如何把握？</h3>
+<h4 id="方法一执行负责人要制定可衡量的阶段性目标">方法一：执行负责人要制定可衡量的阶段性目标</h4>
+<p>很多事情很难估计时间，强行制定时间表的话最后也许就不能交付。那么很难估计时间的话，目标到底怎么制定呢？</p>
+<p>必须定计划这一条没有商量余地，但是可以做拆分，直到拆分的单元可以很好地做衡量。</p>
+<p>具体来说，就是如果季度目标不准就定月度，月度目标不准我们就每两周一次的 Sprint 目标，再不行我们就定每一周的周计划。</p>
+<h4 id="方法二定期的项目评审和周报">方法二：定期的项目评审和周报</h4>
+<p>定期的作用就是给执行负责人传递一个明确的信号，也就是他的上级技术经理正在持续关注他的进度，愿意及时解决他的实际困难。</p>
+<p>同时，这么做对执行负责人也是一种压力，每一次到了项目评审和周报的时间点，他都需要给领导和给同仁看到进度。</p>
+<p>关于项目评审和周报有下面三点注意事项：</p>
+<ol>
+<li>
+<p>我不要听流水账，所以负责人要对照项目之前定下的阶段性目标来汇报进度。</p>
+</li>
+<li>
+<p>如果项目进行过程中有<font color=#FF0099><strong>阶段性目标达成</strong></font>，或者有值得肯定和表扬的点，我会要求负责人<font color=#FF0099><strong>单独注明</strong></font>。</p>
+</li>
+<li>
+<p>项目中碰到的问题也需要单独标注，这一条非常重要。我一般会建议执行负责人用绿，黄，红三色来对问题分类。<font color=#FF0099><strong>绿色是已经解决的问题，黄色表示虽然出现了问题，但是执行负责人已经拿出了具体的措施在解决问题，目前还不需要上级领导介入，而红色表示要求上级经理介入或者提供帮助</strong></font>。</p>
+</li>
+</ol>
+<h4 id="方法三不定时地找团队一线骨干做-deep-dive">方法三：不定时地找团队一线骨干做 Deep Dive</h4>
+<p>通过找团队的一线骨干了解细节，我发现自己对项目的了解更加全面，也能尽快发现实际操作下来经常发生什么样的问题，下面三类问题是最常见的：</p>
+<ol>
+<li>
+<p>第一，对性能压测和失效性分析重视程度不够。我们部门在吃过几次苦头以后，在这一点上已经比较重视了。墨菲定律在我们部门负责的项目上几乎次次灵验。</p>
+</li>
+<li>
+<p>第二，对关键依赖过于乐观。现在我们部门对于关键依赖我的建议是：<font color=#FF0099><strong>没有书面承诺交付时间的，就当这个依赖没有搞定</strong></font>，应该找高级别技术主管介入。</p>
+</li>
+<li>
+<p>第三，技术实现时夹带必要功能之外的加分项功能。从我们部门目前实际的执行历史看，<font color=#FF0099><strong>在核心功能交付前，所有锦上添花的功能都应该全部砍掉</strong></font>。</p>
+</li>
+</ol>
+<h3 id="32-持续跟进的注意事项">3.2 持续跟进的注意事项</h3>
+<h4 id="决策不等于落实">决策不等于落实</h4>
+<p>我们总能轻易举出一系列半途而废的事情，这些事儿都是我们做了决定但是却没有跟进，最后不了了之，没有落实。</p>
+<p><font color=#FF0099><strong>第一种情况，就是做了“建议”没有跟进。</strong></font></p>
+<p>我给你举一个具体的例子来说明。我们部门已经多次出现误删操作，因为权限管理太松，发生过不应该有权限的人误操作，结果删除整了个测试数据库的情况。最近一次是因为数据质量问题，系统误删了生产环境流量入口，幸好部署了高可用 HA 防护才没有出大事。</p>
+<p>我做复盘的时候，想起我虽然一次一次建议要引入保底措施，在删除逻辑中加入流量检查保护。但到目前为止，我只是反复在强调不采取措施的风险，这个风险就是一旦出问题影响业务，会导致打乱我们所有的原定计划，然后全员都要去做系统可靠性强化工作。</p>
+<p><font color=#FF0099><strong>第二种情况，就是没有落实标准。</strong></font>在我们部门最常见的就是出了一个生产事故，于是在风头上大家都很重视，制定出一系列举措。问题是我们很少会去重现那个生产事故，通过测试进一步确认我们落实的那些举措的有效性，也就是在<font color=#FF0099><strong>下一次发生类似事故时，我们指定的举措是否真正能够起作用</strong></font>。</p>
+<p>比如说我们上个月发生的一件事儿，因为一个 BUG，PaaS 系统的一个超级账号抹掉了整个测试环境监控系统，这个事故我们花了四个小时才恢复服务。</p>
+<p>在复盘会议上，团队成员觉得以后我们可以在 20 分钟内恢复服务，但这个想法没有落实到测试环境中检验，其实很难立住脚。</p>
+<p><font color=#FF0099><strong>所以我明确要求监控组一定要复制一套一模一样的线上系统，再做一遍删除系统后恢复的模拟测试。要知道，我们设想中可以 20 分钟完成的恢复操作，和真的做一遍，验证一下在 20 分钟内能不能恢复是不一样的。</strong></font></p>
+<h4 id="经理也是执行者">经理也是执行者</h4>
+<p><font color=#FF0099><strong>就算我们已经给关键项目安排了负责人，作为主管经理，我们同样也是执行者</strong></font>。领导的工作不单单是给你分配任务，也<font color=#FF0099><strong>包括帮你解决你的困难</strong></font>，领导最不希望看到的就是到了快交付了你跟领导说因为这样那样的原因，项目不能如期交付。</p>
+<p>所以，<font color=#FF0099><strong>如果你觉得有风险需要领导介入，就应该第一时间跟领导沟通。你要有这个气场可以给领导安排工作。</strong></font></p>
+<p>就是因为我认为经理本身也是执行者，关于这个问题，我有三条原则和你分享：</p>
+<ol>
+<li>
+<p>如果部下反映了问题，我能够解决的必须马上解决，不能拖，更不能石沉大海。</p>
+</li>
+<li>
+<p>如果部下反映的问题我不能马上解决，那我需要告诉部下我大概在什么时候可以解决。</p>
+</li>
+<li>
+<p>如果我评估下来我也无力解决，我会告诉部下不能解决的原因。</p>
+</li>
+</ol>
+<p>作为领导，要给部下反馈和采取后续动作，做得好的不要吝惜表扬，碰到问题了领导也是执行者需要切实解决困难。</p>
+<h4 id="早点到真实环境历练">早点到真实环境历练</h4>
+<p>我们都知道，管理“未知”是最难的，有时候我们可以预判后面执行还会有这样那样的问题，但这些问题你是很难事前预料的，这时候应该怎么办呢？我的做法就是早点放到真实环境去历练，争取尽早暴露问题。</p>
+<h4 id="通过关键细节做人员选育">通过关键细节做人员选育</h4>
+<p>我认为重要的关键项目除了交付业务价值，另一个重要作用就是培养人才。那具体怎么培养呢？</p>
+<p>我最近半年最大的收获就是<font color=#FF0099><strong>指出关键细节上的差距</strong></font>。技术主管只有深入一线了解关键细节，才有可能对执行这些项目中的骨干提出有建设性的高质量意见。这些意见对于项目骨干的成长意义重大。</p>
+<p>这么做的好处是当你给具体的细节的时候，听的人其实已经从具体的实例中自己得出了你想要的结论，这时候你再说出结论，就更容易被听的人接受。</p>
+<p>这个抓细节的思路我也应用到了自己培养部下能力的过程中。比如我跟经理 X 确定了他今年必须有一个目标，这个目标是培养他的左右手到没有他在也能独当一面的水平；我还找到我们部门的技术骨干 E，跟他探讨一下为什么我们部门的关键项目不能由一名骨干带上一批派遣人员来实施，而兄弟部门却可以。</p>
+<h3 id="33-总结">3.3 总结</h3>
+<p>我的建议是，对我们的骨干要高标准、严要求，而指出他们的问题时，就要拿出具体的细节上的差距。<font color=#FF0099><strong>高标准严要求，甚至是用严厉的语气明确说出来哪个具体的点做得不够好，这对唤醒人的自我觉悟，提升人的能力帮助很大。</strong></font></p></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title=2022-04-23&#32;20:51:01>更新于 2022-04-23</span>
+      </div>
+      <div class="post-info-license"><span><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+    <div class="post-info-line">
+      <div class="post-info-md"><span>
+              <a class="link-to-markdown" href="/gk-tmc-technical-decision/index.md" target="_blank">阅读原始文档</a>
+            </span></div>
+      <div class="post-info-share">
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://fixit.lruihao.cn/gk-tmc-technical-decision/" data-title="[笔记]技术管理案例课：技术决策者之开始定战略了" data-hashtags="Management,Note,Geek"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://fixit.lruihao.cn/gk-tmc-technical-decision/" data-hashtag="Management"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://fixit.lruihao.cn/gk-tmc-technical-decision/" data-title="[笔记]技术管理案例课：技术决策者之开始定战略了"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://fixit.lruihao.cn/gk-tmc-technical-decision/" data-title="[笔记]技术管理案例课：技术决策者之开始定战略了"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://fixit.lruihao.cn/gk-tmc-technical-decision/" data-title="[笔记]技术管理案例课：技术决策者之开始定战略了"><i class="fab fa-weibo fa-fw"></i></a></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/management/">Management</a>,&nbsp;<a href="/tags/note/">Note</a>,&nbsp;<a href="/tags/geek/">Geek</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/gk-tmp-task-execution/" class="prev" rel="prev" title="[笔记]技术管理实战 36 讲：任务执行篇（管理三部曲之三）"><i class="fas fa-angle-left fa-fw"></i>[笔记]技术管理实战 36 讲：任务执行篇（管理三部曲之三）</a>
+      <a href="/jenkins-install-windows-slave/" class="next" rel="next" title="Windows 环境下如何添加 jenkins-slave 节点">Windows 环境下如何添加 jenkins-slave 节点<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/Lruihao/FixIt" target="_blank" rel="external nofollow noopener noreffer" title="FixIt 0.2.13"><img class="fixit-icon" src="/images/fixit.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">
+              <a
+  href="https://www.lesliexlxiao.com"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>Leslie</a></span><span class="footer-divider"></span><span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line ibruce">
+          <span id="busuanzi_container_site_uv" title=总访客数
+            ><i class="far fa-user"></i>
+            <span id="busuanzi_value_site_uv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span><span class="site-time footer-divider" title=网站运行中&#32;...
+              ><i class="fas fa-heartbeat animate-icon"></i>
+              <span class="run-times">Loading...</span
+            ></span><span id="busuanzi_container_site_pv" class="footer-divider" title=总访问量
+            ><i class="far fa-eye"></i>
+            <span id="busuanzi_value_site_pv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span>
+        </div></div>
+  </footer></div>
+
+    <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+        <i class="fas fa-arrow-up fa-fw"></i>
+      </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+        <i class="fas fa-comment fa-fw"></i>
+      </a>
+    </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js" defer></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js" defer></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js" async defer></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js" defer></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js" defer></script><script type="text/javascript" src="/lib/sharer/sharer.min.js" async defer></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script type="text/javascript" src="/lib/pangu/pangu.min.js" defer></script><script type="text/javascript" src="/lib/cell-watermark/watermark.min.js" defer></script><script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":100},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePWA":true,"enablePangu":true,"ibruce":{"enable":true,"siteTime":"2021-12-18T16:15:22+08:00"},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"search":{"algoliaAppID":"OAYQFPTAUX","algoliaIndex":"index.zh-cn","algoliaSearchKey":"c0b57064328f69e512b191d8ead9a047","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"watermark":{"content":"\u003cimg class=\"fixit-icon\" src=\"/images/fixit.svg\" alt=\"FixIt logo\" /\u003e FixIt 主题","enable":true,"height":21,"opacity":0.0125}};</script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript" src="/js/_custom.min.js" defer></script></body>
+</html>
