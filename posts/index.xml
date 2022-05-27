@@ -4,7 +4,7 @@
     <link>https://fixit.lruihao.cn/posts/</link>
     <description>所有文章 | LESLIEXLXIAO&#39;S BLOG</description>
     <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>lesliexlxiao@163.com (Leslie)</managingEditor>
-      <webMaster>lesliexlxiao@163.com (Leslie)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 13 May 2022 20:51:01 &#43;0800</lastBuildDate><atom:link href="https://fixit.lruihao.cn/posts/" rel="self" type="application/rss+xml" /><item>
+      <webMaster>lesliexlxiao@163.com (Leslie)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 27 May 2022 18:51:01 &#43;0800</lastBuildDate><atom:link href="https://fixit.lruihao.cn/posts/" rel="self" type="application/rss+xml" /><item>
   <title>Markdown 基本语法</title>
   <link>https://fixit.lruihao.cn/basic-markdown-syntax/</link>
   <pubDate>Sun, 01 Dec 2019 21:57:40 &#43;0800</pubDate>
@@ -173,6 +173,13 @@
   <guid>https://fixit.lruihao.cn/jenkins-common-plugins/</guid>
   <description><![CDATA[本文主要介绍了 Jenkins 的一些常用插件。 1. 常用插件介绍 1.1 CAS Plugin 用于 CAS 接入。 CAS 插件介绍CAS 插件介绍 " CAS 插件介绍 CAS 插件配置CAS 插件配置 " CAS 插件配置 1.2 Matrix]]></description>
 </item><item>
+  <title>Pod 无法调度到预期 Node 问题分析</title>
+  <link>https://fixit.lruihao.cn/k8s-pod-schedule-failure/</link>
+  <pubDate>Fri, 27 May 2022 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/k8s-pod-schedule-failure/</guid>
+  <description><![CDATA[本文主要记录了 k8s 中 pod 无法调度到预期 node 时，如何去进行问题分析。 1. 背景 目前携程采用的是 gitlabci 去跑 ci 流程。某一天我们通过监控发现，有两台 node 节点始终不能]]></description>
+</item><item>
   <title>Jenkins 常用插件介绍</title>
   <link>https://fixit.lruihao.cn/jenkins-common-plugins/</link>
   <pubDate>Tue, 26 Apr 2022 18:51:01 &#43;0800</pubDate>
@@ -235,12 +242,5 @@
   <author>Leslie</author>
   <guid>https://fixit.lruihao.cn/jenkins-enlightenment/</guid>
   <description><![CDATA[1. 实验环境 本次实验采用的机器为 MAC。 需要预装的软件：Docker。 2. 构建 Jenkins Master 镜像 首先请先下载我的个人项目 jenkins-alpine-do]]></description>
-</item><item>
-  <title>Windows 环境下如何添加 jenkins-slave 节点</title>
-  <link>https://fixit.lruihao.cn/jenkins-install-windows-slave/</link>
-  <pubDate>Thu, 30 May 2019 18:51:01 &#43;0800</pubDate>
-  <author>Leslie</author>
-  <guid>https://fixit.lruihao.cn/jenkins-install-windows-slave/</guid>
-  <description><![CDATA[<p>本文主要介绍了 Windows 环境下如何添加 jenkins-slave 节点，以及安装过程中一些常见问题如何解决。</p>]]></description>
 </item></channel>
 </rss>
