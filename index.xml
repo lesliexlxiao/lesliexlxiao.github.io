@@ -7,6 +7,13 @@
       <webMaster>lesliexlxiao@163.com (Leslie)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 27 May 2022 18:51:01 &#43;0800</lastBuildDate>
       <atom:link href="https://fixit.lruihao.cn/index.xml" rel="self" type="application/rss+xml" />
     <item>
+  <title>npm install checksum failed 问题分析</title>
+  <link>https://fixit.lruihao.cn/scm-npm-checksum-failed/</link>
+  <pubDate>Fri, 27 May 2022 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/scm-npm-checksum-failed/</guid>
+  <description><![CDATA[本文主要记录了 npm intall checksum failed 问题分析的过程。 1. 背景 用户报障说 gitlabci npm install 构建经常报错，时好时坏。报错日志如下： npm install errornpm install error " npm install error 2. 分析问题 日志报错分析：]]></description>
+</item><item>
   <title>Pod 无法调度到预期 Node 问题分析</title>
   <link>https://fixit.lruihao.cn/k8s-pod-schedule-failure/</link>
   <pubDate>Fri, 27 May 2022 18:51:01 &#43;0800</pubDate>
@@ -69,12 +76,5 @@
   <author>Leslie</author>
   <guid>https://fixit.lruihao.cn/go-empty-struct.go/</guid>
   <description><![CDATA[本文主要介绍了 golang 语言中的空结构体及其使用场景。 1. 空结构体 空结构体的宽度是 0，占用了 0 字节的内存空间。 由于空结构体占用0字节，那么空结构体也不]]></description>
-</item><item>
-  <title>一文带你玩转 Jenkins</title>
-  <link>https://fixit.lruihao.cn/jenkins-enlightenment/</link>
-  <pubDate>Wed, 24 Jun 2020 18:51:01 &#43;0800</pubDate>
-  <author>Leslie</author>
-  <guid>https://fixit.lruihao.cn/jenkins-enlightenment/</guid>
-  <description><![CDATA[1. 实验环境 本次实验采用的机器为 MAC。 需要预装的软件：Docker。 2. 构建 Jenkins Master 镜像 首先请先下载我的个人项目 jenkins-alpine-do]]></description>
 </item></channel>
 </rss>

@@ -5,44 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noodp" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-    <title>Pod 无法调度到预期 Node 问题分析 - LESLIEXLXIAO&#39;S BLOG</title><meta name="author" content="Leslie: https://www.lesliexlxiao.com">
-<meta name="description" content="本文主要记录了 k8s 中 pod 无法调度到预期 node 时，如何去进行问题分析。 1. 背景 目前携程采用的是 gitlabci 去跑 ci 流程。某一天我们通过监控发现，有两台 node 节点始终不能" />
-<meta name="keywords" content="Kubernetes" /><meta itemprop="name" content="Pod 无法调度到预期 Node 问题分析">
-<meta itemprop="description" content="本文主要记录了 k8s 中 pod 无法调度到预期 node 时，如何去进行问题分析。 1. 背景 目前携程采用的是 gitlabci 去跑 ci 流程。某一天我们通过监控发现，有两台 node 节点始终不能">
+    <title>npm install checksum failed 问题分析 - LESLIEXLXIAO&#39;S BLOG</title><meta name="author" content="Leslie: https://www.lesliexlxiao.com">
+<meta name="description" content="本文主要记录了 npm intall checksum failed 问题分析的过程。 1. 背景 用户报障说 gitlabci npm install 构建经常报错，时好时坏。报错日志如下： npm install errornpm install error &#34; npm install error 2. 分析问题 日志报错分析：" />
+<meta name="keywords" content="NPM,NodeJS" /><meta itemprop="name" content="npm install checksum failed 问题分析">
+<meta itemprop="description" content="本文主要记录了 npm intall checksum failed 问题分析的过程。 1. 背景 用户报障说 gitlabci npm install 构建经常报错，时好时坏。报错日志如下： npm install errornpm install error &#34; npm install error 2. 分析问题 日志报错分析：">
 <meta itemprop="datePublished" content="2022-05-27T18:51:01+08:00" />
 <meta itemprop="dateModified" content="2022-05-27T18:51:01+08:00" />
-<meta itemprop="wordCount" content="399">
+<meta itemprop="wordCount" content="668">
 <meta itemprop="image" content="https://fixit.lruihao.cn/logo.png"/>
 
 
 
-<meta itemprop="keywords" content="Kubernetes," />
-<meta property="og:title" content="Pod 无法调度到预期 Node 问题分析" />
-<meta property="og:description" content="本文主要记录了 k8s 中 pod 无法调度到预期 node 时，如何去进行问题分析。 1. 背景 目前携程采用的是 gitlabci 去跑 ci 流程。某一天我们通过监控发现，有两台 node 节点始终不能" />
+<meta itemprop="keywords" content="NPM,NodeJS," />
+<meta property="og:title" content="npm install checksum failed 问题分析" />
+<meta property="og:description" content="本文主要记录了 npm intall checksum failed 问题分析的过程。 1. 背景 用户报障说 gitlabci npm install 构建经常报错，时好时坏。报错日志如下： npm install errornpm install error &#34; npm install error 2. 分析问题 日志报错分析：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://fixit.lruihao.cn/k8s-pod-schedule-failure/" />
+<meta property="og:url" content="https://fixit.lruihao.cn/scm-npm-checksum-failed/" />
 <meta property="og:image" content="https://fixit.lruihao.cn/logo.png"/>
 <meta property="article:published_time" content="2022-05-27T18:51:01+08:00" />
 <meta property="article:modified_time" content="2022-05-27T18:51:01+08:00" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://fixit.lruihao.cn/logo.png"/>
 
-<meta name="twitter:title" content="Pod 无法调度到预期 Node 问题分析"/>
-<meta name="twitter:description" content="本文主要记录了 k8s 中 pod 无法调度到预期 node 时，如何去进行问题分析。 1. 背景 目前携程采用的是 gitlabci 去跑 ci 流程。某一天我们通过监控发现，有两台 node 节点始终不能"/>
+<meta name="twitter:title" content="npm install checksum failed 问题分析"/>
+<meta name="twitter:description" content="本文主要记录了 npm intall checksum failed 问题分析的过程。 1. 背景 用户报障说 gitlabci npm install 构建经常报错，时好时坏。报错日志如下： npm install errornpm install error &#34; npm install error 2. 分析问题 日志报错分析："/>
 <meta name="application-name" content="FixIt">
 <meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#252627"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://fixit.lruihao.cn/k8s-pod-schedule-failure/" /><link rel="prev" href="https://fixit.lruihao.cn/jenkins-common-plugins/" /><link rel="next" href="https://fixit.lruihao.cn/scm-npm-checksum-failed/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://fixit.lruihao.cn/scm-npm-checksum-failed/" /><link rel="prev" href="https://fixit.lruihao.cn/k8s-pod-schedule-failure/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
   {
     "@context": "http://schema.org",
     "@type": "BlogPosting",
-    "headline": "Pod 无法调度到预期 Node 问题分析",
+    "headline": "npm install checksum failed 问题分析",
     "inLanguage": "zh-CN",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https:\/\/fixit.lruihao.cn\/k8s-pod-schedule-failure\/"
-    },"image": ["https:\/\/fixit.lruihao.cn\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Kubernetes","wordcount":  399 ,
-    "url": "https:\/\/fixit.lruihao.cn\/k8s-pod-schedule-failure\/","datePublished": "2022-05-27T18:51:01+08:00","dateModified": "2022-05-27T18:51:01+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+      "@id": "https:\/\/fixit.lruihao.cn\/scm-npm-checksum-failed\/"
+    },"image": ["https:\/\/fixit.lruihao.cn\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "NPM, NodeJS","wordcount":  668 ,
+    "url": "https:\/\/fixit.lruihao.cn\/scm-npm-checksum-failed\/","datePublished": "2022-05-27T18:51:01+08:00","dateModified": "2022-05-27T18:51:01+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
       "@type": "Organization",
       "name": "Lruihao","logo": "https:\/\/fixit.lruihao.cn\/images\/avatar.png"},"author": {
         "@type": "Person",
@@ -65,7 +65,7 @@
     title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
     <div class="menu">
       <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/friends/" title="友情链接"> 友链 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
-            <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/k8s-pod-schedule-failure/" selected>简体中文</option></select>
+            <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/scm-npm-checksum-failed/" selected>简体中文</option></select>
           </a><span class="menu-item search" id="search-desktop">
             <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
             <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
@@ -118,7 +118,7 @@
         </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/friends/" title="友情链接">友链</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
         <i class="fas fa-adjust fa-fw"></i>
       </a><a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
-          <select class="language-select" onchange="location = this.value;"><option value="/k8s-pod-schedule-failure/" selected>简体中文</option></select>
+          <select class="language-select" onchange="location = this.value;"><option value="/scm-npm-checksum-failed/" selected>简体中文</option></select>
         </a></div>
   </div>
 </header>
@@ -135,7 +135,7 @@
     
   </aside>
 
-  <article class="page single"><h1 class="single-title animate__animated animate__flipInX">Pod 无法调度到预期 Node 问题分析</h1><div class="post-meta">
+  <article class="page single"><h1 class="single-title animate__animated animate__flipInX">npm install checksum failed 问题分析</h1><div class="post-meta">
       <div class="post-meta-line"><span class="post-author"><a
   href="https://www.lesliexlxiao.com"
   
@@ -153,11 +153,11 @@
     class="author"
   
   
-><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/kubernetes/"><i class="far fa-folder fa-fw"></i>Kubernetes</a></span></div>
+><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/npm/"><i class="far fa-folder fa-fw"></i>NPM</a></span></div>
       <div class="post-meta-line"><span title=2022-05-27&#32;18:51:01>
             <i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-05-27" >2022-05-27</time>
-          </span>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 399 字&nbsp;
-        <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 1 分钟&nbsp;</div>
+          </span>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 668 字&nbsp;
+        <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 2 分钟&nbsp;</div>
     </div><div class="details toc" id="toc-static" kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -167,59 +167,70 @@
   <ul>
     <li><a href="#1-背景">1. 背景</a></li>
     <li><a href="#2-分析问题">2. 分析问题</a></li>
-    <li><a href="#3-解决问题">3. 解决问题</a></li>
+    <li><a href="#3-解决办法">3. 解决办法</a></li>
   </ul>
 </nav></div>
-      </div><div class="content" id="content"><p>本文主要记录了 k8s 中 pod 无法调度到预期 node 时，如何去进行问题分析。</p>
+      </div><div class="content" id="content"><p>本文主要记录了 npm intall checksum failed 问题分析的过程。</p>
 <h2 id="1-背景">1. 背景</h2>
-<p>目前携程采用的是 gitlabci 去跑 ci 流程。某一天我们通过监控发现，有两台 node 节点始终不能调度到 executor pod。</p>
-<p><figure><a class="lightgallery" href="/k8s-pod-schedule-failure/1.png" title="两台无法调度到 pod 的节点" data-thumbnail="/k8s-pod-schedule-failure/1.png" data-sub-html="<h2>两台无法调度到 pod 的节点</h2><p>两台无法调度到 pod 的节点</p>">
+<p>用户报障说 gitlabci npm install 构建经常报错，时好时坏。报错日志如下：</p>
+<p><figure><a class="lightgallery" href="/scm-npm-checksum-failed/1.png" title="npm install error" data-thumbnail="/scm-npm-checksum-failed/1.png" data-sub-html="<h2>npm install error</h2><p>npm install error</p>">
     <img
       class="lazyload"
       src="/svg/loading.min.svg"
       data-src="1.png"
-      data-srcset="/k8s-pod-schedule-failure/1.png, 1.png 1.5x, /k8s-pod-schedule-failure/1.png 2x"
+      data-srcset="/scm-npm-checksum-failed/1.png, 1.png 1.5x, /scm-npm-checksum-failed/1.png 2x"
       data-sizes="auto"
-      alt="/k8s-pod-schedule-failure/1.png" />
-  </a><figcaption class="image-caption">两台无法调度到 pod 的节点</figcaption>
+      alt="/scm-npm-checksum-failed/1.png" />
+  </a><figcaption class="image-caption">npm install error</figcaption>
   </figure></p>
 <h2 id="2-分析问题">2. 分析问题</h2>
-<p>正常情况下 node 被打了污点，而 executor pod 没有配置去容忍该污点，这个时候是没法调度到 node 节点的。但是通过对比分析，pod 已经配置了容忍该污点，仍然无法调度上去。</p>
-<p>executor pod 一直在实时生成，node 节点也很多，这个时候我们应该怎么排查问题呢？</p>
-<p>这时，可以 copy 出一份 executor pod yml 文件，修改 pod 名字和 node 名字，然后 apply 该 yml 文件。这个时候我们可以看到该 pod 的状态。</p>
-<p><figure><a class="lightgallery" href="/k8s-pod-schedule-failure/2.png" title="异常 pod" data-thumbnail="/k8s-pod-schedule-failure/2.png" data-sub-html="<h2>异常 pod</h2><p>异常 pod</p>">
+<p>日志报错分析：当前的 integrity sha1（这个值可以在 package-lock.json 中查找）的值和实际获取到的值（服务端获取到的值）不一致导致报错。</p>
+<p>哪些原因导致 npm 包的唯一识别码发生了变化？上面的案例，发生的场景如下：</p>
+<ul>
+<li>用户先 publish 1.0.0 版本，然后 unpublish 1.0.0 版本，最后重新 publish 1.0.0 版本，这时服务端版本 sha1 值发生了变化。</li>
+</ul>
+<p>那么为什么 gitlabci 构建时好时坏呢？具体情形如下：</p>
+<ul>
+<li>
+<p>有缓存的机器可以构建成功。</p>
+</li>
+<li>
+<p>无缓存的机器构建失败。</p>
+</li>
+</ul>
+<p>这里就需要去了解下 npm install 的机制了，大致步骤如下：</p>
+<ul>
+<li>a. 到 node_modules 目录查看有没有对应的包版本，如果有，更新到 cache 目录；</li>
+<li>b. 到 cache 目录查看有没有对应包的 cache；</li>
+<li>c. 有 cache，unpack 对应的包到 node_modules；</li>
+<li>d. 没有 cache，到 npm 源下载对应的包并且校验 integrity。</li>
+</ul>
+<p>这里要声明下 gitlabci 构建的 pod 是用完就销毁的，所以每次构建都会生成新的 node_modules 目录。</p>
+<p>有缓存的机器可以构建成功分析：</p>
+<ul>
+<li>到 cache 目录查看有没有对应包的 cache；</li>
+<li>把 cache unpack 到 node_moudles;</li>
+<li>npm install 发现 node_moudles 有对应的包，不再去 npm 源下载，也就不会校验 integrity，此时构建成功。</li>
+</ul>
+<p>无缓存的机器构建失败分析：</p>
+<ul>
+<li>到 npm 源下载对应的包并且校验 integrity，构建失败。</li>
+</ul>
+<h2 id="3-解决办法">3. 解决办法</h2>
+<p>方法一：删除 package-lock.json 文件，重新生成正确的 package-lock.json 文件。</p>
+<ul>
+<li>弊端：删除 package-lock.json，可能会导致一些依赖包的版本升级，导致一些意想不到的错误。</li>
+</ul>
+<p>方法二：替换 package-lock.json 对应依赖包的 sha1 值为服务端实际获取到的值。下图红框第一处为 package-lock.json 中的值，第二处为服务端实际获取的值。</p>
+<p><figure><a class="lightgallery" href="/scm-npm-checksum-failed/1.png" title="npm install error" data-thumbnail="/scm-npm-checksum-failed/1.png" data-sub-html="<h2>npm install error</h2><p>npm install error</p>">
     <img
       class="lazyload"
       src="/svg/loading.min.svg"
-      data-src="2.png"
-      data-srcset="/k8s-pod-schedule-failure/2.png, 2.png 1.5x, /k8s-pod-schedule-failure/2.png 2x"
+      data-src="1.png"
+      data-srcset="/scm-npm-checksum-failed/1.png, 1.png 1.5x, /scm-npm-checksum-failed/1.png 2x"
       data-sizes="auto"
-      alt="/k8s-pod-schedule-failure/2.png" />
-  </a><figcaption class="image-caption">异常 pod</figcaption>
-  </figure></p>
-<p>然后通过 kubectl describe po test-runner-062k8w -n gitlabci 命令查看具体报错原因：</p>
-<p><figure><a class="lightgallery" href="/k8s-pod-schedule-failure/3.png" title="pod detail erro" data-thumbnail="/k8s-pod-schedule-failure/3.png" data-sub-html="<h2>pod detail error</h2><p>pod detail erro</p>">
-    <img
-      class="lazyload"
-      src="/svg/loading.min.svg"
-      data-src="3.png"
-      data-srcset="/k8s-pod-schedule-failure/3.png, 3.png 1.5x, /k8s-pod-schedule-failure/3.png 2x"
-      data-sizes="auto"
-      alt="/k8s-pod-schedule-failure/3.png" />
-  </a><figcaption class="image-caption">pod detail error</figcaption>
-  </figure></p>
-<p>最终发现是 node 上一个插件有问题，导致调度的时候无法判断还有没有可用 IP。</p>
-<h2 id="3-解决问题">3. 解决问题</h2>
-<p>重启 node 有问题插件，调度成功。
-<figure><a class="lightgallery" href="/k8s-pod-schedule-failure/4.png" title="两台调度成功的节点" data-thumbnail="/k8s-pod-schedule-failure/4.png" data-sub-html="<h2>两台调度成功的节点</h2><p>两台调度成功的节点</p>">
-    <img
-      class="lazyload"
-      src="/svg/loading.min.svg"
-      data-src="4.png"
-      data-srcset="/k8s-pod-schedule-failure/4.png, 4.png 1.5x, /k8s-pod-schedule-failure/4.png 2x"
-      data-sizes="auto"
-      alt="/k8s-pod-schedule-failure/4.png" />
-  </a><figcaption class="image-caption">两台调度成功的节点</figcaption>
+      alt="/scm-npm-checksum-failed/1.png" />
+  </a><figcaption class="image-caption">npm install error</figcaption>
   </figure></p>
 </div><div class="post-footer" id="post-footer">
   <div class="post-info">
@@ -231,23 +242,22 @@
     </div>
     <div class="post-info-line">
       <div class="post-info-md"><span>
-              <a class="link-to-markdown" href="/k8s-pod-schedule-failure/index.md" target="_blank">阅读原始文档</a>
+              <a class="link-to-markdown" href="/scm-npm-checksum-failed/index.md" target="_blank">阅读原始文档</a>
             </span></div>
       <div class="post-info-share">
-        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://fixit.lruihao.cn/k8s-pod-schedule-failure/" data-title="Pod 无法调度到预期 Node 问题分析" data-hashtags="Kubernetes"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://fixit.lruihao.cn/k8s-pod-schedule-failure/" data-hashtag="Kubernetes"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://fixit.lruihao.cn/k8s-pod-schedule-failure/" data-title="Pod 无法调度到预期 Node 问题分析"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://fixit.lruihao.cn/k8s-pod-schedule-failure/" data-title="Pod 无法调度到预期 Node 问题分析"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://fixit.lruihao.cn/k8s-pod-schedule-failure/" data-title="Pod 无法调度到预期 Node 问题分析"><i class="fab fa-weibo fa-fw"></i></a></span>
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://fixit.lruihao.cn/scm-npm-checksum-failed/" data-title="npm install checksum failed 问题分析" data-hashtags="NPM,NodeJS"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://fixit.lruihao.cn/scm-npm-checksum-failed/" data-hashtag="NPM"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://fixit.lruihao.cn/scm-npm-checksum-failed/" data-title="npm install checksum failed 问题分析"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://fixit.lruihao.cn/scm-npm-checksum-failed/" data-title="npm install checksum failed 问题分析"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://fixit.lruihao.cn/scm-npm-checksum-failed/" data-title="npm install checksum failed 问题分析"><i class="fab fa-weibo fa-fw"></i></a></span>
       </div>
     </div>
   </div>
 
   <div class="post-info-more">
-    <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/kubernetes/">Kubernetes</a></section>
+    <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/npm/">NPM</a>,&nbsp;<a href="/tags/nodejs/">NodeJS</a></section>
     <section>
       <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
     </section>
   </div>
 
-  <div class="post-nav"><a href="/jenkins-common-plugins/" class="prev" rel="prev" title="Jenkins 常用插件介绍"><i class="fas fa-angle-left fa-fw"></i>Jenkins 常用插件介绍</a>
-      <a href="/scm-npm-checksum-failed/" class="next" rel="next" title="npm install checksum failed 问题分析">npm install checksum failed 问题分析<i class="fas fa-angle-right fa-fw"></i></a></div>
+  <div class="post-nav"><a href="/k8s-pod-schedule-failure/" class="prev" rel="prev" title="Pod 无法调度到预期 Node 问题分析"><i class="fas fa-angle-left fa-fw"></i>Pod 无法调度到预期 Node 问题分析</a></div>
 </div>
 </article></main><footer class="footer">
     <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/Lruihao/FixIt" target="_blank" rel="external nofollow noopener noreffer" title="FixIt 0.2.13"><img class="fixit-icon" src="/images/fixit.svg" alt="FixIt logo" /> FixIt</a>
