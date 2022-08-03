@@ -2,7 +2,7 @@
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml"
   ><url>
-      <loc>https://fixit.lruihao.cn/en/basic-markdown-syntax/</loc><lastmod>2022-05-02T19:22:17&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.7</priority><xhtml:link
+      <loc>https://fixit.lruihao.cn/en/basic-markdown-syntax/</loc><lastmod>2022-05-02T19:22:17&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
             rel="alternate"
             hreflang="zh-cn"
             href="https://fixit.lruihao.cn/basic-markdown-syntax/"
@@ -11,7 +11,7 @@
           hreflang="en"
           href="https://fixit.lruihao.cn/en/basic-markdown-syntax/"
           /></url><url>
-      <loc>https://fixit.lruihao.cn/en/categories/</loc><lastmod>2022-05-02T19:22:17&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.7</priority><xhtml:link
+      <loc>https://fixit.lruihao.cn/en/categories/</loc><lastmod>2022-05-02T19:22:17&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
             rel="alternate"
             hreflang="zh-cn"
             href="https://fixit.lruihao.cn/categories/"
@@ -20,7 +20,7 @@
           hreflang="en"
           href="https://fixit.lruihao.cn/en/categories/"
           /></url><url>
-      <loc>https://fixit.lruihao.cn/en/</loc><lastmod>2022-05-02T19:22:17&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.7</priority><xhtml:link
+      <loc>https://fixit.lruihao.cn/en/</loc><lastmod>2022-05-02T19:22:17&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
             rel="alternate"
             hreflang="zh-cn"
             href="https://fixit.lruihao.cn/"
@@ -29,7 +29,7 @@
           hreflang="en"
           href="https://fixit.lruihao.cn/en/"
           /></url><url>
-      <loc>https://fixit.lruihao.cn/en/tags/markdown/</loc><lastmod>2022-05-02T19:22:17&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.7</priority><xhtml:link
+      <loc>https://fixit.lruihao.cn/en/tags/markdown/</loc><lastmod>2022-05-02T19:22:17&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
             rel="alternate"
             hreflang="zh-cn"
             href="https://fixit.lruihao.cn/tags/markdown/"
@@ -38,7 +38,7 @@
           hreflang="en"
           href="https://fixit.lruihao.cn/en/tags/markdown/"
           /></url><url>
-      <loc>https://fixit.lruihao.cn/en/categories/markdown/</loc><lastmod>2022-05-02T19:22:17&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.7</priority><xhtml:link
+      <loc>https://fixit.lruihao.cn/en/categories/markdown/</loc><lastmod>2022-05-02T19:22:17&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
             rel="alternate"
             hreflang="zh-cn"
             href="https://fixit.lruihao.cn/categories/markdown/"
@@ -47,7 +47,7 @@
           hreflang="en"
           href="https://fixit.lruihao.cn/en/categories/markdown/"
           /></url><url>
-      <loc>https://fixit.lruihao.cn/en/posts/</loc><lastmod>2022-05-02T19:22:17&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.7</priority><xhtml:link
+      <loc>https://fixit.lruihao.cn/en/posts/</loc><lastmod>2022-05-02T19:22:17&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
             rel="alternate"
             hreflang="zh-cn"
             href="https://fixit.lruihao.cn/posts/"
@@ -56,7 +56,7 @@
           hreflang="en"
           href="https://fixit.lruihao.cn/en/posts/"
           /></url><url>
-      <loc>https://fixit.lruihao.cn/en/tags/</loc><lastmod>2022-05-02T19:22:17&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.7</priority><xhtml:link
+      <loc>https://fixit.lruihao.cn/en/tags/</loc><lastmod>2022-05-02T19:22:17&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
             rel="alternate"
             hreflang="zh-cn"
             href="https://fixit.lruihao.cn/tags/"

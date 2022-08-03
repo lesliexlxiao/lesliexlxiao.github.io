@@ -15,7 +15,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://fixit.lruihao.cn/" />
 <meta property="og:image" content="https://fixit.lruihao.cn/logo.png"/>
-<meta property="og:updated_time" content="2022-05-27T18:51:01+08:00" />
+<meta property="og:updated_time" content="2022-07-15T18:51:01+08:00" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://fixit.lruihao.cn/logo.png"/>
 
@@ -157,6 +157,50 @@
   
 ><i class="fas fa-rss fa-fw"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+    <a href="/trip-multi-archi-build/">携程多架构镜像构建实践</a>
+  </h1><div class="post-meta"><span class="post-author"><a
+  href="https://www.lesliexlxiao.com"
+  
+    title="Author"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer author"
+  
+  
+  
+    class="author"
+  
+  
+><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-publish" title='2022-07-15 18:51:01'>发布于 <time datetime="2022-07-15">2022-07-15</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/cicd/"><i class="far fa-folder fa-fw"></i>CICD</a></span></div><div class="content">1. 背景 目前公司 AWS 上部署使用的机器为 AMD 机器，成本比较高。整体的诉求是希望通过某种方式能够节约成本。通过调研发现 AWS 上 ARM 类型的机器在成本上比较有优</div><div class="post-footer">
+    <a href="/trip-multi-archi-build/">阅读全文</a><div class="post-tags">
+        <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/cicd/">CICD</a>,&nbsp;<a href="/tags/trip/">Trip</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
+    <a href="/scm-npm8-publish-error/">npm8 publish error 问题分析</a>
+  </h1><div class="post-meta"><span class="post-author"><a
+  href="https://www.lesliexlxiao.com"
+  
+    title="Author"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer author"
+  
+  
+  
+    class="author"
+  
+  
+><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-publish" title='2022-06-06 18:51:01'>发布于 <time datetime="2022-06-06">2022-06-06</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/npm/"><i class="far fa-folder fa-fw"></i>NPM</a></span></div><div class="content">本文主要记录了 npm6 升级到 npm8 之后，执行 npm publish error 问题分析的过程。 1. 背景 node14 版本升级到 node16 版本之后，npm 也从 npm6 升级到了 npm8，此时会报如下错误： npm8 publish errornpm8</div><div class="post-footer">
+    <a href="/scm-npm8-publish-error/">阅读全文</a><div class="post-tags">
+        <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/npm/">NPM</a>,&nbsp;<a href="/tags/nodejs/">NodeJS</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
     <a href="/scm-npm-checksum-failed/">npm install checksum failed 问题分析</a>
   </h1><div class="post-meta"><span class="post-author"><a
   href="https://www.lesliexlxiao.com"
@@ -266,50 +310,6 @@
 ><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-publish" title='2022-03-24 21:51:01'>发布于 <time datetime="2022-03-24">2022-03-24</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/docker/"><i class="far fa-folder fa-fw"></i>Docker</a></span></div><div class="content">本文主要介绍了编写 Dockerfile 指令相关的一些最佳实践。 1. FROM 尽可能使用当前官方仓库作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私</div><div class="post-footer">
     <a href="/docker-dockerfile-bp2/">阅读全文</a><div class="post-tags">
         <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/docker/">Docker</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-    <a href="/docker-dockerfile-bp1/">Dockerfile 最佳实践（常规指南和建议）</a>
-  </h1><div class="post-meta"><span class="post-author"><a
-  href="https://www.lesliexlxiao.com"
-  
-    title="Author"
-  
-  
-    
-    target="_blank"
-  
-  
-    rel="external nofollow noopener noreffer author"
-  
-  
-  
-    class="author"
-  
-  
-><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-publish" title='2022-03-24 20:51:01'>发布于 <time datetime="2022-03-24">2022-03-24</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/docker/"><i class="far fa-folder fa-fw"></i>Docker</a></span></div><div class="content">本文主要介绍了编写 Dockerfile 时的一些最佳实践，主要包括一些常规指南和建议。 1. 忽略 docker build 构建文件 在 docker build 的过程中，首先会将指定的上下文目录打包传递给 docker 引擎</div><div class="post-footer">
-    <a href="/docker-dockerfile-bp1/">阅读全文</a><div class="post-tags">
-        <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/docker/">Docker</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
-    <a href="/design-pattern-singleton/">设计模式系列（一）：单例模式</a>
-  </h1><div class="post-meta"><span class="post-author"><a
-  href="https://www.lesliexlxiao.com"
-  
-    title="Author"
-  
-  
-    
-    target="_blank"
-  
-  
-    rel="external nofollow noopener noreffer author"
-  
-  
-  
-    class="author"
-  
-  
-><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-publish" title='2022-03-12 18:02:01'>发布于 <time datetime="2022-03-12">2022-03-12</time></span>&nbsp;<span class="post-category">收录于 <a href="/categories/design-pattern/"><i class="far fa-folder fa-fw"></i>Design Pattern</a></span></div><div class="content">本文主要介绍了什么是单例模式，同时给出了其应用场景及 Golang 代码的具体实现。 1. 什么是单例 单例模式是一种常用的软件设计模式，其定义是单例对象的类只能</div><div class="post-footer">
-    <a href="/design-pattern-singleton/">阅读全文</a><div class="post-tags">
-        <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/design-pattern/">Design Pattern</a>,&nbsp;<a href="/tags/go/">Go</a></div></div>
 </article><ul class="pagination"><li class="page-item active">
           <span class="page-link">
             <a href="/">1</a>

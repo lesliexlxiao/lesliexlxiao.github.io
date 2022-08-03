@@ -170,7 +170,14 @@
     <li><a href="#3-参考文章">3. 参考文章</a></li>
   </ul>
 </nav></div>
-      </div><div class="content" id="content"><p>本文主要介绍了 golang 语言开发中的一些规范。</p>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fas fa-pencil-alt fa-fw"></i>注意<i class="details-icon fas fa-angle-right fa-fw"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-05-02，文中内容可能已过时。</div>
+      </div>
+    </div><p>本文主要介绍了 golang 语言开发中的一些规范。</p>
 <h2 id="1-声明语句的规范化">1. 声明语句的规范化</h2>
 <p>我们在编写 golang 程序的时候，通常涉及到的内容声明语句包括 package、import、func、var、const、type 等。<font color=#FF0099>**import 声明是必须跟在文件的 package 声明之后的</font>，**而 func、var、const、type 等声明语句的顺序并不重要，但我们最好还是定一下规范，这样<font color=#FF0099><strong>有助于统一代码风格、提高代码的可读性</strong></font>。个人的内容声明语句风格如下：</p>
 <div class="highlight"><div class="chroma">

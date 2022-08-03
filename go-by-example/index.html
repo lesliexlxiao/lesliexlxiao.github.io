@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noodp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <title>Go by Example 题目 - LESLIEXLXIAO&#39;S BLOG</title><meta name="author" content="Leslie: https://www.lesliexlxiao.com">
+<meta name="description" content="本文主要是将 Go by Exmaple 中的示例转换成题目描述便于熟悉 Golang 语法。 Hello World 文件名：01-hello-world.go 题目描述：输出 &ldquo;hello world&rdquo; 字符串 值 文件名：02" />
+<meta name="keywords" content="Golang" /><meta itemprop="name" content="Go by Example 题目">
+<meta itemprop="description" content="本文主要是将 Go by Exmaple 中的示例转换成题目描述便于熟悉 Golang 语法。 Hello World 文件名：01-hello-world.go 题目描述：输出 &ldquo;hello world&rdquo; 字符串 值 文件名：02">
+<meta itemprop="datePublished" content="2022-06-02T20:51:01+08:00" />
+<meta itemprop="dateModified" content="2022-06-02T20:51:01+08:00" />
+<meta itemprop="wordCount" content="1954">
+<meta itemprop="image" content="https://fixit.lruihao.cn/logo.png"/>
+
+
+
+<meta itemprop="keywords" content="Golang," />
+<meta property="og:title" content="Go by Example 题目" />
+<meta property="og:description" content="本文主要是将 Go by Exmaple 中的示例转换成题目描述便于熟悉 Golang 语法。 Hello World 文件名：01-hello-world.go 题目描述：输出 &ldquo;hello world&rdquo; 字符串 值 文件名：02" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fixit.lruihao.cn/go-by-example/" />
+<meta property="og:image" content="https://fixit.lruihao.cn/logo.png"/>
+<meta property="article:published_time" content="2022-06-02T20:51:01+08:00" />
+<meta property="article:modified_time" content="2022-06-02T20:51:01+08:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://fixit.lruihao.cn/logo.png"/>
+
+<meta name="twitter:title" content="Go by Example 题目"/>
+<meta name="twitter:description" content="本文主要是将 Go by Exmaple 中的示例转换成题目描述便于熟悉 Golang 语法。 Hello World 文件名：01-hello-world.go 题目描述：输出 &ldquo;hello world&rdquo; 字符串 值 文件名：02"/>
+<meta name="application-name" content="FixIt">
+<meta name="apple-mobile-web-app-title" content="FixIt"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#252627"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://fixit.lruihao.cn/go-by-example/" /><link rel="prev" href="https://fixit.lruihao.cn/gk-tmp-management-communication/" /><link rel="next" href="https://fixit.lruihao.cn/jenkins-install-windows-slave/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Go by Example 题目",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/fixit.lruihao.cn\/go-by-example\/"
+    },"image": ["https:\/\/fixit.lruihao.cn\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Golang","wordcount":  1954 ,
+    "url": "https:\/\/fixit.lruihao.cn\/go-by-example\/","datePublished": "2022-06-02T20:51:01+08:00","dateModified": "2022-06-02T20:51:01+08:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+      "@type": "Organization",
+      "name": "Lruihao","logo": "https:\/\/fixit.lruihao.cn\/images\/avatar.png"},"author": {
+        "@type": "Person",
+        "name": "Leslie"
+      },"description": ""
+  }
+  </script></head>
+  <body header-desktop="sticky" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+    <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+    <div class="menu">
+      <div class="menu-inner"><a class="menu-item" href="/posts/"> 所有文章 </a><a class="menu-item" href="/tags/"> 标签 </a><a class="menu-item" href="/categories/"> 分类 </a><a class="menu-item" href="/friends/" title="友情链接"> 友链 </a><a class="menu-item" href="/about/"> 关于 </a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item language" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+            <select class="language-select" id="language-select-desktop" onchange="location = this.value;"><option value="/go-by-example/" selected>简体中文</option></select>
+          </a><span class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </span><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+          <i class="fas fa-adjust fa-fw"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</header><header class="mobile" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="LESLIEXLXIAO&#39;S BLOG"><img
+    class="lazyload logo"
+    src="/svg/loading.min.svg"
+    data-src="/images/sea.png"
+    data-srcset="/images/sea.png, /images/sea.png 1.5x, /images/sea.png 2x"
+    data-sizes="auto"
+    alt="/images/sea.png"
+    title="/images/sea.png" /><span class="header-title-text">蓝色忧郁</span></a><span class="header-subtitle">牵走一切往事</span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="menu" id="menu-mobile"><div class="search-wrapper">
+          <div class="search mobile" id="search-mobile">
+            <input type="text" placeholder="搜索文章标题或内容 ..." id="search-input-mobile">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+              <i class="fas fa-search fa-fw"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+              <i class="fas fa-times-circle fa-fw"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-mobile">
+              <i class="fas fa-spinner fa-fw fa-spin"></i>
+            </span>
+          </div>
+          <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+            取消
+          </a>
+        </div><a class="menu-item" href="/posts/" title="">所有文章</a><a class="menu-item" href="/tags/" title="">标签</a><a class="menu-item" href="/categories/" title="">分类</a><a class="menu-item" href="/friends/" title="友情链接">友链</a><a class="menu-item" href="/about/" title="">关于</a><a class="menu-item" href="https://github.com/lesliexlxiao" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="切换主题">
+        <i class="fas fa-adjust fa-fw"></i>
+      </a><a href="javascript:void(0);" class="menu-item" title="选择语言">简体中文<i class="fas fa-chevron-right fa-fw"></i>
+          <select class="language-select" onchange="location = this.value;"><option value="/go-by-example/" selected>简体中文</option></select>
+        </a></div>
+  </div>
+</header>
+<div class="search-dropdown desktop">
+  <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+  <div id="search-dropdown-mobile"></div>
+</div>
+<main class="container" page-style="normal"><aside class="toc" id="toc-auto"><h2 class="toc-title">目录</h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    
+  </aside>
+
+  <article class="page single"><h1 class="single-title animate__animated animate__flipInX">Go by Example 题目</h1><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a
+  href="https://www.lesliexlxiao.com"
+  
+    title="Author"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer author"
+  
+  
+  
+    class="author"
+  
+  
+><i class="fas fa-user-circle fa-fw"></i>Leslie</a></span>&nbsp;<span class="post-category">收录于 <a href="/categories/golang/"><i class="far fa-folder fa-fw"></i>Golang</a></span></div>
+      <div class="post-meta-line"><span title=2022-06-02&#32;20:51:01>
+            <i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-06-02" >2022-06-02</time>
+          </span>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;约 1954 字&nbsp;
+        <i class="far fa-clock fa-fw"></i>&nbsp;预计阅读 4 分钟&nbsp;</div>
+    </div><div class="details toc" id="toc-static" kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fas fa-angle-right"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#hello-world">Hello World</a></li>
+        <li><a href="#值">值</a></li>
+        <li><a href="#变量">变量</a></li>
+        <li><a href="#常量">常量</a></li>
+        <li><a href="#for-循环">For 循环</a></li>
+        <li><a href="#ifelse-分支">If/Else 分支</a></li>
+        <li><a href="#switch-分支结构">Switch 分支结构</a></li>
+        <li><a href="#数组">数组</a></li>
+        <li><a href="#切片">切片</a></li>
+        <li><a href="#map">Map</a></li>
+        <li><a href="#range-遍历">Range 遍历</a></li>
+        <li><a href="#函数">函数</a></li>
+        <li><a href="#多返回值">多返回值</a></li>
+        <li><a href="#变参函数">变参函数</a></li>
+        <li><a href="#闭包">闭包</a></li>
+        <li><a href="#递归">递归</a></li>
+        <li><a href="#指针">指针</a></li>
+        <li><a href="#字符串和-rune-类型">字符串和 rune 类型</a></li>
+        <li><a href="#结构体">结构体</a></li>
+        <li><a href="#方法">方法</a></li>
+        <li><a href="#接口">接口</a></li>
+        <li><a href="#embedding">Embedding</a></li>
+        <li><a href="#泛型">泛型</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p>本文主要是将 Go by Exmaple 中的示例转换成题目描述便于熟悉 Golang 语法。</p>
+<h3 id="hello-world">Hello World</h3>
+<p>文件名：01-hello-world.go</p>
+<p>题目描述：输出 &ldquo;hello world&rdquo; 字符串</p>
+<h3 id="值">值</h3>
+<p>文件名：02-values.go</p>
+<p>题目表述：</p>
+<ul>
+<li>
+<p>输出两个字符串相加的结果</p>
+</li>
+<li>
+<p>输出两个整型相加的结果</p>
+</li>
+<li>
+<p>输出两个浮点型相除的结果</p>
+</li>
+<li>
+<p>输出 bool 型并的结果</p>
+</li>
+</ul>
+<h3 id="变量">变量</h3>
+<p>文件名：03-variables.go</p>
+<p>题目表述：</p>
+<ul>
+<li>
+<p>给 a 赋值字符串，输出结果</p>
+</li>
+<li>
+<p>同时给整型 b c 赋值，输出结果</p>
+</li>
+<li>
+<p>声明并初始化字符串变量 f，输出结果</p>
+</li>
+</ul>
+<h3 id="常量">常量</h3>
+<p>文件名：04-contants.go</p>
+<p>题目表述：</p>
+<ul>
+<li>给常量字符串 s 赋值，输出结果</li>
+</ul>
+<h3 id="for-循环">For 循环</h3>
+<p>文件名：05-for.go</p>
+<p>题目描述：</p>
+<ul>
+<li>
+<p>单个循环条件，输出 1 2 3</p>
+</li>
+<li>
+<p>初始/条件/后续 for 循环，输出 1 2 3</p>
+</li>
+<li>
+<p>不带条件的 for 循环将一直重复执行，直到在循环体内使用了 break 或者 return 跳出循环</p>
+</li>
+<li>
+<p>continue 使用</p>
+</li>
+</ul>
+<h3 id="ifelse-分支">If/Else 分支</h3>
+<p>文件名：06-if-else.go</p>
+<p>题目描述：</p>
+<ul>
+<li>num 值为 9。如果小于 0，输出 &ldquo;is negative&rdquo;；如果大于 0，输出 &ldquo;is positive&rdquo;; 其他，输出 &ldquo;equal 0&rdquo;</li>
+</ul>
+<h3 id="switch-分支结构">Switch 分支结构</h3>
+<p>文件名：07-switch.go</p>
+<p>题目描述：</p>
+<ul>
+<li>
+<p>i 值为 2。通过 switch 判断，如果为 1，输出 1；如果为 2，输出 2；如果为 3；输出 3。</p>
+</li>
+<li>
+<p>使用 switch 模拟 If/Else 分支 逻辑。num 值为 9。如果小于 0，输出 &ldquo;is negative&rdquo;；如果大于 0，输出 &ldquo;is positive&rdquo;; 其他，输出 &ldquo;equal 0&rdquo;。</p>
+</li>
+<li>
+<p>使用 switch 判定传递 interface 类型。如果 bool，输出 &ldquo;I&rsquo;m a bool&rdquo;；如果 int，输出 &ldquo;I&rsquo;m an int&rdquo;；其他，输出 &ldquo;Don&rsquo;t know type + 真正的类型&rdquo;。</p>
+</li>
+</ul>
+<h3 id="数组">数组</h3>
+<p>文件名：08-arrays.go</p>
+<p>题目描述：</p>
+<ul>
+<li>
+<p>创建长度为 5 的空数组 a，输出 a 的结果。给第 5 个元素赋值 10，输出结果。</p>
+</li>
+<li>
+<p>初始化长度为 5 的数组 吧，初始值为 1 2 3 4 5。</p>
+</li>
+</ul>
+<h3 id="切片">切片</h3>
+<p>文件名：09-slice.go</p>
+<p>题目描述：</p>
+<ul>
+<li>
+<p>创建长度为 3 的空切片 s，输出 s。</p>
+</li>
+<li>
+<p>给 s 赋值 a b c 三个值，输出第三个元素的值。</p>
+</li>
+<li>
+<p>输出 s 的长度。</p>
+</li>
+<li>
+<p>给 s 添加两个元素 e f，再次输出 s。</p>
+</li>
+<li>
+<p>创建切片 c，长度为 s 的长度；把 s 的值 copy 到 c 中，输出 c。</p>
+</li>
+<li>
+<p>输出 s[0] 到 s[5]（不包含 5）的元素。</p>
+</li>
+<li>
+<p>输出包含从 s[2]（包含 2）之后的元素。</p>
+</li>
+<li>
+<p>初始化切片 t，初始化值为 &ldquo;g&rdquo;，&ldquo;h&rdquo;，&ldquo;i&rdquo;，输出 t 的值。</p>
+</li>
+</ul>
+<h3 id="map">Map</h3>
+<p>文件名：10-map.go</p>
+<p>题目描述：</p>
+<ul>
+<li>
+<p>创建一个空 map m，key 为 string 类型，值为 string 类型；赋值两个元素，k1 为 7，k2 为 13；输出 m 的值。</p>
+</li>
+<li>
+<p>输出 m 的长度。</p>
+</li>
+<li>
+<p>删除 k2，输出 m。</p>
+</li>
+<li>
+<p>判断 m 是否包含 k3，如果有输出 &ldquo;exist k3&rdquo;；如果不存在，输出 &ldquo;not exist k3&rdquo;。</p>
+</li>
+<li>
+<p>初始化 map n。包含两个值 &ldquo;foo&rdquo; = 1，&ldquo;bar&rdquo; = 2，输出 n。</p>
+</li>
+</ul>
+<h3 id="range-遍历">Range 遍历</h3>
+<p>文件名：11-range.go</p>
+<p>题目描述：</p>
+<ul>
+<li>
+<p>初始化切片 nums，包含 2 3 4 三个元素，计算总和，输出结果。</p>
+</li>
+<li>
+<p>遍历 nums，如果值为 3，输出它的下标。</p>
+</li>
+<li>
+<p>初始化 map n。包含两个值 &ldquo;a&rdquo; = &ldquo;apple&rdquo;，&ldquo;b&rdquo; = &ldquo;banana&rdquo;，遍历 n，输出键值对。</p>
+</li>
+<li>
+<p>遍历 map n，只输出 key 的值。</p>
+</li>
+<li>
+<p>遍历字符串 &ldquo;golang&rdquo;，输出下标和值。</p>
+</li>
+</ul>
+<h3 id="函数">函数</h3>
+<p>文件名：12-functions.go</p>
+<p>题目描述：</p>
+<ul>
+<li>
+<p>函数接受两个 int 类型的数据，返回他们的和</p>
+</li>
+<li>
+<p>函数接受三个 int 类型的数据，返回他们的和</p>
+</li>
+</ul>
+<h3 id="多返回值">多返回值</h3>
+<p>文件名：13-multiple-return-values.go</p>
+<p>题目描述：</p>
+<ul>
+<li>
+<p>定义一个返回两个 int 类型的函数 vals，返回值为 3，7</p>
+</li>
+<li>
+<p>对上述函数执行多赋值操作，打印相应的值</p>
+</li>
+</ul>
+<h3 id="变参函数">变参函数</h3>
+<p>文件名：14-variadic-functions.go</p>
+<p>题目描述：</p>
+<ul>
+<li>
+<p>定义一个函数 sum 接受任意数量的 int 作为参数，计算这些数值的总和</p>
+</li>
+<li>
+<p>传递 1 2 3 给 sum 作为参数</p>
+</li>
+<li>
+<p>传递一个 slice 给 sum 作为参数</p>
+</li>
+</ul>
+<h3 id="闭包">闭包</h3>
+<p>文件名：15-closures.go</p>
+<h3 id="递归">递归</h3>
+<p>文件名：16-recursion.go</p>
+<p>题目描述：</p>
+<ul>
+<li>递归求解 n 阶层</li>
+</ul>
+<h3 id="指针">指针</h3>
+<p>文件名：17-pointers.go</p>
+<p>题目描述：</p>
+<ul>
+<li>
+<p>定义 zeroval 函数，接受整型变量 ival，并赋值 0</p>
+</li>
+<li>
+<p>定义 zeroptr 函数，接受整型变量指针 ival，并赋值 0</p>
+</li>
+<li>
+<p>main 函数定义变量 i，把值赋值给 zeroval 和 zeroptr，看看 i 值的变化</p>
+</li>
+</ul>
+<h3 id="字符串和-rune-类型">字符串和 rune 类型</h3>
+<p>文件名：18-strings-and-runes.go</p>
+<h3 id="结构体">结构体</h3>
+<p>文件名：19-structs.go</p>
+<p>题目描述：</p>
+<ul>
+<li>
+<p>定义 person 结构体包含了 name 和 age 两个字段，name string 类型，age 字符串类型</p>
+</li>
+<li>
+<p>初始化结构体，打印 name 的值</p>
+</li>
+</ul>
+<h3 id="方法">方法</h3>
+<p>文件名：20-methods.go</p>
+<p>题目描述：</p>
+<ul>
+<li>给上述结构体定义一个 output 方法，输出 name 和 age 信息</li>
+</ul>
+<h3 id="接口">接口</h3>
+<p>文件名：21-interfaces.go</p>
+<p>题目描述：</p>
+<ul>
+<li>定义 interface animal，定义方法 say()，然后定义两个结构体 cat 和 dog，并实现 interface 中的方法</li>
+</ul>
+<h3 id="embedding">Embedding</h3>
+<p>文件名：22-embedding.go</p>
+<p>题目描述：</p>
+<ul>
+<li>定义 base 结构体，里面有 num int 属性，定义结构体方法 describe，打印 num 的值；定义 container 结构体，嵌入 base 结构体。</li>
+</ul>
+<h3 id="泛型">泛型</h3>
+<p>文件名：</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title=2022-06-02&#32;20:51:01>更新于 2022-06-02</span>
+      </div>
+      <div class="post-info-license"><span><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+    </div>
+    <div class="post-info-line">
+      <div class="post-info-md"><span>
+              <a class="link-to-markdown" href="/go-by-example/index.md" target="_blank">阅读原始文档</a>
+            </span></div>
+      <div class="post-info-share">
+        <span><a href="javascript:void(0);" title="分享到 Twitter" data-sharer="twitter" data-url="https://fixit.lruihao.cn/go-by-example/" data-title="Go by Example 题目" data-hashtags="Golang"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://fixit.lruihao.cn/go-by-example/" data-hashtag="Golang"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Hacker News" data-sharer="hackernews" data-url="https://fixit.lruihao.cn/go-by-example/" data-title="Go by Example 题目"><i class="fab fa-hacker-news fa-fw"></i></a><a href="javascript:void(0);" title="分享到 Line" data-sharer="line" data-url="https://fixit.lruihao.cn/go-by-example/" data-title="Go by Example 题目"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://fixit.lruihao.cn/go-by-example/" data-title="Go by Example 题目"><i class="fab fa-weibo fa-fw"></i></a></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/golang/">Golang</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div>
+
+  <div class="post-nav"><a href="/gk-tmp-management-communication/" class="prev" rel="prev" title="[笔记]技术管理实战 36 讲：管理沟通篇"><i class="fas fa-angle-left fa-fw"></i>[笔记]技术管理实战 36 讲：管理沟通篇</a>
+      <a href="/jenkins-install-windows-slave/" class="next" rel="next" title="Windows 环境下如何添加 jenkins-slave 节点">Windows 环境下如何添加 jenkins-slave 节点<i class="fas fa-angle-right fa-fw"></i></a></div>
+</div>
+</article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer" title="Hugo 0.79.1">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/Lruihao/FixIt" target="_blank" rel="external nofollow noopener noreffer" title="FixIt 0.2.13"><img class="fixit-icon" src="/images/fixit.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">
+              <a
+  href="https://www.lesliexlxiao.com"
+  
+  
+    
+    target="_blank"
+  
+  
+    rel="external nofollow noopener noreffer"
+  
+  
+  
+  
+>Leslie</a></span><span class="footer-divider"></span><span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div><div class="footer-line ibruce">
+          <span id="busuanzi_container_site_uv" title=总访客数
+            ><i class="far fa-user"></i>
+            <span id="busuanzi_value_site_uv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span><span class="site-time footer-divider" title=网站运行中&#32;...
+              ><i class="fas fa-heartbeat animate-icon"></i>
+              <span class="run-times">Loading...</span
+            ></span><span id="busuanzi_container_site_pv" class="footer-divider" title=总访问量
+            ><i class="far fa-eye"></i>
+            <span id="busuanzi_value_site_pv"
+              ><i class="fa fa-spinner fa-spin"></i
+            ></span
+          ></span>
+        </div></div>
+  </footer></div>
+
+    <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="回到顶部">
+        <i class="fas fa-arrow-up fa-fw"></i>
+      </a><a href="#" id="view-comments" class="fixed-button" title="查看评论">
+        <i class="fas fa-comment fa-fw"></i>
+      </a>
+    </div><link rel="stylesheet" href="/lib/lightgallery/lightgallery.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js" defer></script><script type="text/javascript" src="/lib/algoliasearch/algoliasearch-lite.umd.min.js" defer></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js" async defer></script><script type="text/javascript" src="/lib/lightgallery/lightgallery.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-thumbnail.min.js" defer></script><script type="text/javascript" src="/lib/lightgallery/lg-zoom.min.js" defer></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js" defer></script><script type="text/javascript" src="/lib/sharer/sharer.min.js" async defer></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script type="text/javascript" src="/lib/pangu/pangu.min.js" defer></script><script type="text/javascript" src="/lib/cell-watermark/watermark.min.js" defer></script><script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async defer></script><script type="text/javascript">window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":100},"comment":{},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePWA":true,"enablePangu":true,"ibruce":{"enable":true,"siteTime":"2021-12-18T16:15:22+08:00"},"lightGallery":{"actualSize":false,"exThumbImage":"data-thumbnail","hideBarsDelay":2000,"selector":".lightgallery","speed":400,"thumbContHeight":80,"thumbWidth":80,"thumbnail":true},"search":{"algoliaAppID":"OAYQFPTAUX","algoliaIndex":"index.zh-cn","algoliaSearchKey":"c0b57064328f69e512b191d8ead9a047","highlightTag":"em","maxResultLength":10,"noResultsFound":"没有找到结果","snippetLength":50,"type":"algolia"},"watermark":{"content":"\u003cimg class=\"fixit-icon\" src=\"/images/fixit.svg\" alt=\"FixIt logo\" /\u003e FixIt 主题","enable":true,"height":21,"opacity":0.0125}};</script><script type="text/javascript" src="/js/theme.min.js" defer></script><script type="text/javascript" src="/js/_custom.min.js" defer></script></body>
+</html>

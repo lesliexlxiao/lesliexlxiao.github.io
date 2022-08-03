@@ -179,7 +179,14 @@
     <li><a href="#12-参考文献">12. 参考文献</a></li>
   </ul>
 </nav></div>
-      </div><div class="content" id="content"><p>本文主要介绍了编写 Dockerfile 指令相关的一些最佳实践。</p>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fas fa-pencil-alt fa-fw"></i>注意<i class="details-icon fas fa-angle-right fa-fw"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-05-02，文中内容可能已过时。</div>
+      </div>
+    </div><p>本文主要介绍了编写 Dockerfile 指令相关的一些最佳实践。</p>
 <h2 id="1-from">1. FROM</h2>
 <p>尽可能使用<font color=FF0099><strong>当前官方仓库</strong></font>作为你构建镜像的基础。如果公司内部使用，可下载官方仓库镜像，再推送至私有 registry。</p>
 <p>推荐使用 <font color=FF0099><strong>Alpine 镜像（Alpine Linux 是一个完整的操作系统）</strong></font>，因为其被严格控制并保持在最小尺寸（目前大小 5.52M）。基于此基础镜像，再去构建自己的基础镜像，可以有效控制镜像的大小。</p>

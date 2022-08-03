@@ -176,7 +176,14 @@
     <li><a href="#9-参考文献">9. 参考文献</a></li>
   </ul>
 </nav></div>
-      </div><div class="content" id="content"><p>本文主要介绍了编写 Dockerfile 时的一些最佳实践，主要包括一些常规指南和建议。</p>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fas fa-pencil-alt fa-fw"></i>注意<i class="details-icon fas fa-angle-right fa-fw"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-05-02，文中内容可能已过时。</div>
+      </div>
+    </div><p>本文主要介绍了编写 Dockerfile 时的一些最佳实践，主要包括一些常规指南和建议。</p>
 <h2 id="1-忽略-docker-build-构建文件">1. 忽略 docker build 构建文件</h2>
 <p>在 docker build 的过程中，首先会将指定的上下文目录打包传递给 <font color=FF0099><strong>docker 引擎</strong></font>，而这个上下文目录中可能并<font color=FF0099><strong>不是所有的文件</strong></font>我们都会在 Dockerfile 中使用到，那么这个时候就可以在 <font color=FF0099><strong>.dockerignore</strong></font> 文件中指定在传递给 <font color=FF0099><strong>docker 引擎</strong></font>时需要忽略掉的文件或文件夹。</p>
 <p>.dockerignore 使用方法和 Git 的 .gitignore 使用方法相似。</p>

@@ -175,7 +175,14 @@
     <li><a href="#8-参考文献">8. 参考文献</a></li>
   </ul>
 </nav></div>
-      </div><div class="content" id="content"><p>本文主要是看了极客时间上《Kubernetes 架构原则和对象设计》的分享而做的一些笔记及总结。</p>
+      </div><div class="content" id="content"><div class="details admonition note open">
+      <div class="details-summary admonition-title">
+        <i class="icon fas fa-pencil-alt fa-fw"></i>注意<i class="details-icon fas fa-angle-right fa-fw"></i>
+      </div>
+      <div class="details-content">
+        <div class="admonition-content">本文最后更新于 2022-05-02，文中内容可能已过时。</div>
+      </div>
+    </div><p>本文主要是看了极客时间上《Kubernetes 架构原则和对象设计》的分享而做的一些笔记及总结。</p>
 <h2 id="1-kubernetes-源码如何走读">1. Kubernetes 源码如何走读</h2>
 <p>cmd 里面的代码调用 pkg 代码，cmd 里面执行 go build 会生成各个组件的二进制文件，它是编译的入口。所以读代码<font color=FF0099><strong>大部分读 pkg 里面的代码</strong></font>。</p>
 <p>下图主要 Kubernetes 代码分布结构：

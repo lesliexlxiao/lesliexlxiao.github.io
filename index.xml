@@ -4,9 +4,23 @@
     <link>https://fixit.lruihao.cn/</link>
     <description>关于 FixIt 主题</description>
     <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><managingEditor>lesliexlxiao@163.com (Leslie)</managingEditor>
-      <webMaster>lesliexlxiao@163.com (Leslie)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 27 May 2022 18:51:01 &#43;0800</lastBuildDate>
+      <webMaster>lesliexlxiao@163.com (Leslie)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 15 Jul 2022 18:51:01 &#43;0800</lastBuildDate>
       <atom:link href="https://fixit.lruihao.cn/index.xml" rel="self" type="application/rss+xml" />
     <item>
+  <title>携程多架构镜像构建实践</title>
+  <link>https://fixit.lruihao.cn/trip-multi-archi-build/</link>
+  <pubDate>Fri, 15 Jul 2022 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/trip-multi-archi-build/</guid>
+  <description><![CDATA[1. 背景 目前公司 AWS 上部署使用的机器为 AMD 机器，成本比较高。整体的诉求是希望通过某种方式能够节约成本。通过调研发现 AWS 上 ARM 类型的机器在成本上比较有优]]></description>
+</item><item>
+  <title>npm8 publish error 问题分析</title>
+  <link>https://fixit.lruihao.cn/scm-npm8-publish-error/</link>
+  <pubDate>Mon, 06 Jun 2022 18:51:01 &#43;0800</pubDate>
+  <author>Leslie</author>
+  <guid>https://fixit.lruihao.cn/scm-npm8-publish-error/</guid>
+  <description><![CDATA[本文主要记录了 npm6 升级到 npm8 之后，执行 npm publish error 问题分析的过程。 1. 背景 node14 版本升级到 node16 版本之后，npm 也从 npm6 升级到了 npm8，此时会报如下错误： npm8 publish errornpm8]]></description>
+</item><item>
   <title>npm install checksum failed 问题分析</title>
   <link>https://fixit.lruihao.cn/scm-npm-checksum-failed/</link>
   <pubDate>Fri, 27 May 2022 18:51:01 &#43;0800</pubDate>
@@ -62,19 +76,5 @@
   <author>Leslie</author>
   <guid>https://fixit.lruihao.cn/scm-private-npm-error/</guid>
   <description><![CDATA[本文主要记录了私有 cnpm 无法下载外网包的问题排查过程。同时给出对应的解决方案并对解决方案进行了验证。 1. 故障现象 用户报障外网 npm 包下载不到。 下载报错]]></description>
-</item><item>
-  <title>[笔记]Kubernetes 架构原则和对象设计</title>
-  <link>https://fixit.lruihao.cn/gk-cloudnative-k8s-arch/</link>
-  <pubDate>Sat, 19 Feb 2022 18:51:01 &#43;0800</pubDate>
-  <author>Leslie</author>
-  <guid>https://fixit.lruihao.cn/gk-cloudnative-k8s-arch/</guid>
-  <description><![CDATA[<p>本文主要是看了极客时间上《Kubernetes 架构原则和对象设计》的分享而做的一些笔记及总结。</p>]]></description>
-</item><item>
-  <title>Golang 空结构体妙用</title>
-  <link>https://fixit.lruihao.cn/go-empty-struct.go/</link>
-  <pubDate>Tue, 15 Feb 2022 20:51:01 &#43;0800</pubDate>
-  <author>Leslie</author>
-  <guid>https://fixit.lruihao.cn/go-empty-struct.go/</guid>
-  <description><![CDATA[本文主要介绍了 golang 语言中的空结构体及其使用场景。 1. 空结构体 空结构体的宽度是 0，占用了 0 字节的内存空间。 由于空结构体占用0字节，那么空结构体也不]]></description>
 </item></channel>
 </rss>
